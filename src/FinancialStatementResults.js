@@ -1,0 +1,260 @@
+import React from "react";
+import { Line } from "react-chartjs-2";
+
+// Get number with commas using regex
+const numberWithCommas = number => {
+  if (number.length === 0) {
+    return "0";
+  } else {
+    return number
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      .replace(/-(.*)/, "($1)");
+  }
+};
+
+// Get year from results
+const prepareYears = array => {
+  let newArr = [];
+  array.forEach(result => {
+    if (result.key !== "TTM") {
+      newArr.push(result.key);
+    }
+  });
+  return newArr;
+};
+
+// Prepare datasets for Chart JS
+const prepareDatasets = (FSLIResults, colorPos) => {
+  let datasets = [];
+  let possibleColors = [
+    "#396AB1",
+    "#DA7C30",
+    "#3E9651",
+    "#CC2529",
+    "#535154",
+    "#6B4C9A",
+    "#948B3D"
+  ];
+
+  let possibleBackgroundColors = [
+    "#afc5e5",
+    "#f4d7c0",
+    "#a4dab0",
+    "#f0abad",
+    "#a8a6a9",
+    "#c4b5db",
+    "#d9d3a2"
+  ];
+
+  let fsliCount = 0;
+  FSLIResults.forEach(fsli => {
+    let dataset = {};
+
+    dataset.label = fsli.fsli;
+    dataset.data = [];
+    dataset.fill = false;
+
+    // const randomPosition = randomize(possibleColors);
+    // dataset.borderColor = possibleColors[fsliCount];
+    dataset.borderColor = possibleColors[colorPos[fsliCount]];
+    // possibleColors.splice(randomPosition, 1);
+
+    // dataset.backgroundColor = possibleBackgroundColors[fsliCount];
+    dataset.backgroundColor = possibleBackgroundColors[colorPos[fsliCount]];
+    // possibleBackgroundColors.splice(randomPosition, 1);
+
+    fsli.results.forEach(year => {
+      if (year.key !== "TTM") {
+        dataset.data.push(year.value);
+      }
+    });
+
+    datasets.push(dataset);
+    fsliCount++;
+  });
+
+  return datasets;
+};
+
+// Prepare both labels and datasets for Chart JS
+const prepareChartData = (FSLIResults, colorPos) => {
+  // Prepare X-Axis (years)
+  let labelsArr = prepareYears(FSLIResults[0].results);
+
+  // Prepare datasets for each FSLI
+  let datasetsArr = prepareDatasets(FSLIResults, colorPos);
+
+  return {
+    labels: labelsArr,
+    datasets: datasetsArr
+  };
+};
+
+// Prepare options for Chart JS
+const options = companyName => {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    title: {
+      display: true,
+      text: companyName
+    },
+    hover: {
+      mode: "x-axis",
+      intersect: true
+    },
+    tooltips: {
+      mode: "index",
+      intersect: false,
+      callbacks: {
+        label: function(tooltipItem, data) {
+          // Get fsli label
+          let fsli = data.datasets[tooltipItem.datasetIndex].label;
+          // Get fsli value
+          let value =
+            data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          // apply commas through regex
+          value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          value = value.replace(/-(.*)/, "($1)");
+
+          if (value.length === 0) {
+            return fsli + ": nil";
+          } else {
+            return fsli + ": " + value;
+          }
+        }
+      }
+    },
+    scales: {
+      yAxes: [
+        {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: "$USD (1000's)",
+            // fontColor: "black",
+            fontSize: 20
+          },
+          ticks: {
+            beginAtZero: true,
+            userCallback: function(value, index, values) {
+              value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              value = value.replace(/-(.*)/, "($1)");
+              return "$" + value;
+            }
+          }
+          // ticks: {
+          //   fontColor: "black",
+          //   stepSize: 1
+          // }
+        }
+      ],
+      xAxes: [
+        {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: "Financial Year End",
+            // fontColor: "black",
+            fontSize: 20
+          }
+          // ticks: {
+          //   fontColor: "black",
+          //   stepSize: 1
+          // }
+        }
+      ]
+    }
+  };
+};
+
+const FinancialStatementResults = props => {
+  // if a API request error occured, don't display
+  if (props.error === true) {
+    return null;
+  }
+
+  // else, display
+  else {
+    return (
+      <section className="company-fs">
+        <div className="raw-results-container">
+          <h2 className="results-title">Results</h2>
+          <h3 className="currency-explanation">(in 1000's of $USD)</h3>
+
+          <div className="list-of-fsli">
+            {props.chosenResults.map((item, i) => {
+              return (
+                <form className="single-fsli-container" key={i}>
+                  <h3 className="fsli-title">{item.fsli}</h3>
+
+                  {/* this should be its own component */}
+                  <div className="select-div">
+                    <select
+                      onChange={event => props.getUserFSLIChange(event, i)}
+                      className="all-fslis-select"
+                      defaultValue={item.fsli}
+                      key={i}
+                    >
+                      {props.availableFSLIs.is.length !== 0 ? (
+                        <optgroup className="is-fslis" label="Income Statement">
+                          {props.availableFSLIs.is.map(fsli => {
+                            return (
+                              <option value={fsli} key={fsli}>
+                                {fsli}
+                              </option>
+                            );
+                          })}
+                        </optgroup>
+                      ) : null}
+
+                      {props.availableFSLIs.bs.length !== 0 ? (
+                        <optgroup className="bs-fslis" label="Balance Sheet">
+                          {props.availableFSLIs.bs.map(fsli => {
+                            return (
+                              <option value={fsli} key={fsli}>
+                                {fsli}
+                              </option>
+                            );
+                          })}
+                        </optgroup>
+                      ) : null}
+                    </select>
+                  </div>
+
+                  <ul className="yearly-results">
+                    {item.results.map((result, i) => {
+                      if (result.key !== "TTM") {
+                        return (
+                          <li className="yearly-result" key={i}>
+                            <h5 className="year">{result.key} :</h5>
+                            <h5 className="result">
+                              {numberWithCommas(result.value)}
+                            </h5>
+                          </li>
+                        );
+                      } else {
+                        return null;
+                      }
+                    })}
+                  </ul>
+                </form>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Chart JS */}
+        <div className="chart-container">
+          <Line
+            data={prepareChartData(props.chosenResults, props.colorPos)}
+            options={options(props.companyName)}
+          />
+        </div>
+      </section>
+    );
+  }
+};
+
+export default FinancialStatementResults;
