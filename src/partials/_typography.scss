@@ -1,0 +1,46 @@
+html {
+  font-family: $primary-font;
+  font-size: 62.5%;
+}
+
+body {
+  color: $color-1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $primary-font;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 3rem;
+}
+
+h3 {
+  font-size: 2rem;
+}
+
+h4 {
+  font-size: 1.8rem;
+}
+
+h5 {
+  font-size: 1.7rem;
+}
+
+h6 {
+  font-size: 1.6rem;
+}
+
+p {
+  font-size: 1.6rem;
+  // font-family: $secondary-font;
+}
