@@ -248,14 +248,21 @@ HOME-PAGE
   align-items: center;
   justify-content: center; }
 
+.intro {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; }
+
 .app-name {
   margin: 0;
-  color: whitesmoke; }
+  color: whitesmoke;
+  width: 70%;
+  margin: 0 auto; }
 
 .app-description {
   color: whitesmoke;
   width: 60%;
-  margin: 2.5rem; }
+  margin: 2.5rem auto; }
 
 .loading-description {
   color: whitesmoke; }
@@ -278,16 +285,18 @@ HOME-PAGE
 
 .loading-container {
   position: absolute;
-  bottom: 125px; }
+  bottom: 10%; }
 
-.copyright {
+.copyright-container {
   position: absolute;
   color: gray;
-  font-weight: 100;
   width: 100%;
   bottom: 0;
   margin: 0;
   padding: 1rem; }
+  .copyright-container .copyright {
+    font-weight: 100;
+    margin: 0; }
 
 .portfolio-link:visited,
 .portfolio-link:link {
@@ -309,13 +318,15 @@ AUTOCOMPLETE
   background-color: rgba(255, 255, 255, 0.2);
   border-radius: 7px;
   padding: 2rem;
-  position: relative; }
+  position: relative;
+  width: 100%;
+  max-width: 40rem; }
 
 #states-autocomplete, .load-field {
   border: none;
   font-size: 2rem;
   background: none;
-  width: 40rem;
+  width: 100%;
   text-align: center;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid whitesmoke;
@@ -514,3 +525,43 @@ RESULTS SECTION
 
 .swal2-popup {
   font-size: 1.6rem !important; }
+
+@media all and (max-height: 800px) {
+  .menu {
+    max-height: 200px; } }
+
+@media all and (max-height: 750px) {
+  .home-page-container {
+    margin-bottom: 7.5rem; } }
+
+@media all and (max-height: 700px) {
+  html {
+    font-size: 57.5%; }
+  .home-page-container {
+    margin-bottom: 10rem; }
+  .app-description {
+    width: 85%; }
+  .search-form {
+    width: 90%; } }
+
+@media all and (max-height: 575px) {
+  .menu {
+    max-height: 150px; } }
+
+@media all and (max-width: 400px) {
+  .search-form {
+    width: 90%; }
+  .home-page-container {
+    margin-bottom: 10rem; } }
+
+@media all and (max-height: 400px) {
+  .app-description {
+    display: none; }
+  .home-page-container {
+    margin-bottom: 7rem; }
+  .app-name {
+    margin-bottom: 1rem; }
+  .loading-description {
+    margin-bottom: 0; }
+  .menu {
+    max-height: 100px; } }

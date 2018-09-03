@@ -35,7 +35,7 @@ const Results = props => {
       props.error === false ? (
         <section className="company-fs">
           <h4 className="no-results-header" style={{ display: "block" }}>
-            No Financial Statements Found
+            No Financial Statements Found.
           </h4>
         </section>
       ) : (

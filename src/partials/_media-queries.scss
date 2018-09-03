@@ -1,0 +1,67 @@
+@media all and (max-height: 800px) {
+  .menu {
+    max-height: 200px;
+  }
+}
+
+@media all and (max-height: 750px) {
+  .home-page-container {
+    margin-bottom: 7.5rem;
+  }
+}
+
+@media all and (max-height: 700px) {
+  html {
+    font-size: 57.5%;
+  }
+
+  .home-page-container {
+    margin-bottom: 10rem;
+  }
+
+  .app-description {
+    width: 85%;
+  }
+
+  .search-form {
+    width: 90%;
+  }
+}
+
+@media all and (max-height: 575px) {
+  .menu {
+    max-height: 150px;
+  }
+}
+
+@media all and (max-width: 400px) {
+  .search-form {
+    width: 90%;
+  }
+
+  .home-page-container {
+    margin-bottom: 10rem;
+  }
+}
+
+@media all and (max-height: 400px) {
+  .app-description {
+    display: none;
+  }
+
+  .home-page-container {
+    margin-bottom: 7rem;
+  }
+
+  .app-name {
+    margin-bottom: 1rem;
+  }
+
+  .loading-description {
+    margin-bottom: 0;
+  }
+
+  .menu {
+    max-height: 100px;
+  }
+}
