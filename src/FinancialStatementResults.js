@@ -1,7 +1,13 @@
 import React from "react";
 import { Line } from "react-chartjs-2";
+import Select from "./Select";
+import YearlyResults from "./YearlyResults";
 
-// Get number with commas using regex
+/* ==================
+A. HELPER FUNCTIONS
+=================== */
+
+// A1. Get number with commas using regex
 const numberWithCommas = number => {
   if (number.length === 0) {
     return "0";
@@ -13,7 +19,7 @@ const numberWithCommas = number => {
   }
 };
 
-// Get year from results
+// A2. Get year from results
 const prepareYears = array => {
   let newArr = [];
   array.forEach(result => {
@@ -24,7 +30,7 @@ const prepareYears = array => {
   return newArr;
 };
 
-// Prepare datasets for Chart JS
+// A3. Prepare datasets for Chart JS
 const prepareDatasets = (FSLIResults, colorPos) => {
   let datasets = [];
   let possibleColors = [
@@ -77,7 +83,7 @@ const prepareDatasets = (FSLIResults, colorPos) => {
   return datasets;
 };
 
-// Prepare both labels and datasets for Chart JS
+// A4. Prepare both labels and datasets for Chart JS
 const prepareChartData = (FSLIResults, colorPos) => {
   // Prepare X-Axis (years)
   let labelsArr = prepareYears(FSLIResults[0].results);
@@ -91,7 +97,7 @@ const prepareChartData = (FSLIResults, colorPos) => {
   };
 };
 
-// Prepare options for Chart JS
+// A5. Define options for Chart JS
 const options = companyName => {
   return {
     responsive: true,
@@ -169,6 +175,10 @@ const options = companyName => {
   };
 };
 
+/* ==================
+EXPORTED MODULE
+=================== */
+
 const FinancialStatementResults = props => {
   // if a API request error occured, don't display
   if (props.error === true) {
@@ -189,63 +199,26 @@ const FinancialStatementResults = props => {
                 <form className="single-fsli-container" key={i}>
                   <h3 className="fsli-title">{item.fsli}</h3>
 
-                  {/* this should be its own component */}
-                  <div className="select-div">
-                    <select
-                      onChange={event => props.getUserFSLIChange(event, i)}
-                      className="all-fslis-select"
-                      defaultValue={item.fsli}
-                      key={i}
-                    >
-                      {props.availableFSLIs.is.length !== 0 ? (
-                        <optgroup className="is-fslis" label="Income Statement">
-                          {props.availableFSLIs.is.map(fsli => {
-                            return (
-                              <option value={fsli} key={fsli}>
-                                {fsli}
-                              </option>
-                            );
-                          })}
-                        </optgroup>
-                      ) : null}
+                  {/* SELECT BAR FOR USER TO CHANGE */}
+                  <Select
+                    getUserFSLIChange={props.getUserFSLIChange}
+                    item={item}
+                    i={i}
+                    availableFSLIs={props.availableFSLIs}
+                  />
 
-                      {props.availableFSLIs.bs.length !== 0 ? (
-                        <optgroup className="bs-fslis" label="Balance Sheet">
-                          {props.availableFSLIs.bs.map(fsli => {
-                            return (
-                              <option value={fsli} key={fsli}>
-                                {fsli}
-                              </option>
-                            );
-                          })}
-                        </optgroup>
-                      ) : null}
-                    </select>
-                  </div>
-
-                  <ul className="yearly-results">
-                    {item.results.map((result, i) => {
-                      if (result.key !== "TTM") {
-                        return (
-                          <li className="yearly-result" key={i}>
-                            <h5 className="year">{result.key} :</h5>
-                            <h5 className="result">
-                              {numberWithCommas(result.value)}
-                            </h5>
-                          </li>
-                        );
-                      } else {
-                        return null;
-                      }
-                    })}
-                  </ul>
+                  {/* YEARLY RESULTS IN REGULAR TABLE FORM */}
+                  <YearlyResults
+                    item={item}
+                    numberWithCommas={numberWithCommas}
+                  />
                 </form>
               );
             })}
           </div>
         </div>
 
-        {/* Chart JS */}
+        {/* CHART JS */}
         <div className="chart-container">
           <Line
             data={prepareChartData(props.chosenResults, props.colorPos)}

@@ -48,16 +48,23 @@ HOME-PAGE
   align-items: center;
   justify-content: center;
 }
+.intro {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
 
 .app-name {
   margin: 0;
   color: whitesmoke;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .app-description {
   color: whitesmoke;
   width: 60%;
-  margin: 2.5rem;
+  margin: 2.5rem auto;
 }
 
 .loading-description {
@@ -86,17 +93,21 @@ HOME-PAGE
 
 .loading-container {
   position: absolute;
-  bottom: 125px;
+  bottom: 10%;
 }
 
-.copyright {
+.copyright-container {
   position: absolute;
   color: gray;
-  font-weight: 100;
   width: 100%;
   bottom: 0;
   margin: 0;
   padding: 1rem;
+
+  .copyright {
+    font-weight: 100;
+    margin: 0;
+  }
 }
 
 .portfolio-link:visited,
@@ -122,13 +133,15 @@ AUTOCOMPLETE
   border-radius: 7px;
   padding: 2rem;
   position: relative;
+  width: 100%;
+  max-width: 40rem;
 }
 
 #states-autocomplete {
   border: none;
   font-size: 2rem;
   background: none;
-  width: 40rem;
+  width: 100%;
   text-align: center;
   padding-bottom: 0.5rem;
   border-bottom: 1px solid whitesmoke;
@@ -418,3 +431,5 @@ RESULTS SECTION
 .swal2-popup {
   font-size: 1.6rem !important;
 }
+
+@import "partials/_media-queries.scss";

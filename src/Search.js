@@ -1,16 +1,52 @@
 import React from "react";
 import Autocomplete from "react-autocomplete";
-import { matchCompanyToInput, sortCompanies } from "./utils";
+
+/* ==================
+A. HELPER FUNCTIONS
+=================== */
+
+// A1. Function to render items if they match user input
+const matchCompanyToInput = (company, input) => {
+  // Restrict length of input to 3 letters or more to reduce load
+  if (input.length > 2) {
+    return (
+      company.name.toLowerCase().indexOf(input.toLowerCase()) !== -1 ||
+      company.ticker.toLowerCase().indexOf(input.toLowerCase()) !== -1
+    );
+  }
+};
+
+// A2. Sort autocompletion suggestions
+const sortCompanies = (a, b, value) => {
+  const aLower = a.name.toLowerCase();
+  const bLower = b.name.toLowerCase();
+  const valueLower = value.toLowerCase();
+  const queryPosA = aLower.indexOf(valueLower);
+  const queryPosB = bLower.indexOf(valueLower);
+  if (queryPosA !== queryPosB) {
+    return queryPosA - queryPosB;
+  }
+  return aLower < bLower ? -1 : 1;
+};
+
+/* ==================
+EXPORT MODULE
+=================== */
 
 const Search = props => {
   return (
     <form className="search-form" onSubmit={props.handleSubmit} id="search-bar">
+      {/* AUTOCOMPLETE MODULE */}
       <Autocomplete
         value={props.value}
-        wrapperStyle={{ position: "relative", display: "inline-block" }}
+        wrapperStyle={{
+          position: "relative",
+          display: "inline-block",
+          width: "100%"
+        }}
         items={props.companies}
         inputProps={{
-          placeholder: "Enter a public US company name or ticker",
+          placeholder: "Enter company name or ticker",
           id: "states-autocomplete"
         }}
         getItemValue={item => item.ticker}
