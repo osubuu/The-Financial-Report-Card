@@ -190,8 +190,10 @@ const FinancialStatementResults = props => {
     return (
       <section className="company-fs">
         <div className="raw-results-container">
-          <h2 className="results-title">Results</h2>
-          <h3 className="currency-explanation">(in 1000's of $USD)</h3>
+          <div className="results-header">
+            <h2 className="results-title">Results</h2>
+            <h3 className="currency-explanation">(in 1000's of $USD)</h3>
+          </div>
 
           <div className="list-of-fsli">
             {props.chosenResults.map((item, i) => {

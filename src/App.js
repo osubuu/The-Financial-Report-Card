@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import "./App.css";
 import axios from "axios";
-import Search from "./Search";
-import Results from "./Results";
 import _ from "underscore";
 import firebase from "./firebase";
 import scrollToElement from "scroll-to-element";
 import swal from "sweetalert2";
+import "./App.css";
+import Search from "./Search";
+import Results from "./Results";
 import Load from "./Load";
 import Intro from "./Intro";
 import Copyright from "./Copyright";
@@ -258,6 +258,8 @@ class App extends Component {
         console.log(this.state.chosenFSLIs);
         console.log("Chosen FSLIs Arr:");
         console.log(this.state.chosenFSLIsArr);
+        console.log("PROFILE RESULTS:");
+        console.log(this.state.profileResult);
         console.log("FS RESULTS:");
         console.log(this.state.fsResults);
         console.log("AVAILABLE FSLIS:");
@@ -326,6 +328,8 @@ class App extends Component {
     let jsonRes = JSON.parse(res.data.replace(/<pre>/g, ""))[
       this.state.userInput
     ];
+
+    jsonRes.ticker = this.state.userInput;
 
     this.setState({
       profileResult: jsonRes
@@ -482,6 +486,7 @@ class App extends Component {
 
   /* 1ST API CALL (IEX TRADING): GET LIST OF ALL COMPANY NAMES AND TICKER NUMBERS SO THAT USER CAN SEARCH THROUGH THEM*/
   componentDidMount() {
+    // window.scrollTo(0, 1);
     axios
       .get("https://api.iextrading.com/1.0/ref-data/symbols")
       .then(({ data }) => {
