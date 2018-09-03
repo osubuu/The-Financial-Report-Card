@@ -260,6 +260,7 @@ RESULTS SECTION
 .company-profile {
   // border: 1px solid black;
   border: 1px solid $color-1;
+  overflow: hidden;
 
   width: 25%;
   // flex: 1 0 25%;
@@ -276,8 +277,15 @@ RESULTS SECTION
   color: whitesmoke;
 }
 
+.profile-general-sec-1,
+.profile-general-sec-2,
+.profile-general-sec-3 {
+  overflow: hidden;
+}
+
 .company-name {
   margin-bottom: 0;
+  overflow: hidden;
 }
 
 .company-ticker {
@@ -308,10 +316,13 @@ RESULTS SECTION
   margin: 3rem 0;
 }
 
+.profile-value {
+  text-align: right;
+  font-weight: 400;
+}
+
 .company-fs {
-  // border: 1px solid black;
   width: 75%;
-  // flex: 1 0 75%;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -350,7 +361,6 @@ RESULTS SECTION
 }
 
 .single-fsli-container {
-  // flex: 0 0 15%;
   width: 33%;
   padding: 1.5rem;
   display: flex;
@@ -375,7 +385,6 @@ RESULTS SECTION
 
 .raw-results-container {
   width: 100%;
-  // flex: 0 0 30%;
   height: 32.5%;
   border-top: 1px solid $color-1;
   border-right: 1px solid $color-1;
@@ -390,12 +399,21 @@ RESULTS SECTION
   padding: 2rem;
   border: 1px solid $color-1;
   transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lora";
 
   &:hover {
     color: #edac53;
     border-color: whitesmoke;
     background-color: #4b4d51;
     transition: 0.2s;
+  }
+
+  h5 {
+    margin: 0;
+    font-weight: 400;
   }
 }
 

@@ -1,16 +1,29 @@
+@media all and (max-height: 850px) {
+  .raw-results-container {
+    height: 40%;
+  }
+
+  .chart-container {
+    height: 60%;
+  }
+}
+
+// DECREASE AUTOCOMPLETE MENU-HEIGHT FOR MEDIUM DEVICES
 @media all and (max-height: 800px) {
   .menu {
     max-height: 200px;
   }
 }
 
+// ADJUST LAYOUT OF HOME PAGE CONTENT
 @media all and (max-height: 750px) {
   .home-page-container {
     margin-bottom: 7.5rem;
   }
 }
 
-@media all and (max-height: 700px) {
+// ADJUST LAYOUT OF HOME PAGE CONTENT + DECREASE IN FONT
+@media all and (max-height: 750px) {
   html {
     font-size: 57.5%;
   }
@@ -28,13 +41,279 @@
   }
 }
 
+@media all and (max-height: 600px) {
+  .fsli-title {
+    width: 100%;
+    white-space: nowrap;
+    overflow: auto;
+    text-overflow: ellipsis;
+  }
+}
+
+// DECREASE AUTOCOMPLETE MENU-HEIGHT FOR SMALLER DEVICES
 @media all and (max-height: 575px) {
   .menu {
     max-height: 150px;
   }
+
+  .save-button {
+    padding: 0.5rem;
+  }
 }
 
+// TURN PROFILE INFO FROM LEFT TO TOP BANNER
+@media all and (max-width: 1000px) {
+  .results {
+    flex-direction: column;
+  }
+
+  .company-profile {
+    width: 100%;
+    height: 15%;
+    display: flex;
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .company-description {
+      margin: 0;
+    }
+  }
+
+  .profile-general-sec-1 {
+    border-right: 1px solid whitesmoke;
+    padding-right: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .company-name {
+    font-size: 2.5rem;
+  }
+
+  .company-ticker {
+    border: none;
+    padding: 0;
+  }
+
+  .profile-general-sec-2 {
+    margin-left: 1rem;
+    margin-right: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 0 35%;
+  }
+
+  .profile-general-sec-3 {
+    display: none;
+  }
+
+  .company-fs {
+    width: 100%;
+    height: 85%;
+  }
+
+  .results-title,
+  .currency-explanation {
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  .results-title {
+    margin-right: 1rem;
+  }
+
+  .currency-explanation {
+    font-size: 3rem;
+  }
+
+  .results-header {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+// GENERAL FONT-SIZE DECREASE
+@media all and (max-width: 700px) {
+  html {
+    font-size: 57.5%;
+  }
+
+  .results-header {
+    padding-top: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .single-fsli-container {
+    padding: 1.25rem;
+  }
+}
+
+// MAKE PROFILE BANNER EVEN SMALLER AND ONLY DISPLAY NAME AND TICKER
+@media all and (max-width: 600px) {
+  .company-profile {
+    height: 7.5%;
+    padding: 1rem;
+  }
+
+  .save-button {
+    padding: 0;
+  }
+  .profile-general-sec-1 {
+    width: 100%;
+    border-right: none;
+    justify-content: center;
+  }
+  .profile-general-sec-2 {
+    display: none;
+  }
+
+  .company-fs {
+    height: 92.5%;
+  }
+
+  .results-header {
+    margin-bottom: 2rem;
+  }
+
+  .results-title,
+  .currency-explanation {
+    font-size: 2.5rem;
+  }
+}
+// TURNING FSLI CHOICES VERTICAL
+@media all and (max-width: 500px) {
+  .list-of-fsli {
+    flex-direction: column;
+  }
+
+  .single-fsli-container {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .fsli-title {
+    width: 100%;
+    white-space: nowrap;
+    overflow: auto;
+    text-overflow: ellipsis;
+  }
+
+  .yearly-results {
+    display: none;
+  }
+
+  .select-div {
+    width: 100%;
+  }
+}
+
+// SIZE ADJUSTMENT
+@media all and (max-width: 450px) {
+  .company-profile {
+    padding: 0.5rem 1rem;
+  }
+
+  .company-name {
+    font-size: 2rem;
+  }
+
+  .company-ticker {
+    font-size: 1.8rem;
+  }
+}
+
+// ACCOUNT FOR DECREASING DEVICE HEIGHT
+@media all and (max-height: 750px) and (max-width: 800px) {
+  .company-profile {
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    height: 10%;
+  }
+
+  .company-fs {
+    height: 90%;
+  }
+
+  .profile-general-sec-2 {
+    display: none;
+  }
+
+  .profile-general-sec-1 {
+    border-right: none;
+  }
+}
+
+// ACCOUNT FOR DECREASING DEVICE HEIGHT
+@media all and (max-height: 600px) and (max-width: 800px) {
+  .yearly-results {
+    display: none;
+  }
+
+  .raw-results-container {
+    height: 25%;
+  }
+
+  .chart-container {
+    height: 75%;
+  }
+}
+
+// ACCOUNT FOR DECREASING DEVICE HEIGHT
+@media all and (max-height: 500px) and (max-width: 800px) {
+  html {
+    font-size: 55.5%;
+  }
+
+  .profile-general-sec-1 {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .company-name,
+  .company-ticker {
+    font-size: 2rem;
+  }
+
+  .company-profile {
+    .company-ticker {
+      margin-left: 1rem;
+    }
+  }
+  .raw-results-container {
+    height: 30%;
+  }
+
+  .chart-container {
+    height: 70%;
+  }
+
+  .fsli-title {
+    width: 100%;
+    white-space: nowrap;
+    overflow: auto;
+    text-overflow: ellipsis;
+  }
+}
+
+// REMOVE SPACING FROM TITLES
+@media all and (max-height: 400px) and (max-width: 800px) {
+  .results-header {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+// Make SEARCH FORM SMALLER IN WIDTH WHEN IT IS SCREEN SIZE
 @media all and (max-width: 400px) {
+  html {
+    font-size: 55%;
+  }
+
   .search-form {
     width: 90%;
   }
@@ -44,6 +323,7 @@
   }
 }
 
+// FOR DEVICES WITH SMALLER HEIGHT
 @media all and (max-height: 400px) {
   .app-description {
     display: none;
@@ -63,5 +343,66 @@
 
   .menu {
     max-height: 100px;
+  }
+}
+
+// ACCOUNT FOR SMALLEST DEVICES IN TERM OF WIDTH
+@media all and (max-width: 350px) {
+  .profile-general-sec-1 {
+    flex-direction: row;
+    align-items: center;
+    padding-right: 0;
+  }
+
+  .company-profile {
+    .company-ticker {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .raw-results-container {
+    height: 40%;
+  }
+
+  .chart-container {
+    height: 60%;
+  }
+
+  .home-page-container {
+    margin-bottom: 10rem;
+  }
+
+  .single-fsli-container {
+    padding: 0;
+  }
+
+  .results-header {
+    margin-bottom: 0.5rem;
+  }
+}
+
+// ACCOUNT FOR SMALLEST DEVICES TURNED HORIZONTAL
+@media all and (max-height: 350px) {
+  .profile-general-sec-1 {
+    justify-content: space-between;
+  }
+
+  .company-profile {
+    .company-ticker {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .save-button {
+    width: 80%;
+    font-size: 1.2rem;
+  }
+
+  .raw-results-container {
+    height: 35%;
+  }
+
+  .chart-container {
+    height: 65%;
   }
 }
