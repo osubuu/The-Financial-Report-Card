@@ -138,8 +138,7 @@ const options = companyName => {
           display: true,
           scaleLabel: {
             display: true,
-            labelString: "$USD (1000's)",
-            // fontColor: "black",
+            labelString: "$USD (in millions)",
             fontSize: 20
           },
           ticks: {
@@ -150,10 +149,6 @@ const options = companyName => {
               return "$" + value;
             }
           }
-          // ticks: {
-          //   fontColor: "black",
-          //   stepSize: 1
-          // }
         }
       ],
       xAxes: [
@@ -162,13 +157,8 @@ const options = companyName => {
           scaleLabel: {
             display: true,
             labelString: "Financial Year End",
-            // fontColor: "black",
             fontSize: 20
           }
-          // ticks: {
-          //   fontColor: "black",
-          //   stepSize: 1
-          // }
         }
       ]
     }
@@ -193,7 +183,7 @@ const FinancialStatementResults = props => {
           {/* HEADER WITH RESULTS */}
           <div className="results-header">
             <h2 className="results-title">Results</h2>
-            <h3 className="currency-explanation">(in 1000's of $USD)</h3>
+            <h3 className="currency-explanation">(in millions of $USD)</h3>
           </div>
 
           {/* LIST OF ALL 3 FSLIS */}
