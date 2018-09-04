@@ -5,13 +5,6 @@ import CompanyProfile from "./CompanyProfile";
 const Results = props => {
   return (
     <section className="results">
-      {/* If API call gives any request errors
-      {props.error === true ? (
-        <h4 className="error">
-          Data could not be retrieved for this company. Please search for
-          another company.
-        </h4>
-      ) : null} */}
       {/* Check if API call gave us back profile information and if so then display */}
       {Object.keys(props.profileResult).length === 0 &&
       props.searchDone === true &&
@@ -29,6 +22,7 @@ const Results = props => {
           saveToFirebase={props.saveToFirebase}
         />
       )}
+
       {/* Check if API call gave us back FS and if so then display */}
       {Object.keys(props.chosenResults).length === 0 &&
       props.searchDone === true &&

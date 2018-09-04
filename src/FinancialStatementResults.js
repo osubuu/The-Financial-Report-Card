@@ -190,18 +190,20 @@ const FinancialStatementResults = props => {
     return (
       <section className="company-fs">
         <div className="raw-results-container">
+          {/* HEADER WITH RESULTS */}
           <div className="results-header">
             <h2 className="results-title">Results</h2>
             <h3 className="currency-explanation">(in 1000's of $USD)</h3>
           </div>
 
+          {/* LIST OF ALL 3 FSLIS */}
           <div className="list-of-fsli">
             {props.chosenResults.map((item, i) => {
               return (
                 <form className="single-fsli-container" key={i}>
                   <h3 className="fsli-title">{item.fsli}</h3>
 
-                  {/* SELECT BAR FOR USER TO CHANGE */}
+                  {/* SELECT BAR FOR EACH FSLI FOR USER TO CHANGE */}
                   <Select
                     getUserFSLIChange={props.getUserFSLIChange}
                     item={item}
@@ -209,7 +211,7 @@ const FinancialStatementResults = props => {
                     availableFSLIs={props.availableFSLIs}
                   />
 
-                  {/* YEARLY RESULTS IN REGULAR TABLE FORM */}
+                  {/* YEARLY RESULTS FOR EACH FSLI IN REGULAR TABLE FORM */}
                   <YearlyResults
                     item={item}
                     numberWithCommas={numberWithCommas}
@@ -220,7 +222,7 @@ const FinancialStatementResults = props => {
           </div>
         </div>
 
-        {/* CHART JS */}
+        {/* CHART JS WITH YEARLY RESULTS DISPLAYED TOGETHER IN ONE GRAPH */}
         <div className="chart-container">
           <Line
             data={prepareChartData(props.chosenResults, props.colorPos)}

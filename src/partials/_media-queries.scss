@@ -65,9 +65,11 @@
 @media all and (max-width: 1000px) {
   .results {
     flex-direction: column;
+    border: 1px solid $color-1;
   }
 
   .company-profile {
+    border: 0;
     width: 100%;
     height: 15%;
     display: flex;
@@ -111,9 +113,20 @@
     display: none;
   }
 
+  .raw-results-container {
+    border: 0;
+    border-top: 1px solid $color-1;
+    border-bottom: 1px solid $color-1;
+  }
+
   .company-fs {
     width: 100%;
     height: 85%;
+    border: 0;
+  }
+
+  .chart-container {
+    border: 0;
   }
 
   .results-title,
@@ -228,7 +241,7 @@
 }
 
 // ACCOUNT FOR DECREASING DEVICE HEIGHT
-@media all and (max-height: 750px) and (max-width: 800px) {
+@media all and (max-height: 750px) and (max-width: 1000px) {
   .company-profile {
     justify-content: space-between;
     padding: 0.5rem 1rem;
@@ -249,7 +262,7 @@
 }
 
 // ACCOUNT FOR DECREASING DEVICE HEIGHT
-@media all and (max-height: 600px) and (max-width: 800px) {
+@media all and (max-height: 600px) and (max-width: 1000px) {
   .yearly-results {
     display: none;
   }
@@ -264,7 +277,7 @@
 }
 
 // ACCOUNT FOR DECREASING DEVICE HEIGHT
-@media all and (max-height: 500px) and (max-width: 800px) {
+@media all and (max-height: 500px) and (max-width: 1000px) {
   html {
     font-size: 55.5%;
   }
@@ -301,7 +314,7 @@
 }
 
 // REMOVE SPACING FROM TITLES
-@media all and (max-height: 400px) and (max-width: 800px) {
+@media all and (max-height: 400px) and (max-width: 1000px) {
   .results-header {
     margin: 0;
     padding: 0;
@@ -385,6 +398,7 @@
 @media all and (max-height: 350px) {
   .profile-general-sec-1 {
     justify-content: space-between;
+    width: 100%;
   }
 
   .company-profile {
