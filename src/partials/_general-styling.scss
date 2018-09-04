@@ -1,0 +1,24 @@
+/* =====================
+GENERAL STYLING
+====================== */
+
+a,
+a:visited,
+a:link {
+  color: lightskyblue;
+  font-weight: 100;
+  transition: 0.2s;
+}
+
+a:hover {
+  color: $color-3;
+  transition: 0.2s;
+}
+
+.App {
+  text-align: center;
+}
+
+.swal2-popup {
+  font-size: 1.6rem !important;
+}

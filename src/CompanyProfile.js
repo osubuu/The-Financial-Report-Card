@@ -16,7 +16,6 @@ const CompanyProfile = props => {
         </div>
 
         <div className="profile-general-sec-2">
-          {/* <div className="profile-sec-2"> */}
           <div className="company-exchange space-between">
             <h4>Exchange:</h4>
             <h4 className="profile-value">{props.profileResult.exchange}</h4>
@@ -28,9 +27,7 @@ const CompanyProfile = props => {
               <h4 className="profile-value">{props.profileResult["CEO"]}</h4>
             </div>
           ) : null}
-          {/* </div> */}
 
-          {/* <div className="profile-sec-3"> */}
           {props.profileResult.sector ? (
             <div className="company-sector space-between">
               <h5>Sector:</h5>
@@ -44,7 +41,6 @@ const CompanyProfile = props => {
               <h5 className="profile-value">{props.profileResult.industry}</h5>
             </div>
           ) : null}
-          {/* </div> */}
         </div>
 
         <div className="profile-general-sec-3">

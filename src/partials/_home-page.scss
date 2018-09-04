@@ -1,0 +1,217 @@
+/* =====================
+HOME-PAGE
+====================== */
+
+.home-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)) center
+      center / cover,
+    url(./assets/hero-image.jpg);
+
+  position: relative;
+}
+
+.home-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.intro {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.app-name {
+  margin: 0;
+  color: $color-2;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.app-description {
+  color: $color-2;
+  width: 60%;
+  margin: 2.5rem auto;
+}
+
+/* AUTOCOMPLETE / SEARCH BAR */
+
+.search-button {
+  font-size: 2rem;
+  background: none;
+  color: $color-1;
+  transition: 0.2s;
+  background-color: $color-2;
+  margin-top: 1rem;
+  padding: 0.5rem 2rem;
+  border: 1px solid $color-1;
+  border-radius: 7px;
+
+  .fa-search {
+    background-color: none;
+    vertical-align: middle;
+  }
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.search-button:hover {
+  transition: 0.2s;
+  background-color: $color-1;
+  color: $color-2;
+  border-color: $color-3;
+}
+
+.search-form {
+  border-radius: 7px;
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+}
+
+#states-autocomplete {
+  border: none;
+  font-size: 2rem;
+  background: none;
+  width: 100%;
+  text-align: center;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $color-2;
+  color: $color-3;
+
+  &::placeholder {
+    font-size: 1.6rem;
+    text-align: center;
+    color: $color-3;
+    opacity: 0.9;
+  }
+
+  &:focus:focus-within::placeholder {
+    font-size: 0;
+  }
+}
+
+.menu {
+  position: absolute;
+  max-height: 300px;
+  width: 100%;
+  overflow: auto;
+  padding: 0;
+  margin: 0;
+  z-index: 9999;
+  padding-right: 4rem;
+}
+
+.item {
+  border-left: 1px solid $color-2;
+  border-right: 1px solid $color-2;
+  border-bottom: 1px dotted $color-2;
+  background-color: $color-4;
+  font-size: 0.9rem;
+  color: $color-2;
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+
+  &:first-child {
+    border-top: 1px solid $color-2;
+  }
+
+  &:last-child {
+    border-bottom: 1px solid $color-2;
+  }
+
+  .item-name,
+  .item-ticker {
+    margin: 0;
+    text-align: left;
+  }
+
+  .item-name {
+    flex: 0 0 50%;
+  }
+
+  .item-ticker {
+    flex: 0 0 17.5%;
+    align-self: center;
+  }
+}
+
+.item-highlighted {
+  background-color: $color-3;
+  color: $color-1;
+}
+
+/* LOADING BAR */
+
+.loading-description {
+  color: $color-2;
+}
+
+.loading-form {
+  position: relative;
+}
+
+.loading-container {
+  position: absolute;
+  bottom: 10%;
+}
+
+.load-field {
+  @extend #states-autocomplete;
+  width: 22rem;
+  font-size: 1.6rem;
+}
+
+.load-button {
+  color: $color-2;
+  background: none;
+  font-size: 2.5rem;
+  position: absolute;
+  transition: 0.2s;
+  margin-top: 0;
+  margin-left: 1rem;
+  border: none;
+
+  .fa-arrow-circle-right {
+    background-color: none;
+    vertical-align: middle;
+  }
+}
+
+/* COPYRIGHT */
+.copyright-container {
+  position: absolute;
+  color: gray;
+  width: 100%;
+  bottom: 0;
+  margin: 0;
+  padding: 1rem;
+
+  .copyright {
+    font-weight: 100;
+    margin: 0;
+  }
+}
+
+.portfolio-link:visited,
+.portfolio-link:link {
+  color: gray;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.portfolio-link:hover,
+.load-button:hover {
+  transition: 0.2s;
+  color: $color-3;
+}

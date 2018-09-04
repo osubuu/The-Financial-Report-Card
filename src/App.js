@@ -10,6 +10,7 @@ import Results from "./Results";
 import Load from "./Load";
 import Intro from "./Intro";
 import Copyright from "./Copyright";
+import LoadingScreen from "react-loading-screen";
 
 // reference to firebase root
 const dbRef = firebase.database().ref();
@@ -41,7 +42,8 @@ class App extends Component {
       randomColorPositions: [],
       saved: false,
       currentKey: "",
-      savedInput: ""
+      savedInput: "",
+      loading: false
     };
   }
 
@@ -77,6 +79,16 @@ class App extends Component {
           <Copyright />
         </header>
 
+        {/* LOADING SCREEN */}
+        <LoadingScreen
+          loading={this.state.loading}
+          bgColor="rgba(0,0,0,0.5)"
+          spinnerColor="#edac53"
+          textColor="#676767"
+        >
+          <div />
+        </LoadingScreen>
+
         {/* RESULTS PAGE (Only display if no API error occured) */}
         {this.state.searchDone === true && this.state.error === false ? (
           <Results
@@ -109,7 +121,8 @@ class App extends Component {
     // reset a few states
     this.setState({
       chosenFSLIsArr: [],
-      searchDone: false
+      searchDone: false,
+      loading: true
     });
 
     // retrieve data from firebase
@@ -127,11 +140,23 @@ class App extends Component {
           fsResults: JSON.parse(snapshot.val().allResults),
           availableFSLIs: snapshot.val().availableFSLIs,
           randomColorPositions: this.getRandom3UniqueNumbers(7),
-          searchDone: true
+          searchDone: true,
+          loading: false
         });
 
         // Scroll to results page
         scrollToElement(".results", { ease: "inSine", duration: 500 });
+      })
+      .catch(error => {
+        swal({
+          type: "question",
+          title: "Invalid Key",
+          text: `You seem to have submitted the wrong key. Please make sure you've included all the characters. Keys begin with "-LL...."`
+        });
+
+        this.setState({
+          loading: false
+        });
       });
 
     // Reset load bar input bar
@@ -190,7 +215,7 @@ class App extends Component {
   /* B1. SET STATE OF USER INPUT */
   getUserInput = input => {
     this.setState({
-      userInput: input
+      userInput: input.toUpperCase()
     });
   };
 
@@ -204,6 +229,9 @@ class App extends Component {
   /* B3. EVENT HANDLER FOR WHEN USER SUBMITS THEIR SEARCH */
   handleSubmit = event => {
     event.preventDefault();
+
+    this.getUserInput(this.state.value);
+
     event.target.reset();
 
     // set default states
@@ -212,7 +240,8 @@ class App extends Component {
       randomColorPositions: this.getRandom3UniqueNumbers(7),
       defaultFSLIs: ["Revenue", "Cost of revenue", "Net income"],
       chosenFSLIsArr: [],
-      saved: false
+      saved: false,
+      loading: true
     });
 
     // Prepare API CALLS
@@ -225,6 +254,19 @@ class App extends Component {
 
   /* C1. FUNCTION TO SET UP THE API CALLS AND MANAGE THEIR PROMISES */
   getData = ticker => {
+    if (ticker.length === 0) {
+      this.setState({
+        loading: false
+      });
+
+      swal({
+        type: "error",
+        title: "No Input",
+        text: "No input detected. Please submit a company ticker."
+      });
+      return;
+    }
+
     this.setState({ searchDone: false, error: false });
 
     // store promises of API calls for profile and FS (both IS and BS)
@@ -242,7 +284,7 @@ class App extends Component {
     Promise.all([profilePromise, isPromise, bsPromise])
       .then(res => {
         // set this to indicate that the search call has been completed
-        this.setState({ searchDone: true });
+        this.setState({ searchDone: true, loading: false });
 
         // scroll to results
         scrollToElement(".results", { ease: "inSine", duration: 500 });
@@ -251,19 +293,6 @@ class App extends Component {
         this.storeProfileData(res[0]);
         this.storeFSData(res[1], "is");
         this.storeFSData(res[2], "bs");
-
-        console.log("Default FSLIs");
-        console.log(this.state.defaultFSLIs);
-        console.log("Chosen");
-        console.log(this.state.chosenFSLIs);
-        console.log("Chosen FSLIs Arr:");
-        console.log(this.state.chosenFSLIsArr);
-        console.log("PROFILE RESULTS:");
-        console.log(this.state.profileResult);
-        console.log("FS RESULTS:");
-        console.log(this.state.fsResults);
-        console.log("AVAILABLE FSLIS:");
-        console.log(this.state.availableFSLIs);
       })
       .catch(error => {
         // scroll to results
@@ -271,7 +300,7 @@ class App extends Component {
 
         // if error 404 or page unreachable because company is not available on FMP
         if (error.response || error.request) {
-          this.setState({ error: true, searchDone: true });
+          this.setState({ error: true, searchDone: true, loading: false });
 
           // alert to tell user that company data could not be found on FMP
           swal({

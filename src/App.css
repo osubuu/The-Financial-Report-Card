@@ -177,7 +177,7 @@ input::-moz-focus-inner {
 /* FONT-FAMILY */
 /* COLORS */
 html {
-  font-family: "Lora", serif;
+  font-family: serif;
   font-size: 62.5%; }
 
 body {
@@ -189,7 +189,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Lora", serif; }
+  font-family: serif; }
 
 h1 {
   font-size: 4rem; }
@@ -210,8 +210,12 @@ h6 {
   font-size: 1.6rem; }
 
 p {
-  font-size: 1.6rem; }
+  font-size: 1.6rem;
+  font-family: sans-serif; }
 
+/* =====================
+GENERAL STYLING
+====================== */
 a,
 a:visited,
 a:link {
@@ -264,60 +268,31 @@ HOME-PAGE
   width: 60%;
   margin: 2.5rem auto; }
 
-.loading-description {
-  color: whitesmoke; }
-
-.loading-form {
-  position: relative; }
-
-.search-button, .load-button {
-  position: absolute;
-  right: 2rem;
+/* AUTOCOMPLETE / SEARCH BAR */
+.search-button {
   font-size: 2rem;
   background: none;
-  border: none;
-  color: whitesmoke;
+  color: #282828;
   transition: 0.2s;
-  margin-left: 1rem; }
-  .search-button .fa-search, .load-button .fa-search {
+  background-color: whitesmoke;
+  margin-top: 1rem;
+  padding: 0.5rem 2rem;
+  border: 1px solid #282828;
+  border-radius: 7px; }
+  .search-button .fa-search {
     background-color: none;
     vertical-align: middle; }
-
-.loading-container {
-  position: absolute;
-  bottom: 10%; }
-
-.copyright-container {
-  position: absolute;
-  color: gray;
-  width: 100%;
-  bottom: 0;
-  margin: 0;
-  padding: 1rem; }
-  .copyright-container .copyright {
-    font-weight: 100;
+  .search-button h3 {
     margin: 0; }
 
-.portfolio-link:visited,
-.portfolio-link:link {
-  color: gray;
-  text-decoration: none;
-  transition: 0.2s; }
+.search-button:hover {
+  transition: 0.2s;
+  background-color: #282828;
+  color: whitesmoke;
+  border-color: #edac53; }
 
-.portfolio-link:hover,
-.load-button:hover,
-.search-button:hover,
-.load-button:hover {
-  color: #edac53;
-  transition: 0.2s; }
-
-/* =====================
-AUTOCOMPLETE
-====================== */
 .search-form {
-  background-color: rgba(255, 255, 255, 0.2);
   border-radius: 7px;
-  padding: 2rem;
   position: relative;
   width: 100%;
   max-width: 40rem; }
@@ -333,24 +308,11 @@ AUTOCOMPLETE
   color: #edac53; }
   #states-autocomplete::placeholder, .load-field::placeholder {
     font-size: 1.6rem;
-    text-align: left;
+    text-align: center;
     color: #edac53;
     opacity: 0.9; }
   #states-autocomplete:focus:focus-within::placeholder, .load-field:focus:focus-within::placeholder {
     font-size: 0; }
-
-.load-field {
-  width: 22rem;
-  font-size: 1.6rem; }
-
-.load-button {
-  font-size: 2.5rem;
-  position: absolute;
-  transition: 0.2s;
-  margin-left: 1rem; }
-  .load-button .fa-arrow-circle-right {
-    background-color: none;
-    vertical-align: middle; }
 
 .menu {
   position: absolute;
@@ -359,7 +321,8 @@ AUTOCOMPLETE
   overflow: auto;
   padding: 0;
   margin: 0;
-  z-index: 9999; }
+  z-index: 9999;
+  padding-right: 4rem; }
 
 .item {
   border-left: 1px solid whitesmoke;
@@ -389,6 +352,57 @@ AUTOCOMPLETE
   background-color: #edac53;
   color: #282828; }
 
+/* LOADING BAR */
+.loading-description {
+  color: whitesmoke; }
+
+.loading-form {
+  position: relative; }
+
+.loading-container {
+  position: absolute;
+  bottom: 10%; }
+
+.load-field {
+  width: 22rem;
+  font-size: 1.6rem; }
+
+.load-button {
+  color: whitesmoke;
+  background: none;
+  font-size: 2.5rem;
+  position: absolute;
+  transition: 0.2s;
+  margin-top: 0;
+  margin-left: 1rem;
+  border: none; }
+  .load-button .fa-arrow-circle-right {
+    background-color: none;
+    vertical-align: middle; }
+
+/* COPYRIGHT */
+.copyright-container {
+  position: absolute;
+  color: gray;
+  width: 100%;
+  bottom: 0;
+  margin: 0;
+  padding: 1rem; }
+  .copyright-container .copyright {
+    font-weight: 100;
+    margin: 0; }
+
+.portfolio-link:visited,
+.portfolio-link:link {
+  color: gray;
+  text-decoration: none;
+  transition: 0.2s; }
+
+.portfolio-link:hover,
+.load-button:hover {
+  transition: 0.2s;
+  color: #edac53; }
+
 /* =====================
 RESULTS SECTION
 ====================== */
@@ -397,6 +411,7 @@ RESULTS SECTION
   height: 100vh;
   display: flex; }
 
+/* COMPANY PROFILE  */
 .company-profile {
   border: 1px solid #282828;
   overflow: hidden;
@@ -445,6 +460,24 @@ RESULTS SECTION
   text-align: right;
   font-weight: 400; }
 
+.save-button {
+  font-size: 150%;
+  padding: 2rem;
+  border: 1px solid #282828;
+  transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .save-button:hover {
+    color: #edac53;
+    border-color: whitesmoke;
+    background-color: #4b4d51;
+    transition: 0.2s; }
+  .save-button h5 {
+    margin: 0;
+    font-weight: 400; }
+
+/* COMPANY FS */
 .company-fs {
   width: 75%;
   display: flex;
@@ -502,24 +535,6 @@ RESULTS SECTION
   padding: 1rem;
   background-color: whitesmoke; }
 
-.save-button {
-  font-size: 150%;
-  padding: 2rem;
-  border: 1px solid #282828;
-  transition: 0.2s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: "Lora"; }
-  .save-button:hover {
-    color: #edac53;
-    border-color: whitesmoke;
-    background-color: #4b4d51;
-    transition: 0.2s; }
-  .save-button h5 {
-    margin: 0;
-    font-weight: 400; }
-
 .currency-explanation,
 .results-title {
   margin: 0; }
@@ -540,9 +555,6 @@ RESULTS SECTION
 
 .fsli-title {
   margin: 0; }
-
-.swal2-popup {
-  font-size: 1.6rem !important; }
 
 @media all and (max-height: 850px) {
   .raw-results-container {
@@ -583,8 +595,10 @@ RESULTS SECTION
 
 @media all and (max-width: 1000px) {
   .results {
-    flex-direction: column; }
+    flex-direction: column;
+    border: 1px solid #282828; }
   .company-profile {
+    border: 0;
     width: 100%;
     height: 15%;
     display: flex; }
@@ -615,9 +629,16 @@ RESULTS SECTION
     flex: 1 0 35%; }
   .profile-general-sec-3 {
     display: none; }
+  .raw-results-container {
+    border: 0;
+    border-top: 1px solid #282828;
+    border-bottom: 1px solid #282828; }
   .company-fs {
     width: 100%;
-    height: 85%; }
+    height: 85%;
+    border: 0; }
+  .chart-container {
+    border: 0; }
   .results-title,
   .currency-explanation {
     margin: 0;
@@ -684,7 +705,7 @@ RESULTS SECTION
   .company-ticker {
     font-size: 1.8rem; } }
 
-@media all and (max-height: 750px) and (max-width: 800px) {
+@media all and (max-height: 750px) and (max-width: 1000px) {
   .company-profile {
     justify-content: space-between;
     padding: 0.5rem 1rem;
@@ -696,7 +717,7 @@ RESULTS SECTION
   .profile-general-sec-1 {
     border-right: none; } }
 
-@media all and (max-height: 600px) and (max-width: 800px) {
+@media all and (max-height: 600px) and (max-width: 1000px) {
   .yearly-results {
     display: none; }
   .raw-results-container {
@@ -704,7 +725,7 @@ RESULTS SECTION
   .chart-container {
     height: 75%; } }
 
-@media all and (max-height: 500px) and (max-width: 800px) {
+@media all and (max-height: 500px) and (max-width: 1000px) {
   html {
     font-size: 55.5%; }
   .profile-general-sec-1 {
@@ -725,7 +746,7 @@ RESULTS SECTION
     overflow: auto;
     text-overflow: ellipsis; } }
 
-@media all and (max-height: 400px) and (max-width: 800px) {
+@media all and (max-height: 400px) and (max-width: 1000px) {
   .results-header {
     margin: 0;
     padding: 0; } }
@@ -770,7 +791,8 @@ RESULTS SECTION
 
 @media all and (max-height: 350px) {
   .profile-general-sec-1 {
-    justify-content: space-between; }
+    justify-content: space-between;
+    width: 100%; }
   .company-profile .company-ticker {
     margin-left: 0.5rem; }
   .save-button {

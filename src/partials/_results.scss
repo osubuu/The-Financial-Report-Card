@@ -1,0 +1,196 @@
+/* =====================
+RESULTS SECTION
+====================== */
+
+.results {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+/* COMPANY PROFILE  */
+.company-profile {
+  border: 1px solid $color-1;
+  overflow: hidden;
+
+  width: 25%;
+  padding: 2rem;
+  text-align: left;
+  h3 {
+    margin-bottom: 0;
+  }
+  h5 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  background-color: #4b4d51;
+  color: $color-2;
+}
+
+.profile-general-sec-1,
+.profile-general-sec-2,
+.profile-general-sec-3 {
+  overflow: hidden;
+}
+
+.company-name {
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+.company-ticker {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $color-2;
+}
+
+.company-ticker,
+.company-sector,
+.company-industry {
+  margin: 0;
+}
+
+.company-exchange {
+  h4 {
+    margin-top: 4rem;
+    margin-bottom: 0;
+  }
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.company-description {
+  line-height: 2rem;
+  margin: 3rem 0;
+}
+
+.profile-value {
+  text-align: right;
+  font-weight: 400;
+}
+
+.save-button {
+  font-size: 150%;
+  padding: 2rem;
+  border: 1px solid $color-1;
+  transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    color: $color-3;
+    border-color: $color-2;
+    background-color: #4b4d51;
+    transition: 0.2s;
+  }
+
+  h5 {
+    margin: 0;
+    font-weight: 400;
+  }
+}
+
+/* COMPANY FS */
+
+.company-fs {
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background-color: $color-2;
+}
+
+.no-results-header {
+  font-size: 3rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
+.list-of-fsli {
+  display: flex;
+  justify-content: space-evenly;
+  text-align: left;
+}
+
+.select-div {
+  width: 100%;
+  padding: 0;
+
+  select {
+    padding: 0;
+    width: 100%;
+
+    font-size: 1.3rem;
+
+    option {
+      font-size: 2rem;
+    }
+  }
+}
+
+.single-fsli-container {
+  width: 33%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.yearly-results {
+  list-style: none;
+  padding: 0;
+}
+
+.yearly-result {
+  display: flex;
+  justify-content: space-between;
+
+  .year,
+  .result {
+    margin: 0;
+  }
+}
+
+.raw-results-container {
+  width: 100%;
+  height: 32.5%;
+  border-top: 1px solid $color-1;
+  border-right: 1px solid $color-1;
+  border-bottom: 1px solid $color-1;
+
+  padding: 1rem;
+  background-color: $color-2;
+}
+
+.currency-explanation,
+.results-title {
+  margin: 0;
+}
+
+.results-title {
+  margin-top: 1rem;
+}
+
+.currency-explanation {
+  margin-bottom: 1rem;
+}
+
+.chart-container {
+  border-right: 1px solid $color-1;
+  border-bottom: 1px solid $color-1;
+  background-color: white;
+
+  padding: 1rem;
+  height: 67.5%;
+  width: 100%;
+}
+
+.fsli-title {
+  margin: 0;
+}

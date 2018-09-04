@@ -42,17 +42,23 @@ const Search = props => {
         wrapperStyle={{
           position: "relative",
           display: "inline-block",
-          width: "100%"
+          width: "100%",
+          backgroundColor: "rgba(255, 255, 255, 0.2)",
+          padding: "2rem",
+          borderRadius: "7px"
         }}
         items={props.companies}
         inputProps={{
-          placeholder: "Enter company name or ticker",
+          placeholder: "Search for company name or ticker",
           id: "states-autocomplete"
         }}
         getItemValue={item => item.ticker}
         shouldItemRender={matchCompanyToInput}
         sortItems={sortCompanies}
-        onChange={(event, value) => props.getValue(value)}
+        onChange={(event, value) => {
+          props.getValue(value);
+          props.getUserInput(value);
+        }}
         onSelect={value => {
           props.getUserInput(value);
           props.getValue(value);
@@ -68,11 +74,9 @@ const Search = props => {
           </li>
         )}
       />
-      {/* <label htmlFor="search-bar" className="search-placeholder">
-        Enter any US Public Companies
-      </label> */}
+
       <button className="search-button" type="submit">
-        <i className="fas fa-search" />
+        <h3>SUBMIT</h3>
       </button>
     </form>
   );
