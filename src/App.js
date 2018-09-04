@@ -5,11 +5,11 @@ import firebase from "./firebase";
 import scrollToElement from "scroll-to-element";
 import swal from "sweetalert2";
 import "./App.css";
-import Search from "./Search";
-import Results from "./Results";
-import Load from "./Load";
-import Intro from "./Intro";
-import Copyright from "./Copyright";
+import Search from "./components/homepage/Search";
+import Results from "./components/results/Results";
+import Load from "./components/homepage/Load";
+import Intro from "./components/homepage/Intro";
+import Copyright from "./components/homepage/Copyright";
 import LoadingScreen from "react-loading-screen";
 
 // reference to firebase root
