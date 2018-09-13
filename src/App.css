@@ -1,6 +1,3 @@
-/* =============================
-RESET + CLEARFIX + BORDER BOX + VISUALLY HIDDEN
-============================== */
 article,
 aside,
 details,
@@ -174,8 +171,6 @@ input::-moz-focus-inner {
   clip: rect(0 0 0 0);
   overflow: hidden; }
 
-/* FONT-FAMILY */
-/* COLORS */
 html {
   font-family: serif;
   font-size: 62.5%; }
@@ -213,9 +208,6 @@ p {
   font-size: 1.6rem;
   font-family: sans-serif; }
 
-/* =====================
-GENERAL STYLING
-====================== */
 body {
   margin: 0;
   padding: 0;
@@ -238,9 +230,6 @@ a:hover {
 .swal2-popup {
   font-size: 1.6rem !important; }
 
-/* =====================
-HOME-PAGE
-====================== */
 .home-page {
   width: 100%;
   height: 100vh;
@@ -408,9 +397,6 @@ HOME-PAGE
   transition: 0.2s;
   color: #edac53; }
 
-/* =====================
-RESULTS SECTION
-====================== */
 .results {
   width: 100%;
   height: 100vh;

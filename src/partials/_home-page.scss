@@ -1,7 +1,3 @@
-/* =====================
-HOME-PAGE
-====================== */
-
 .home-page {
   width: 100%;
   height: 100vh;
@@ -9,8 +5,7 @@ HOME-PAGE
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)) center
-      center / cover,
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)) center center / cover,
     url(./assets/hero-image.jpg);
 
   position: relative;
