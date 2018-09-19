@@ -55,9 +55,9 @@ const Search = props => {
         getItemValue={item => item.ticker}
         shouldItemRender={matchCompanyToInput}
         sortItems={sortCompanies}
-        onChange={(event, value) => {
-          props.getValue(value);
-          props.getUserInput(value);
+        onChange={event => {
+          props.getValue(event.target.value);
+          props.getUserInput(event.target.value);
         }}
         onSelect={value => {
           props.getUserInput(value);
@@ -65,10 +65,7 @@ const Search = props => {
         }}
         renderMenu={children => <ul className="menu">{children}</ul>}
         renderItem={(item, isHighlighted) => (
-          <li
-            className={`item ${isHighlighted ? "item-highlighted" : ""}`}
-            key={item.ticker}
-          >
+          <li className={`item ${isHighlighted ? "item-highlighted" : ""}`} key={item.ticker}>
             <h4 className="item-name">{item.name}</h4>
             <h4 className="item-ticker">({item.ticker})</h4>
           </li>

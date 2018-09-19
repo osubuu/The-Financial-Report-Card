@@ -33,25 +33,9 @@ const prepareYears = array => {
 // A3. Prepare datasets for Chart JS
 const prepareDatasets = (FSLIResults, colorPos) => {
   let datasets = [];
-  let possibleColors = [
-    "#396AB1",
-    "#DA7C30",
-    "#3E9651",
-    "#CC2529",
-    "#535154",
-    "#6B4C9A",
-    "#948B3D"
-  ];
+  let possibleColors = ["#396AB1", "#DA7C30", "#3E9651", "#CC2529", "#535154", "#6B4C9A", "#948B3D"];
 
-  let possibleBackgroundColors = [
-    "#afc5e5",
-    "#f4d7c0",
-    "#a4dab0",
-    "#f0abad",
-    "#a8a6a9",
-    "#c4b5db",
-    "#d9d3a2"
-  ];
+  let possibleBackgroundColors = ["#afc5e5", "#f4d7c0", "#a4dab0", "#f0abad", "#a8a6a9", "#c4b5db", "#d9d3a2"];
 
   let fsliCount = 0;
   FSLIResults.forEach(fsli => {
@@ -61,14 +45,9 @@ const prepareDatasets = (FSLIResults, colorPos) => {
     dataset.data = [];
     dataset.fill = false;
 
-    // const randomPosition = randomize(possibleColors);
-    // dataset.borderColor = possibleColors[fsliCount];
     dataset.borderColor = possibleColors[colorPos[fsliCount]];
-    // possibleColors.splice(randomPosition, 1);
 
-    // dataset.backgroundColor = possibleBackgroundColors[fsliCount];
     dataset.backgroundColor = possibleBackgroundColors[colorPos[fsliCount]];
-    // possibleBackgroundColors.splice(randomPosition, 1);
 
     fsli.results.forEach(year => {
       if (year.key !== "TTM") {
@@ -118,8 +97,7 @@ const options = companyName => {
           // Get fsli label
           let fsli = data.datasets[tooltipItem.datasetIndex].label;
           // Get fsli value
-          let value =
-            data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+          let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
           // apply commas through regex
           value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
           value = value.replace(/-(.*)/, "($1)");
@@ -202,10 +180,7 @@ const FinancialStatementResults = props => {
                   />
 
                   {/* YEARLY RESULTS FOR EACH FSLI IN REGULAR TABLE FORM */}
-                  <YearlyResults
-                    item={item}
-                    numberWithCommas={numberWithCommas}
-                  />
+                  <YearlyResults item={item} numberWithCommas={numberWithCommas} />
                 </form>
               );
             })}
@@ -214,10 +189,7 @@ const FinancialStatementResults = props => {
 
         {/* CHART JS WITH YEARLY RESULTS DISPLAYED TOGETHER IN ONE GRAPH */}
         <div className="chart-container">
-          <Line
-            data={prepareChartData(props.chosenResults, props.colorPos)}
-            options={options(props.companyName)}
-          />
+          <Line data={prepareChartData(props.chosenResults, props.colorPos)} options={options(props.companyName)} />
         </div>
       </section>
     );

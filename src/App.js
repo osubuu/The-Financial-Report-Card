@@ -69,10 +69,7 @@ class App extends Component {
             />
 
             {/* LOAD BAR */}
-            <Load
-              getDataFromFirebase={this.getDataFromFirebase}
-              getSavedInput={this.getSavedInput}
-            />
+            <Load getDataFromFirebase={this.getDataFromFirebase} getSavedInput={this.getSavedInput} />
           </div>
 
           {/* COPYRIGHT */}
@@ -215,7 +212,7 @@ class App extends Component {
   /* B1. SET STATE OF USER INPUT */
   getUserInput = input => {
     this.setState({
-      userInput: input.toUpperCase()
+      userInput: input.trim().toUpperCase()
     });
   };
 
@@ -229,9 +226,7 @@ class App extends Component {
   /* B3. EVENT HANDLER FOR WHEN USER SUBMITS THEIR SEARCH */
   handleSubmit = event => {
     event.preventDefault();
-
     this.getUserInput(this.state.value);
-
     event.target.reset();
 
     // set default states
@@ -239,9 +234,11 @@ class App extends Component {
       value: "",
       randomColorPositions: this.getRandom3UniqueNumbers(7),
       defaultFSLIs: ["Revenue", "Cost of revenue", "Net income"],
+      profileResult: {},
       chosenFSLIsArr: [],
       saved: false,
-      loading: true
+      loading: true,
+      searchDone: false
     });
 
     // Prepare API CALLS
@@ -271,14 +268,8 @@ class App extends Component {
 
     // store promises of API calls for profile and FS (both IS and BS)
     let profilePromise = this.getProfile(ticker);
-    let isPromise = this.getFinancialStatements(
-      ticker,
-      "financials/income-statement/"
-    );
-    let bsPromise = this.getFinancialStatements(
-      ticker,
-      "financials/balance-sheet-statement/"
-    );
+    let isPromise = this.getFinancialStatements(ticker, "financials/income-statement/");
+    let bsPromise = this.getFinancialStatements(ticker, "financials/balance-sheet-statement/");
 
     // wait for all 3 promises to be done before manipulating results
     Promise.all([profilePromise, isPromise, bsPromise])
@@ -306,8 +297,7 @@ class App extends Component {
           swal({
             type: "error",
             title: "Sorry!",
-            text:
-              "Data could not be retrieved for this company. Please search for another one."
+            text: "Data could not be retrieved for this company. Please search for another one."
           });
         }
         // else it's an unavailable FSLI error, which is okay, we will display the FS results as "No FS Found" and still display profile information
@@ -354,9 +344,7 @@ class App extends Component {
   /* D1. STORE COMPANY PROFILE INFORMATION FROM API CALL */
   storeProfileData = res => {
     // Response data is in text. Remove <pre> tags to get proper format of JSON object. Parse into JSON for easier use.
-    let jsonRes = JSON.parse(res.data.replace(/<pre>/g, ""))[
-      this.state.userInput
-    ];
+    let jsonRes = JSON.parse(res.data.replace(/<pre>/g, ""))[this.state.userInput];
 
     jsonRes.ticker = this.state.userInput;
 
@@ -393,10 +381,7 @@ class App extends Component {
       let tempArr = [];
 
       // use underscore intersection to find similarities between default and available FSLIs
-      let intersect = _.intersection(
-        this.state.availableFSLIs[fsType],
-        this.state.defaultFSLIs
-      );
+      let intersect = _.intersection(this.state.availableFSLIs[fsType], this.state.defaultFSLIs);
 
       // if all 3 default fslis are found in the I/S FSLIs
       if (intersect.length === this.state.defaultFSLIs.length) {
@@ -411,10 +396,7 @@ class App extends Component {
         // add FSLIs that are not in the intersect yet from the difference array
         while (tempArr.length < this.state.defaultFSLIs.length) {
           // array of available FSLIs that are not in the default ones yet
-          let difference = _.difference(
-            this.state.availableFSLIs[fsType],
-            this.state.defaultFSLIs
-          );
+          let difference = _.difference(this.state.availableFSLIs[fsType], this.state.defaultFSLIs);
           tempArr.push(difference[n]);
           n++;
         }
@@ -441,23 +423,19 @@ class App extends Component {
       // conditional for when user changes fsli in options menu
       if (fsType === "is-fslis" || fsType === "bs-fslis") {
         for (let fsliType in this.state.availableFSLIs) {
-          if (
-            this.state.availableFSLIs[fsliType].indexOf(currentIndex) !== -1
-          ) {
+          if (this.state.availableFSLIs[fsliType].indexOf(currentIndex) !== -1) {
             type = fsliType;
           }
         }
       }
 
       // make the object with the chosen fsli data
-      let tempMap = Object.entries(
-        this.state.fsResults[type][this.state.userInput][
-          this.state.chosenFSLIs[i]
-        ]
-      ).map(([key, value]) => ({
-        key,
-        value
-      }));
+      let tempMap = Object.entries(this.state.fsResults[type][this.state.userInput][this.state.chosenFSLIs[i]]).map(
+        ([key, value]) => ({
+          key,
+          value
+        })
+      );
 
       // Push object to clean array
       tempArr.push({
@@ -468,7 +446,8 @@ class App extends Component {
 
     // Save cleaned up array of objects in state
     this.setState({
-      chosenFSLIsArr: tempArr
+      chosenFSLIsArr: tempArr,
+      userInput: ""
     });
   };
 
@@ -516,26 +495,24 @@ class App extends Component {
   /* 1ST API CALL (IEX TRADING): GET LIST OF ALL COMPANY NAMES AND TICKER NUMBERS SO THAT USER CAN SEARCH THROUGH THEM*/
   componentDidMount() {
     // window.scrollTo(0, 1);
-    axios
-      .get("https://api.iextrading.com/1.0/ref-data/symbols")
-      .then(({ data }) => {
-        let temporaryArr = [];
-        // use regex to get rid of funds or other companies that don't necessarily have FS. namely, these include tickers that have "." or "-"
-        let regex = RegExp("[.-=]");
-        data.forEach(company => {
-          if (company.name.length > 0 && regex.test(company.symbol) === false) {
-            temporaryArr.push({
-              ticker: company.symbol,
-              name: company.name
-            });
-          }
-        });
-
-        // set list of available companies in state
-        this.setState({
-          companies: temporaryArr
-        });
+    axios.get("https://api.iextrading.com/1.0/ref-data/symbols").then(({ data }) => {
+      let temporaryArr = [];
+      // use regex to get rid of funds or other companies that don't necessarily have FS. namely, these include tickers that have "." or "-"
+      let regex = RegExp("[.-=]");
+      data.forEach(company => {
+        if (company.name.length > 0 && regex.test(company.symbol) === false) {
+          temporaryArr.push({
+            ticker: company.symbol,
+            name: company.name
+          });
+        }
       });
+
+      // set list of available companies in state
+      this.setState({
+        companies: temporaryArr
+      });
+    });
   }
 }
 
