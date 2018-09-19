@@ -6,27 +6,18 @@ const Results = props => {
   return (
     <section className="results">
       {/* Check if API call gave us back profile information and if so then display */}
-      {Object.keys(props.profileResult).length === 0 &&
-      props.searchDone === true &&
-      props.error === false ? (
+      {Object.keys(props.profileResult).length === 0 && props.searchDone === true && props.error === false ? (
         <section className="company-fs">
           <h4 className="no-results-header" style={{ display: "block" }}>
             No Info On This Company
           </h4>
         </section>
       ) : (
-        <CompanyProfile
-          profileResult={props.profileResult}
-          userInput={props.userInput}
-          error={props.error}
-          saveToFirebase={props.saveToFirebase}
-        />
+        <CompanyProfile profileResult={props.profileResult} error={props.error} saveToFirebase={props.saveToFirebase} />
       )}
 
       {/* Check if API call gave us back FS and if so then display */}
-      {Object.keys(props.chosenResults).length === 0 &&
-      props.searchDone === true &&
-      props.error === false ? (
+      {Object.keys(props.chosenResults).length === 0 && props.searchDone === true && props.error === false ? (
         <section className="company-fs">
           <h4 className="no-results-header" style={{ display: "block" }}>
             No Financial Statements Found.
