@@ -1,5 +1,6 @@
 {
   "projects": {
-    "deploying": "project5-3d96f"
+    "deploying": "project5-3d96f",
+    "default": "the-financial-report-card"
   }
 }

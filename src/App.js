@@ -446,8 +446,7 @@ class App extends Component {
 
     // Save cleaned up array of objects in state
     this.setState({
-      chosenFSLIsArr: tempArr,
-      userInput: ""
+      chosenFSLIsArr: tempArr
     });
   };
 
