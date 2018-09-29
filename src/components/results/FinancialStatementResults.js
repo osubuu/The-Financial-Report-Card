@@ -149,7 +149,7 @@ EXPORTED MODULE
 
 const FinancialStatementResults = props => {
   // if a API request error occured, don't display
-  if (props.error === true) {
+  if (props.error) {
     return null;
   }
 

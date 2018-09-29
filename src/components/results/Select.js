@@ -9,8 +9,7 @@ const Select = props => {
         defaultValue={props.item.fsli}
         key={props.i}
       >
-        {typeof props.availableFSLIs.is !== "undefined" &&
-        props.availableFSLIs.is.length > 0 ? (
+        {props.availableFSLIs.is ? (
           <optgroup className="is-fslis" label="Income Statement">
             {props.availableFSLIs.is.map(fsli => {
               return (
@@ -22,8 +21,7 @@ const Select = props => {
           </optgroup>
         ) : null}
 
-        {typeof props.availableFSLIs.bs !== "undefined" &&
-        props.availableFSLIs.bs.length > 0 ? (
+        {props.availableFSLIs.bs ? (
           <optgroup className="bs-fslis" label="Balance Sheet">
             {props.availableFSLIs.bs.map(fsli => {
               return (

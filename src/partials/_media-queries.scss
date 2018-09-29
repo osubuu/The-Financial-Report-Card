@@ -147,6 +147,7 @@
   .results-header {
     display: flex;
     justify-content: center;
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -161,8 +162,23 @@
     margin-bottom: 1rem;
   }
 
+  .results-title,
+  .currency-explanation {
+    font-size: 2.2rem;
+  }
+
+  .fsli-title {
+    font-size: 1.9rem;
+  }
+
   .single-fsli-container {
-    padding: 1.25rem;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+  }
+
+  .yearly-results {
+    h5 {
+      font-size: 1.6rem;
+    }
   }
 }
 
@@ -190,23 +206,21 @@
   }
 
   .results-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   .results-title,
   .currency-explanation {
     font-size: 2.5rem;
   }
-}
-// TURNING FSLI CHOICES VERTICAL
-@media all and (max-width: 500px) {
+
   .list-of-fsli {
     flex-direction: column;
   }
 
   .single-fsli-container {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0;
   }
 
   .fsli-title {
@@ -262,17 +276,9 @@
 }
 
 // ACCOUNT FOR DECREASING DEVICE HEIGHT
-@media all and (max-height: 600px) and (max-width: 1000px) {
+@media all and (max-height: 650px) and (max-width: 1000px) {
   .yearly-results {
     display: none;
-  }
-
-  .raw-results-container {
-    height: 25%;
-  }
-
-  .chart-container {
-    height: 75%;
   }
 }
 
@@ -356,6 +362,10 @@
 
   .menu {
     max-height: 100px;
+  }
+
+  .list-of-fsli {
+    flex-direction: row;
   }
 }
 

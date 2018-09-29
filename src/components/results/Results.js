@@ -6,7 +6,7 @@ const Results = props => {
   return (
     <section className="results">
       {/* Check if API call gave us back profile information and if so then display */}
-      {Object.keys(props.profileResult).length === 0 && props.searchDone === true && props.error === false ? (
+      {Object.keys(props.profileResult).length === 0 && props.searchDone && !props.error ? (
         <section className="company-fs">
           <h4 className="no-results-header" style={{ display: "block" }}>
             No Info On This Company
@@ -17,7 +17,7 @@ const Results = props => {
       )}
 
       {/* Check if API call gave us back FS and if so then display */}
-      {Object.keys(props.chosenResults).length === 0 && props.searchDone === true && props.error === false ? (
+      {Object.keys(props.chosenResults).length === 0 && props.searchDone && !props.error ? (
         <section className="company-fs">
           <h4 className="no-results-header" style={{ display: "block" }}>
             No Financial Statements Found.
