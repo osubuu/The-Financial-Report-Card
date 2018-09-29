@@ -641,7 +641,8 @@ a:hover {
     font-size: 3rem; }
   .results-header {
     display: flex;
-    justify-content: center; } }
+    justify-content: center;
+    margin-bottom: 0.5rem; } }
 
 @media all and (max-width: 700px) {
   html {
@@ -649,8 +650,15 @@ a:hover {
   .results-header {
     padding-top: 1.5rem;
     margin-bottom: 1rem; }
+  .results-title,
+  .currency-explanation {
+    font-size: 2.2rem; }
+  .fsli-title {
+    font-size: 1.9rem; }
   .single-fsli-container {
-    padding: 1.25rem; } }
+    padding: 1rem 0.5rem 0.5rem 0.5rem; }
+  .yearly-results h5 {
+    font-size: 1.6rem; } }
 
 @media all and (max-width: 600px) {
   .company-profile {
@@ -667,17 +675,15 @@ a:hover {
   .company-fs {
     height: 92.5%; }
   .results-header {
-    margin-bottom: 2rem; }
+    margin-bottom: 1.5rem; }
   .results-title,
   .currency-explanation {
-    font-size: 2.5rem; } }
-
-@media all and (max-width: 500px) {
+    font-size: 2.5rem; }
   .list-of-fsli {
     flex-direction: column; }
   .single-fsli-container {
     width: 100%;
-    padding: 0.5rem; }
+    padding: 0; }
   .fsli-title {
     width: 100%;
     white-space: nowrap;
@@ -708,13 +714,9 @@ a:hover {
   .profile-general-sec-1 {
     border-right: none; } }
 
-@media all and (max-height: 600px) and (max-width: 1000px) {
+@media all and (max-height: 650px) and (max-width: 1000px) {
   .yearly-results {
-    display: none; }
-  .raw-results-container {
-    height: 25%; }
-  .chart-container {
-    height: 75%; } }
+    display: none; } }
 
 @media all and (max-height: 500px) and (max-width: 1000px) {
   html {
@@ -760,7 +762,9 @@ a:hover {
   .loading-description {
     margin-bottom: 0; }
   .menu {
-    max-height: 100px; } }
+    max-height: 100px; }
+  .list-of-fsli {
+    flex-direction: row; } }
 
 @media all and (max-width: 350px) {
   .profile-general-sec-1 {

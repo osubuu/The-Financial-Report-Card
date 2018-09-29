@@ -2,7 +2,7 @@ import React from "react";
 
 const CompanyProfile = props => {
   // if a API request error occured, don't display
-  if (props.error === true) {
+  if (props.error) {
     return null;
   }
 
@@ -44,14 +44,10 @@ const CompanyProfile = props => {
         </div>
 
         <div className="profile-general-sec-3">
-          <p className="company-description">
-            {props.profileResult.description}
-          </p>
+          <p className="company-description">{props.profileResult.description}</p>
 
           <h6 className="company-website">
-            <a href={props.profileResult.website}>
-              {props.profileResult.website}
-            </a>
+            <a href={props.profileResult.website}>{props.profileResult.website}</a>
           </h6>
         </div>
 

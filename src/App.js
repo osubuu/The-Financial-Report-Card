@@ -1,18 +1,23 @@
+// Node Modules
 import React, { Component } from "react";
 import axios from "axios";
 import _ from "underscore";
-import firebase from "./firebase";
 import scrollToElement from "scroll-to-element";
 import swal from "sweetalert2";
-import "./App.css";
+import LoadingScreen from "react-loading-screen";
+
+// React Components
 import Search from "./components/homepage/Search";
 import Results from "./components/results/Results";
 import Load from "./components/homepage/Load";
 import Intro from "./components/homepage/Intro";
 import Copyright from "./components/homepage/Copyright";
-import LoadingScreen from "react-loading-screen";
+
+// Styling
+import "./App.css";
 
 // reference to firebase root
+import firebase from "./firebase";
 const dbRef = firebase.database().ref();
 
 class App extends Component {
@@ -56,10 +61,10 @@ class App extends Component {
       <div className="App">
         <header className="home-page">
           <div className="home-page-container">
-            {/* APP TITLE AND DESCRIPTION */}
+            {/* APP TITLE AND DESCRIPTION COMPONENT*/}
             <Intro />
 
-            {/* SEARCH BAR */}
+            {/* SEARCH BAR COMPONENT*/}
             <Search
               getValue={this.getValue}
               handleSubmit={this.handleSubmit}
@@ -68,15 +73,15 @@ class App extends Component {
               getUserInput={this.getUserInput}
             />
 
-            {/* LOAD BAR */}
+            {/* LOAD BAR COMPONENT*/}
             <Load getDataFromFirebase={this.getDataFromFirebase} getSavedInput={this.getSavedInput} />
           </div>
 
-          {/* COPYRIGHT */}
+          {/* COPYRIGHT COMPONENT*/}
           <Copyright />
         </header>
 
-        {/* LOADING SCREEN */}
+        {/* LOADING SCREEN COMPONENT */}
         <LoadingScreen
           loading={this.state.loading}
           bgColor="rgba(0,0,0,0.5)"
@@ -86,8 +91,8 @@ class App extends Component {
           <div />
         </LoadingScreen>
 
-        {/* RESULTS PAGE (Only display if no API error occured) */}
-        {this.state.searchDone === true && this.state.error === false ? (
+        {/* RESULTS COMPONENT (Only display if no API error occured and once search is done) */}
+        {this.state.searchDone && !this.state.error ? (
           <Results
             chosenResults={this.state.chosenFSLIsArr}
             profileResult={this.state.profileResult}
@@ -172,7 +177,7 @@ class App extends Component {
     let PostKey = dbRef.child("saves").push().key;
 
     // if user is saving the same snapshot
-    if (this.state.saved === true) {
+    if (this.state.saved) {
       PostKey = this.state.currentKey;
     }
 
@@ -251,7 +256,7 @@ class App extends Component {
 
   /* C1. FUNCTION TO SET UP THE API CALLS AND MANAGE THEIR PROMISES */
   getData = ticker => {
-    if (ticker.length === 0) {
+    if (!ticker) {
       this.setState({
         loading: false
       });
@@ -322,7 +327,7 @@ class App extends Component {
 
   /* C3. API CALL TO GET FS DATA (EITHER BS OR IS) */
   getFinancialStatements = (ticker, fs) => {
-    let baseURL = "https://financialmodelingprep.com/api/";
+    const baseURL = "https://financialmodelingprep.com/api/";
     let companyTicker = ticker;
     let finalURL = `${baseURL}${fs}${companyTicker}`;
 
@@ -499,7 +504,7 @@ class App extends Component {
       // use regex to get rid of funds or other companies that don't necessarily have FS. namely, these include tickers that have "." or "-"
       let regex = RegExp("[.-=]");
       data.forEach(company => {
-        if (company.name.length > 0 && regex.test(company.symbol) === false) {
+        if (company.name && regex.test(company.symbol) === false) {
           temporaryArr.push({
             ticker: company.symbol,
             name: company.name
