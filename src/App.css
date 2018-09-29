@@ -683,7 +683,7 @@ a:hover {
     flex-direction: column; }
   .single-fsli-container {
     width: 100%;
-    padding: 0; }
+    padding: 0.5rem 0; }
   .fsli-title {
     width: 100%;
     white-space: nowrap;
@@ -780,7 +780,7 @@ a:hover {
   .home-page-container {
     margin-bottom: 10rem; }
   .single-fsli-container {
-    padding: 0; }
+    padding: 0.25rem 0; }
   .results-header {
     margin-bottom: 0.5rem; } }
 
