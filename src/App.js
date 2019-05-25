@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
-import _ from "underscore";
+import _ from "lodash";
 import scrollToElement from "scroll-to-element";
 import swal from "sweetalert2";
 import LoadingScreen from "react-loading-screen";
+
+// Utils
+import Utils from './utils/utils';
 
 // React Components
 import Search from "./components/homepage/Search";
@@ -140,7 +143,7 @@ class App extends Component {
           chosenFSLIsArr: snapshot.val().fslisArr,
           fsResults: JSON.parse(snapshot.val().allResults),
           availableFSLIs: snapshot.val().availableFSLIs,
-          randomColorPositions: this.getRandom3UniqueNumbers(7),
+          randomColorPositions: Utils.getRandomUniqueNumbers(3, 7),
           searchDone: true,
           loading: false
         });
@@ -236,7 +239,7 @@ class App extends Component {
     // set default states
     this.setState({
       value: "",
-      randomColorPositions: this.getRandom3UniqueNumbers(7),
+      randomColorPositions: Utils.getRandomUniqueNumbers(3, 7),
       defaultFSLIs: ["Revenue", "Cost of revenue", "Net income"],
       profileResult: {},
       chosenFSLIsArr: [],
@@ -474,48 +477,26 @@ class App extends Component {
   };
 
   /* =====================
-  F. MISC METHODS
-  ====================== */
-
-  /* F1. FUNCTION TO RANDOMIZE 3 UNIQUE NUMBERS FOR GRAPH COLORS */
-  getRandom3UniqueNumbers = number => {
-    let arr = [];
-    while (arr.length < 3) {
-      let randomNumber = Math.floor(Math.random() * number);
-
-      // make sure each numbers are unique
-      if (arr.indexOf(randomNumber) === -1) {
-        arr.push(randomNumber);
-      }
-    }
-    return arr;
-  };
-
-  /* =====================
   COMPONENTDIDMOUNT
   ====================== */
 
   /* 1ST API CALL (IEX TRADING): GET LIST OF ALL COMPANY NAMES AND TICKER NUMBERS SO THAT USER CAN SEARCH THROUGH THEM*/
-  componentDidMount() {
-    // window.scrollTo(0, 1);
-    axios.get("https://api.iextrading.com/1.0/ref-data/symbols").then(({ data }) => {
-      let temporaryArr = [];
-      // use regex to get rid of funds or other companies that don't necessarily have FS. namely, these include tickers that have "." or "-"
-      let regex = RegExp("[.-=]");
-      data.forEach(company => {
-        if (company.name && regex.test(company.symbol) === false) {
-          temporaryArr.push({
-            ticker: company.symbol,
-            name: company.name
-          });
-        }
-      });
-
-      // set list of available companies in state
-      this.setState({
-        companies: temporaryArr
-      });
-    });
+  async componentDidMount() {
+    const { data: companiesData } = await axios.get("https://api.iextrading.com/1.0/ref-data/symbols");
+    // get rid of funds or other companies that don't necessarily have FS. namely, these include tickers that have "." or "-"
+    const regex = RegExp("[.-=]");
+    const validCompanies = _.reduce(companiesData, (acc, company) => {
+      const { symbol, name } = company;
+      if (name && regex.test(symbol) === false) {
+        const companyInfo = {
+          name,
+          ticker: symbol,
+        };
+        return [...acc, companyInfo];
+      }
+      return acc;
+    }, []);
+    this.setState({ companies: validCompanies });
   }
 }
 
