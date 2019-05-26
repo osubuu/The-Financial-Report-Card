@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import _ from "lodash";
 import scrollToElement from "scroll-to-element";
-import swal from "sweetalert2";
 import LoadingScreen from "react-loading-screen";
 
 // Utils
 import Utils from './utils/utils';
 import Requests from './utils/requests';
+import Alerts from './utils/alerts';
 
 // React Components
 import Search from "./components/homepage/Search";
@@ -144,11 +144,7 @@ class App extends Component {
       // Scroll to results page
       scrollToElement(".results", { ease: "inSine", duration: 500 });
     } catch (error) {
-      swal({
-        type: "question",
-        title: "Invalid Key",
-        text: `You seem to have submitted the wrong key. Please make sure you've included all the characters. Keys begin with "-LL...."`
-      });
+      Alerts.wrongSnapshotKey();
       this.setState({ loading: false });
     }
   };
@@ -188,12 +184,7 @@ class App extends Component {
       currentKey: PostKey
     });
 
-    // show user alert to indicate that firebase save was successful
-    swal({
-      type: "success",
-      title: "SAVED!",
-      html: `Use the following key to access this exact snapshot again:<br><br><strong>${PostKey}</strong>`
-    });
+    Alerts.snapshotKeyCreated(PostKey);
   };
 
   /* =====================
@@ -240,11 +231,7 @@ class App extends Component {
   getData = async (ticker) => {
     if (!ticker) {
       this.setState({ loading: false });
-      swal({
-        type: "error",
-        title: "No Input",
-        text: "No input detected. Please submit a company ticker."
-      });
+      Alerts.noTickerSubmitted();
       return;
     }
     this.setState({
@@ -252,15 +239,14 @@ class App extends Component {
       error: false,
     });
 
-    // store promises of API calls for profile and FS (both IS and BS)
-    let profilePromise = Requests.getProfile(ticker);
-    let isPromise = Requests.getFinancialStatements(ticker, "financials/income-statement/");
-    let bsPromise = Requests.getFinancialStatements(ticker, "financials/balance-sheet-statement/");
-
-    // wait for all 3 promises to be done before manipulating results
-    const results = await Promise.all([profilePromise, isPromise, bsPromise]);
-
     try {
+      // store promises of API calls for profile and FS (both IS and BS)
+      let profilePromise = Requests.getProfile(ticker);
+      let isPromise = Requests.getFinancialStatements(ticker, "financials/income-statement/");
+      let bsPromise = Requests.getFinancialStatements(ticker, "financials/balance-sheet-statement/");
+
+      // wait for all 3 promises to be done before manipulating results
+      const results = await Promise.all([profilePromise, isPromise, bsPromise]);
       this.setState({
         searchDone: true,
         loading: false,
@@ -277,12 +263,7 @@ class App extends Component {
           searchDone: true,
           loading: false,
         });
-        // alert to tell user that company data could not be found on FMP
-        swal({
-          type: "error",
-          title: "Sorry!",
-          text: "Data could not be retrieved for this company. Please search for another one."
-        });
+        Alerts.dataNotFound();
       }
       // else it's an unavailable FSLI error, which is okay, we will display the FS results as "No FS Found" and still display profile information
       else {
