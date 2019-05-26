@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import _ from "lodash";
 import scrollToElement from "scroll-to-element";
 import swal from "sweetalert2";
@@ -7,6 +6,7 @@ import LoadingScreen from "react-loading-screen";
 
 // Utils
 import Utils from './utils/utils';
+import Requests from './utils/requests';
 
 // React Components
 import Search from "./components/homepage/Search";
@@ -116,13 +116,10 @@ class App extends Component {
   ====================== */
 
   /* A1. RETRIEVE DATA FROM FIREBASE WHEN USER SUBMITS KEY */
-  getDataFromFirebase = event => {
+  getDataFromFirebase = async (event) => {
     event.preventDefault();
-
-    // assign the key the user inputed into the load bar to this variable
+    event.target.reset();
     let key = this.state.savedInput;
-
-    // reset a few states
     this.setState({
       chosenFSLIsArr: [],
       searchDone: false,
@@ -130,48 +127,35 @@ class App extends Component {
     });
 
     // retrieve data from firebase
-    dbRef
-      .child("/saves/" + key)
-      .once("value")
-      .then(snapshot => {
-        // set data from firebase to the App's states
-        this.setState({
-          userInput: snapshot.val().ticker,
-          defaultFSLIs: ["Revenue", "Cost of revenue", "Net income"],
-          profileResult: snapshot.val().profile,
-          chosenFSLIs: snapshot.val().fslis,
-          chosenFSLIsArr: snapshot.val().fslisArr,
-          fsResults: JSON.parse(snapshot.val().allResults),
-          availableFSLIs: snapshot.val().availableFSLIs,
-          randomColorPositions: Utils.getRandomUniqueNumbers(3, 7),
-          searchDone: true,
-          loading: false
-        });
-
-        // Scroll to results page
-        scrollToElement(".results", { ease: "inSine", duration: 500 });
-      })
-      .catch(error => {
-        swal({
-          type: "question",
-          title: "Invalid Key",
-          text: `You seem to have submitted the wrong key. Please make sure you've included all the characters. Keys begin with "-LL...."`
-        });
-
-        this.setState({
-          loading: false
-        });
+    try {
+      const snapshot = await dbRef.child("/saves/" + key).once("value")
+      this.setState({
+        userInput: snapshot.val().ticker,
+        defaultFSLIs: ["Revenue", "Cost of revenue", "Net income"],
+        profileResult: snapshot.val().profile,
+        chosenFSLIs: snapshot.val().fslis,
+        chosenFSLIsArr: snapshot.val().fslisArr,
+        fsResults: JSON.parse(snapshot.val().allResults),
+        availableFSLIs: snapshot.val().availableFSLIs,
+        randomColorPositions: Utils.getRandomUniqueNumbers(3, 7),
+        searchDone: true,
+        loading: false
       });
-
-    // Reset load bar input bar
-    event.target.reset();
+      // Scroll to results page
+      scrollToElement(".results", { ease: "inSine", duration: 500 });
+    } catch (error) {
+      swal({
+        type: "question",
+        title: "Invalid Key",
+        text: `You seem to have submitted the wrong key. Please make sure you've included all the characters. Keys begin with "-LL...."`
+      });
+      this.setState({ loading: false });
+    }
   };
 
   /* A2. LISTEN FOR USER INPUT (KEY) IN LOADING BAR */
   getSavedInput = e => {
-    this.setState({
-      savedInput: e.target.value
-    });
+    this.setState({ savedInput: e.target.value });
   };
 
   /* A3. SAVE CURRENT RESULTS TO FIREBASE */
@@ -218,23 +202,19 @@ class App extends Component {
 
   /* B1. SET STATE OF USER INPUT */
   getUserInput = input => {
-    this.setState({
-      userInput: input.trim().toUpperCase()
-    });
+    this.setState({ userInput: input.trim().toUpperCase() });
   };
 
   /* B2. GET USER INPUT FROM SEARCH BAR */
   getValue = input => {
-    this.setState({
-      value: input
-    });
+    this.setState({ value: input });
   };
 
   /* B3. EVENT HANDLER FOR WHEN USER SUBMITS THEIR SEARCH */
   handleSubmit = event => {
     event.preventDefault();
-    this.getUserInput(this.state.value);
     event.target.reset();
+    this.getUserInput(this.state.value);
 
     // set default states
     this.setState({
@@ -257,12 +237,9 @@ class App extends Component {
   ====================== */
 
   /* C1. FUNCTION TO SET UP THE API CALLS AND MANAGE THEIR PROMISES */
-  getData = ticker => {
+  getData = async (ticker) => {
     if (!ticker) {
-      this.setState({
-        loading: false
-      });
-
+      this.setState({ loading: false });
       swal({
         type: "error",
         title: "No Input",
@@ -270,78 +247,50 @@ class App extends Component {
       });
       return;
     }
-
-    this.setState({ searchDone: false, error: false });
+    this.setState({
+      searchDone: false,
+      error: false,
+    });
 
     // store promises of API calls for profile and FS (both IS and BS)
-    let profilePromise = this.getProfile(ticker);
-    let isPromise = this.getFinancialStatements(ticker, "financials/income-statement/");
-    let bsPromise = this.getFinancialStatements(ticker, "financials/balance-sheet-statement/");
+    let profilePromise = Requests.getProfile(ticker);
+    let isPromise = Requests.getFinancialStatements(ticker, "financials/income-statement/");
+    let bsPromise = Requests.getFinancialStatements(ticker, "financials/balance-sheet-statement/");
 
     // wait for all 3 promises to be done before manipulating results
-    Promise.all([profilePromise, isPromise, bsPromise])
-      .then(res => {
-        // set this to indicate that the search call has been completed
-        this.setState({ searchDone: true, loading: false });
+    const results = await Promise.all([profilePromise, isPromise, bsPromise]);
 
-        // scroll to results
-        scrollToElement(".results", { ease: "inSine", duration: 500 });
-
-        // res[0] contains profile data, res[1] contains I/S data, res[2] contains B/S data
-        this.storeProfileData(res[0]);
-        this.storeFSData(res[1], "is");
-        this.storeFSData(res[2], "bs");
-      })
-      .catch(error => {
-        // scroll to results
-        scrollToElement(".results", { ease: "inSine", duration: 500 });
-
-        // if error 404 or page unreachable because company is not available on FMP
-        if (error.response || error.request) {
-          this.setState({ error: true, searchDone: true, loading: false });
-
-          // alert to tell user that company data could not be found on FMP
-          swal({
-            type: "error",
-            title: "Sorry!",
-            text: "Data could not be retrieved for this company. Please search for another one."
-          });
-        }
-        // else it's an unavailable FSLI error, which is okay, we will display the FS results as "No FS Found" and still display profile information
-        else {
-          this.setState({ searchDone: true });
-        }
+    try {
+      this.setState({
+        searchDone: true,
+        loading: false,
       });
-  };
-
-  /* C2. API CALL TO GET COMPANY GENERAL PROFILE INFORMATION */
-  getProfile = ticker => {
-    let url = `https://financialmodelingprep.com/api/company/profile/${ticker}`;
-    return axios({
-      method: "GET",
-      url: "https://proxy.hackeryou.com",
-      dataResponse: "jsonp",
-      params: {
-        reqUrl: url
+      // res[0] contains profile data, res[1] contains I/S data, res[2] contains B/S data
+      this.storeProfileData(results[0]);
+      this.storeFSData(results[1], "is");
+      this.storeFSData(results[2], "bs");
+    } catch (error) {
+      // if error 404 or page unreachable because company is not available on FMP
+      if (error.response || error.request) {
+        this.setState({
+          error: true,
+          searchDone: true,
+          loading: false,
+        });
+        // alert to tell user that company data could not be found on FMP
+        swal({
+          type: "error",
+          title: "Sorry!",
+          text: "Data could not be retrieved for this company. Please search for another one."
+        });
       }
-    });
-  };
-
-  /* C3. API CALL TO GET FS DATA (EITHER BS OR IS) */
-  getFinancialStatements = (ticker, fs) => {
-    const baseURL = "https://financialmodelingprep.com/api/";
-    let companyTicker = ticker;
-    let finalURL = `${baseURL}${fs}${companyTicker}`;
-
-    // AXIOS CALL TO GET FS DATA
-    return axios({
-      method: "GET",
-      url: "https://proxy.hackeryou.com",
-      dataResponse: "jsonp",
-      params: {
-        reqUrl: finalURL
+      // else it's an unavailable FSLI error, which is okay, we will display the FS results as "No FS Found" and still display profile information
+      else {
+        this.setState({ searchDone: true });
       }
-    });
+    }
+
+    scrollToElement(".results", { ease: "inSine", duration: 500 });
   };
 
   /* =====================
@@ -352,12 +301,8 @@ class App extends Component {
   storeProfileData = res => {
     // Response data is in text. Remove <pre> tags to get proper format of JSON object. Parse into JSON for easier use.
     let jsonRes = JSON.parse(res.data.replace(/<pre>/g, ""))[this.state.userInput];
-
     jsonRes.ticker = this.state.userInput;
-
-    this.setState({
-      profileResult: jsonRes
-    });
+    this.setState({ profileResult: jsonRes });
   };
 
   /* D2. STORE COMPANY FS INFORMATION FROM API CALL */
@@ -409,9 +354,7 @@ class App extends Component {
         }
       }
 
-      this.setState({
-        chosenFSLIs: tempArr
-      });
+      this.setState({ chosenFSLIs: tempArr });
 
       // prepare the arrays of objects for the results page
       this.prepareChosenFSLIsArr(fsType);
@@ -452,9 +395,7 @@ class App extends Component {
     }
 
     // Save cleaned up array of objects in state
-    this.setState({
-      chosenFSLIsArr: tempArr
-    });
+    this.setState({ chosenFSLIsArr: tempArr });
   };
 
   /* =====================
@@ -463,16 +404,15 @@ class App extends Component {
 
   /* E1. LISTEN FOR ANY USER CHANGES IN THE SELECT TAGS FOR ANY OF THE 3 FSLIS */
   getUserFSLIChange = (event, index) => {
-    let tempArr = this.state.chosenFSLIs;
-
-    // change name of FSLI at the specific index in chosen FSLI state
-    tempArr[index] = event.target.value;
-    this.setState({ chosenFSLIs: tempArr, saved: false });
+    const { chosenFSLIs } = this.state;
+    chosenFSLIs[index] = event.target.value;
+    this.setState({
+      chosenFSLIs,
+      saved: false,
+    });
 
     // get optGroup value (either is or bs), need this for prepareChosenFSLIArr method
-    let fsType = event.target.selectedOptions[0].parentNode.className;
-
-    // re-update the ChosenFSLIsArr so page will update itself
+    const fsType = event.target.selectedOptions[0].parentNode.className;
     this.prepareChosenFSLIsArr(fsType);
   };
 
@@ -480,9 +420,8 @@ class App extends Component {
   COMPONENTDIDMOUNT
   ====================== */
 
-  /* 1ST API CALL (IEX TRADING): GET LIST OF ALL COMPANY NAMES AND TICKER NUMBERS SO THAT USER CAN SEARCH THROUGH THEM*/
   async componentDidMount() {
-    const { data: companiesData } = await axios.get("https://api.iextrading.com/1.0/ref-data/symbols");
+    const { data: companiesData } = await Requests.getAllCompanies();
     // get rid of funds or other companies that don't necessarily have FS. namely, these include tickers that have "." or "-"
     const regex = RegExp("[.-=]");
     const validCompanies = _.reduce(companiesData, (acc, company) => {
