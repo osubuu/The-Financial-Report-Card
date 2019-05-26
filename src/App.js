@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import _ from "lodash";
-import scrollToElement from "scroll-to-element";
 import LoadingScreen from "react-loading-screen";
 
 // Utils
 import Utils from './utils/utils';
 import Requests from './utils/requests';
 import Alerts from './utils/alerts';
+import Scroll from './utils/scroll';
 
 // React Components
 import Search from "./components/homepage/Search";
@@ -141,8 +141,7 @@ class App extends Component {
         searchDone: true,
         loading: false
       });
-      // Scroll to results page
-      scrollToElement(".results", { ease: "inSine", duration: 500 });
+      Scroll.toResults();
     } catch (error) {
       Alerts.wrongSnapshotKey();
       this.setState({ loading: false });
@@ -174,8 +173,7 @@ class App extends Component {
     };
 
     // store info to firebase
-    let updates = {};
-    updates["/saves/" + PostKey] = postData;
+    let updates = { ["/saves/" + PostKey]: postData };
     dbRef.update(updates);
 
     // update App's current states
@@ -271,7 +269,7 @@ class App extends Component {
       }
     }
 
-    scrollToElement(".results", { ease: "inSine", duration: 500 });
+    Scroll.toResults();
   };
 
   /* =====================
