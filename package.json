@@ -17,11 +17,18 @@
     "build-js": "react-scripts build",
     "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
+    "lint": "eslint src",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "axios": "^0.18.0",
+    "babel-eslint": "^10.0.1",
     "chart.js": "^2.7.2",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-react": "^7.13.0",
     "firebase": "^5.4.2",
     "lodash": "^4.17.11",
     "react-autocomplete": "^1.8.1",
