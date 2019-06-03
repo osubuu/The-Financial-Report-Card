@@ -160,14 +160,14 @@ class App extends Component {
 	};
 
 	/* B3. EVENT HANDLER FOR WHEN USER SUBMITS THEIR SEARCH */
-	handleSubmit = (event) => {
+	handleSubmit = async (event) => {
 		event.preventDefault();
 		event.target.reset();
 		const { value, userInput } = this.state;
 		this.getUserInput(value);
 
 		// set default states
-		this.setState({
+		await this.setState({
 			value: '',
 			randomColorPositions: Utils.getRandomUniqueNumbers(3, 7),
 			defaultFSLIs: ['Revenue', 'Cost of revenue', 'Net income'],
@@ -176,6 +176,7 @@ class App extends Component {
 			saved: false,
 			loading: true,
 			searchDone: false,
+			error: false,
 		});
 
 		// Prepare API CALLS
@@ -193,27 +194,23 @@ class App extends Component {
 			Alerts.noTickerSubmitted();
 			return;
 		}
-		this.setState({
-			searchDone: false,
-			error: false,
-		});
-
 		try {
-			// store promises of API calls for profile and FS (both IS and BS)
 			const profilePromise = Requests.getProfile(ticker);
 			const isPromise = Requests.getFinancialStatements(ticker, 'financials/income-statement/');
 			const bsPromise = Requests.getFinancialStatements(ticker, 'financials/balance-sheet-statement/');
 
-			// wait for all 3 promises to be done before manipulating results
 			const results = await Promise.all([profilePromise, isPromise, bsPromise]);
 			this.setState({
 				searchDone: true,
 				loading: false,
 			});
 			// res[0] contains profile data, res[1] contains I/S data, res[2] contains B/S data
-			this.storeProfileData(results[0]);
-			this.storeFSData(results[1], 'is');
-			this.storeFSData(results[2], 'bs');
+			await Promise.all([
+				this.storeProfileData(results[0]),
+				this.storeFSData(results[1], 'is'),
+				this.storeFSData(results[2], 'bs'),
+			]);
+			this.prepareChosenFSLIsArr();
 		} catch (error) {
 			// if error 404 or page unreachable because company is not available on FMP
 			if (error.response || error.request) {
@@ -237,9 +234,8 @@ class App extends Component {
   ====================== */
 
 	/* D1. STORE COMPANY PROFILE INFORMATION FROM API CALL */
-	storeProfileData = (res) => {
+	storeProfileData = async (res) => {
 		const { userInput } = this.state;
-		// Remove <pre> tags to get proper format of JSON object. Parse into JSON for easier use.
 		const jsonRes = JSON.parse(res.data.replace(/<pre>/g, ''))[userInput];
 		jsonRes.ticker = userInput;
 		this.setState({ profileResult: jsonRes });
@@ -250,96 +246,55 @@ class App extends Component {
 		const {
 			fsResults, availableFSLIs, userInput, defaultFSLIs,
 		} = this.state;
-		// Remove <pre> tags to get proper format of JSON object. Parse into JSON for easier use.
+		let { chosenFSLIs } = this.state;
 		const jsonRes = JSON.parse(res.data.replace(/<pre>/g, ''));
 
-		// create copy of this.state.fsResults and this.state.availableFSLIs
-		const fsCopy = Object.assign({}, fsResults);
-		const fsliCopy = Object.assign({}, availableFSLIs);
-
-		// update the proper property depending on type of fs (I/s or B/S)
-		if (fsType === 'bs') {
-			fsCopy.bs = jsonRes;
-			fsliCopy.bs = Object.keys(jsonRes[userInput]);
-		} else if (fsType === 'is') {
-			fsCopy.is = jsonRes;
-			fsliCopy.is = Object.keys(jsonRes[userInput]);
-		}
+		fsResults[fsType] = jsonRes;
+		availableFSLIs[fsType] = _.keys(jsonRes[userInput]);
 
 		// conditional for the first run (as the default FSLIS are I/S's items)
 		if (fsType === 'is') {
-			let tempArr = [];
+			const intersect = _.intersection(fsResults[fsType], defaultFSLIs);
+			chosenFSLIs = intersect.length === defaultFSLIs.length ? defaultFSLIs : intersect;
 
-			// use underscore intersection to find similarities between default and available FSLIs
-			const intersect = _.intersection(fsliCopy[fsType], defaultFSLIs);
-
-			// if all 3 default fslis are found in the I/S FSLIs
-			if (intersect.length === defaultFSLIs.length) {
-				tempArr = defaultFSLIs;
-			} else if (intersect.length < defaultFSLIs.length) {
-				// if default fslis are only 0,1,2 compared to the I/S FSLIs
-				tempArr = intersect;
-				let n = 0;
-
-				// add FSLIs that are not in the intersect yet from the difference array
-				while (tempArr.length < defaultFSLIs.length) {
-					// array of available FSLIs that are not in the default ones yet
-					const difference = _.difference(fsliCopy[fsType], defaultFSLIs);
-					tempArr.push(difference[n]);
-					n += 1;
-				}
+			// add FSLIs that are not in the intersect yet from the difference array, if any
+			let n = 0;
+			const difference = _.difference(availableFSLIs[fsType], defaultFSLIs);
+			while (chosenFSLIs.length < defaultFSLIs.length) {
+				chosenFSLIs.push(difference[n]);
+				n += 1;
 			}
-
-			await this.setState({
-				fsResults: fsCopy,
-				availableFSLIs: fsliCopy,
-				chosenFSLIs: tempArr,
-			});
-
-			// prepare the arrays of objects for the results page
-			this.prepareChosenFSLIsArr(fsType);
+			await this.setState({ chosenFSLIs });
 		}
-	};
+
+		await this.setState({
+			fsResults,
+			availableFSLIs,
+			chosenFSLIs,
+		});
+	}
 
 	/* D3. PREPARE THE CHOSEN FSLIS ARRAY FOR DISPLAY IN RESULTS AND FOR CHART JS */
-	prepareChosenFSLIsArr = (fsType) => {
+	prepareChosenFSLIsArr = () => {
 		const {
 			chosenFSLIs, availableFSLIs, fsResults, userInput,
 		} = this.state;
-		const tempArr = [];
-		let type = fsType;
+		const chosenFSLIsArr = [];
 
 		// loop through array of chosen fslis strings to prepare the array of objects with data
 		for (let i = 0; i < chosenFSLIs.length; i += 1) {
-			const currentIndex = chosenFSLIs[i];
+			const fsli = chosenFSLIs[i];
+			const type = _.includes(availableFSLIs.is, fsli) ? 'is' : 'bs';
 
-			// conditional for when user changes fsli in options menu
-			if (fsType === 'is-fslis' || fsType === 'bs-fslis') {
-				// eslint-disable-next-line no-loop-func
-				_.forEach(availableFSLIs, (fsliType) => {
-					if (availableFSLIs[fsliType].indexOf(currentIndex) !== -1) {
-						type = fsliType;
-					}
-				});
-			}
-
-			// make the object with the chosen fsli data
-			const tempMap = Object.entries(fsResults[type][userInput][chosenFSLIs[i]]).map(
-				([key, value]) => ({
-					key,
-					value,
-				}),
-			);
-
-			// Push object to clean array
-			tempArr.push({
-				fsli: chosenFSLIs[i],
-				results: tempMap,
+			const fsliData = _.entries(fsResults[type][userInput][fsli]);
+			const results = _.map(fsliData, ([key, value]) => ({ key, value }));
+			chosenFSLIsArr.push({
+				fsli,
+				results,
 			});
 		}
 
-		// Save cleaned up array of objects in state
-		this.setState({ chosenFSLIsArr: tempArr });
+		this.setState({ chosenFSLIsArr });
 	};
 
 	/* =====================
@@ -347,17 +302,14 @@ class App extends Component {
 	====================== */
 
 	/* E1. LISTEN FOR ANY USER CHANGES IN THE SELECT TAGS FOR ANY OF THE 3 FSLIS */
-	getUserFSLIChange = (event, index) => {
+	getUserFSLIChange = async (event, index) => {
 		const { chosenFSLIs } = this.state;
 		chosenFSLIs[index] = event.target.value;
-		this.setState({
+		await this.setState({
 			chosenFSLIs,
 			saved: false,
 		});
-
-		// get optGroup value (either is or bs), need this for prepareChosenFSLIArr method
-		const fsType = event.target.selectedOptions[0].parentNode.className;
-		this.prepareChosenFSLIsArr(fsType);
+		this.prepareChosenFSLIsArr();
 	};
 
 	renderResults = () => {
