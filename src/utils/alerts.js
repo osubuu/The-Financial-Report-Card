@@ -17,12 +17,10 @@ const Utils = {
 		text: 'No input detected. Please submit a company ticker.',
 	}),
 	dataNotFound: () => swal({
-		// data could not be found on FMP
 		type: 'error',
 		title: 'Sorry!',
 		text: 'Data could not be retrieved for this company. Please search for another one.',
-	})
-	,
+	}),
 };
 
 export default Utils;
