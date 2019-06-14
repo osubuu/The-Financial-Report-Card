@@ -34,6 +34,7 @@
     "react-autocomplete": "^1.8.1",
     "react-chartjs-2": "^2.7.4",
     "react-loading-screen": "0.0.17",
+    "react-router-dom": "^5.0.0",
     "scroll-to-element": "^2.0.2",
     "sweetalert2": "^7.26.12"
   }

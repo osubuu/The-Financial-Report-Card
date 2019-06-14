@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import LoadingScreen from 'react-loading-screen';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Utils
 import Utils from './utils/utils';
@@ -8,12 +8,9 @@ import Requests from './utils/requests';
 import Alerts from './utils/alerts';
 import Scroll from './utils/scroll';
 
-// React Components
-import Search from './components/homepage/Search';
-import Results from './components/results/Results';
-import Load from './components/homepage/Load';
-import Intro from './components/homepage/Intro';
-import Copyright from './components/homepage/Copyright';
+// Views
+import Homepage from './views/homepage/Homepage';
+import Results from './views/results/Results';
 
 // Styling
 import './App.css';
@@ -312,6 +309,10 @@ class App extends Component {
 		this.prepareChosenFSLIsArr();
 	};
 
+	/* =====================
+	F. RENDER VIEWS
+	====================== */
+
 	renderResults = () => {
 		const {
 			chosenFSLIsArr, profileResult, searchDone,
@@ -319,73 +320,48 @@ class App extends Component {
 		} = this.state;
 		return (
 			<Results
-				chosenResults={chosenFSLIsArr}
-				profileResult={profileResult}
-				searchDone={searchDone}
-				userInput={userInput}
 				error={error}
 				colorPos={randomColorPositions}
+				userInput={userInput}
+				searchDone={searchDone}
+				chosenResults={chosenFSLIsArr}
+				profileResult={profileResult}
 				availableFSLIs={availableFSLIs}
-				getUserFSLIChange={this.getUserFSLIChange}
 				saveToFirebase={this.saveToFirebase}
+				getUserFSLIChange={this.getUserFSLIChange}
 			/>
 		);
 	}
 
-	renderLoadingScreen = () => {
-		const { loading } = this.state;
-		return (
-			<LoadingScreen
-				loading={loading}
-				bgColor="rgba(0,0,0,0.5)"
-				spinnerColor="#edac53"
-				textColor="#676767"
-			>
-				<div />
-			</LoadingScreen>
-		);
-	}
-
-	renderCopyright = () => <Copyright />
-
-	renderLoadbar = () => (
-		<Load
-			getDataFromFirebase={this.getDataFromFirebase}
-			getSavedInput={this.getSavedInput}
-		/>
-	)
-
-	renderSearchBar = () => {
-		const { value, companies } = this.state;
-		return (
-			<Search
-				getValue={this.getValue}
-				handleSubmit={this.handleSubmit}
-				value={value}
-				companies={companies}
-				getUserInput={this.getUserInput}
-			/>
-		);
-	}
-
-	renderHeading = () => <Intro />
-
-	render() {
-		const { searchDone, error } = this.state;
+	renderHomepage = (props) => {
+		const {
+			loading, value, companies, searchDone, error,
+		} = this.state;
 		const resultsAreReady = searchDone && !error;
 		return (
-			<div className="App">
-				<header className="home-page">
-					<div className="home-page-container">
-						{this.renderHeading()}
-						{this.renderSearchBar()}
-						{this.renderLoadbar()}
-					</div>
-					{this.renderCopyright()}
-				</header>
-				{this.renderLoadingScreen()}
-				{resultsAreReady ? this.renderResults() : null}
-			</div>
+			<Homepage
+				value={value}
+				loading={loading}
+				getValue={this.getValue}
+				companies={companies}
+				handleSubmit={this.handleSubmit}
+				getUserInput={this.getUserInput}
+				getSavedInput={this.getSavedInput}
+				resultsAreReady={resultsAreReady}
+				getDataFromFirebase={this.getDataFromFirebase}
+				{...props}
+			/>
+		);
+	}
+
+	render() {
+		return (
+			<Router>
+				<div className="App">
+					<Route exact path="/" render={props => this.renderHomepage(props)} />
+					<Route exact path="/results" render={() => this.renderResults()} />
+				</div>
+			</Router>
 		);
 	}
 }
