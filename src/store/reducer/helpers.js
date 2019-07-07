@@ -22,6 +22,14 @@ const Helpers = {
 		sanitizedProfileData.ticker = ticker;
 		return sanitizedProfileData;
 	},
+	sanitizeFinancialStatementData: (rawIncomeStatementData, rawBalanceSheetData) => ({
+		is: JSON.parse(rawIncomeStatementData.replace(/<pre>/g, '')),
+		bs: JSON.parse(rawBalanceSheetData.replace(/<pre>/g, '')),
+	}),
+	getAvailableFSLIs: (ticker, fsResults) => ({
+		is: _.keys(fsResults.is[ticker]),
+		bs: _.keys(fsResults.bs[ticker]),
+	}),
 };
 
 export default Helpers;

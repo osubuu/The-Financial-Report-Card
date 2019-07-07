@@ -20,13 +20,13 @@ class Homepage extends Component {
 		getAllCompanies();
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate() {
 		const {
-			resultsAreReady, history,
+			getCompanyProfileSuccess,
+			getCompanyFinancialStatementsSuccess,
+			history,
 		} = this.props;
-		const resultsLoaded = !prevProps.resultsAreReady && resultsAreReady;
-		console.log(this.state);
-		console.log(this.props);
+		const resultsLoaded = getCompanyProfileSuccess && getCompanyFinancialStatementsSuccess;
 
 		if (resultsLoaded) history.push('/results');
 	}
@@ -36,12 +36,29 @@ class Homepage extends Component {
 		this.setState({ searchValue: input });
 	};
 
+	/* B3. EVENT HANDLER FOR WHEN USER SUBMITS THEIR SEARCH */
+	handleSubmit = (event) => {
+		event.preventDefault();
+		event.target.reset();
+
+		const { getProfile, getFinancialStatements } = this.props;
+		const { searchValue } = this.state;
+		const requestValue = searchValue.trim().toUpperCase();
+
+		getProfile(requestValue);
+		getFinancialStatements(requestValue);
+
+		this.setState({ searchValue: '' });
+	};
+
 	renderLoadingScreen = () => {
-		const { loading } = this.props;
-		if (loading === undefined) return null;
+		const {
+			getCompanyProfilePending,
+			getCompanyFinancialStatementsPending,
+		} = this.props;
 		return (
 			<LoadingScreen
-				loading={loading}
+				loading={getCompanyProfilePending || getCompanyFinancialStatementsPending}
 				bgColor="rgba(0,0,0,0.5)"
 				spinnerColor="#edac53"
 				textColor="#676767"
@@ -66,14 +83,12 @@ class Homepage extends Component {
 
 
 	renderSearchBar = () => {
-		const {
-			companies, handleSubmit,
-		} = this.props;
+		const { companies } = this.props;
 		const { searchValue } = this.state;
 		return (
 			<Search
 				getValue={this.getSearchValue}
-				handleSubmit={handleSubmit}
+				handleSubmit={this.handleSubmit}
 				value={searchValue}
 				companies={companies}
 			/>
