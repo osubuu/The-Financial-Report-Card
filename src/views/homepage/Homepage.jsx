@@ -8,15 +8,34 @@ import Copyright from './components/Copyright';
 
 
 class Homepage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			searchValue: '',
+		};
+	}
+
+	componentDidMount() {
+		const { getAllCompanies } = this.props;
+		getAllCompanies();
+	}
+
 	componentDidUpdate(prevProps) {
 		const { resultsAreReady, history } = this.props;
 		const resultsLoaded = !prevProps.resultsAreReady && resultsAreReady;
+		console.log(this.state);
 
 		if (resultsLoaded) history.push('/results');
 	}
 
+	/* B2. GET USER INPUT FROM SEARCH BAR */
+	getSearchValue = (input) => {
+		this.setState({ searchValue: input });
+	};
+
 	renderLoadingScreen = () => {
 		const { loading } = this.props;
+		if (loading === undefined) return null;
 		return (
 			<LoadingScreen
 				loading={loading}
@@ -45,15 +64,15 @@ class Homepage extends Component {
 
 	renderSearchBar = () => {
 		const {
-			value, companies, getValue, handleSubmit, getUserInput,
+			companies, handleSubmit,
 		} = this.props;
+		const { searchValue } = this.state;
 		return (
 			<Search
-				getValue={getValue}
+				getValue={this.getSearchValue}
 				handleSubmit={handleSubmit}
-				value={value}
+				value={searchValue}
 				companies={companies}
-				getUserInput={getUserInput}
 			/>
 		);
 	}

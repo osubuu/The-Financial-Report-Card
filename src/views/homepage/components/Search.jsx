@@ -28,7 +28,7 @@ const sortCompanies = (a, b, value) => {
 
 const Search = (props) => {
 	const {
-		handleSubmit, value, companies, getValue, getUserInput,
+		handleSubmit, value, companies, getValue,
 	} = props;
 	return (
 		<form className="search-form" onSubmit={handleSubmit} id="search-bar">
@@ -50,14 +50,8 @@ const Search = (props) => {
 				getItemValue={item => item.ticker}
 				shouldItemRender={matchCompanyToInput}
 				sortItems={sortCompanies}
-				onChange={(event) => {
-					getValue(event.target.value);
-					getUserInput(event.target.value);
-				}}
-				onSelect={(selectValue) => {
-					getUserInput(selectValue);
-					getValue(selectValue);
-				}}
+				onChange={(event) => { getValue(event.target.value); }}
+				onSelect={(selectValue) => { getValue(selectValue); }}
 				renderMenu={children => <ul className="menu">{children}</ul>}
 				renderItem={(item, isHighlighted) => (
 					<li className={`item ${isHighlighted ? 'item-highlighted' : ''}`} key={item.ticker}>
