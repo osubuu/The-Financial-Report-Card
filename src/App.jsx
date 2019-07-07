@@ -9,7 +9,7 @@ import Alerts from './utils/alerts';
 import Scroll from './utils/scroll';
 
 // Views
-import Homepage from './views/homepage/Homepage';
+import Homepage from './views/homepage/Homepage.container';
 import Results from './views/results/Results';
 
 // Styling
@@ -52,23 +52,23 @@ class App extends Component {
 		};
 	}
 
-	async componentDidMount() {
-		const { data: companiesData } = await Requests.getAllCompanies();
-		// get rid of companies that don't have FS. these include tickers that have "." or "-"
-		const regex = RegExp('[.-=]');
-		const validCompanies = _.reduce(companiesData, (acc, company) => {
-			const { symbol, name } = company;
-			if (name && regex.test(symbol) === false) {
-				const companyInfo = {
-					name,
-					ticker: symbol,
-				};
-				return [...acc, companyInfo];
-			}
-			return acc;
-		}, []);
-		this.setState({ companies: validCompanies });
-	}
+	// async componentDidMount() {
+	// 	const { data: companiesData } = await Requests.getAllCompanies();
+	// 	// get rid of companies that don't have FS. these include tickers that have "." or "-"
+	// 	const regex = RegExp('[.-=]');
+	// 	const validCompanies = _.reduce(companiesData, (acc, company) => {
+	// 		const { symbol, name } = company;
+	// 		if (name && regex.test(symbol) === false) {
+	// 			const companyInfo = {
+	// 				name,
+	// 				ticker: symbol,
+	// 			};
+	// 			return [...acc, companyInfo];
+	// 		}
+	// 		return acc;
+	// 	}, []);
+	// 	this.setState({ companies: validCompanies });
+	// }
 
 	/* =====================
   A. FIREBASE METHODS
@@ -147,9 +147,9 @@ class App extends Component {
   ====================== */
 
 	/* B1. SET STATE OF USER INPUT */
-	getUserInput = (input) => {
-		this.setState({ userInput: input.trim().toUpperCase() });
-	};
+	// getUserInput = (input) => {
+	// 	this.setState({ userInput: input.trim().toUpperCase() });
+	// };
 
 	/* B2. GET USER INPUT FROM SEARCH BAR */
 	getValue = (input) => {
@@ -160,8 +160,9 @@ class App extends Component {
 	handleSubmit = async (event) => {
 		event.preventDefault();
 		event.target.reset();
-		const { value, userInput } = this.state;
-		this.getUserInput(value);
+		const { value } = this.state;
+		// this.getUserInput(value);
+		const valueForCall = value.trim().toUpperCase();
 
 		// set default states
 		await this.setState({
@@ -177,7 +178,7 @@ class App extends Component {
 		});
 
 		// Prepare API CALLS
-		this.getData(userInput);
+		this.getData(valueForCall);
 	};
 
 	/* =====================
@@ -345,7 +346,7 @@ class App extends Component {
 				getValue={this.getValue}
 				companies={companies}
 				handleSubmit={this.handleSubmit}
-				getUserInput={this.getUserInput}
+				// getUserInput={this.getUserInput}
 				getSavedInput={this.getSavedInput}
 				resultsAreReady={resultsAreReady}
 				getDataFromFirebase={this.getDataFromFirebase}
@@ -358,7 +359,9 @@ class App extends Component {
 		return (
 			<Router>
 				<div className="App">
-					<Route exact path="/" render={props => this.renderHomepage(props)} />
+					{/* <Route exact path="/" render={props => this.renderHomepage(props)} /> */}
+					<Route exact path="/" component={Homepage} />
+
 					<Route exact path="/results" render={() => this.renderResults()} />
 				</div>
 			</Router>
