@@ -7,7 +7,7 @@ const initialState = {
 		is: {},
 		bs: {},
 	},
-	profileResult: {},
+	profile: {},
 	searchDone: false,
 	availableFSLIs: {
 		is: [],
@@ -25,8 +25,11 @@ const initialState = {
 	status: {
 		getAllCompaniesPending: false,
 		getAllCompaniesSuccess: false,
+		getCompanyProfilePending: false,
+		getCompanyProfileSuccess: false,
 	},
 };
+
 function rootReducer(state = initialState, action) {
 	const { type, payload } = action;
 	switch (type) {
@@ -57,6 +60,36 @@ function rootReducer(state = initialState, action) {
 				status: {
 					getAllCompaniesPending: false,
 					getAllCompaniesSuccess: false,
+				},
+			};
+		}
+		case types.GET_COMPANY_PROFILE_REQUEST: {
+			return {
+				...state,
+				status: {
+					getCompanyProfilePending: true,
+					getCompanyProfileSuccess: false,
+				},
+			};
+		}
+		case types.GET_COMPANY_PROFILE_SUCCESS: {
+			const { profileData, ticker } = payload;
+			const profile = Helpers.sanitizeProfileData(ticker, profileData);
+			return {
+				...state,
+				profile,
+				status: {
+					getCompanyProfilePending: false,
+					getCompanyProfileSuccess: true,
+				},
+			};
+		}
+		case types.GET_COMPANY_PROFILE_FAILURE: {
+			return {
+				...state,
+				status: {
+					getCompanyProfilePending: false,
+					getCompanyProfileSuccess: false,
 				},
 			};
 		}

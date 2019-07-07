@@ -21,9 +21,12 @@ class Homepage extends Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		const { resultsAreReady, history } = this.props;
+		const {
+			resultsAreReady, history,
+		} = this.props;
 		const resultsLoaded = !prevProps.resultsAreReady && resultsAreReady;
 		console.log(this.state);
+		console.log(this.props);
 
 		if (resultsLoaded) history.push('/results');
 	}
