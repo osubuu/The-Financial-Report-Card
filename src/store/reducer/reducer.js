@@ -21,12 +21,13 @@ const initialState = {
 	randomColorPositions: [],
 	saved: false,
 	currentKey: '',
-	loading: false,
 	status: {
 		getAllCompaniesPending: false,
 		getAllCompaniesSuccess: false,
 		getCompanyProfilePending: false,
 		getCompanyProfileSuccess: false,
+		getCompanyFinancialStatementsPending: false,
+		getCompanyFinancialStatementsSuccess: false,
 	},
 };
 
@@ -37,6 +38,7 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				status: {
+					...state.status,
 					getAllCompaniesPending: true,
 					getAllCompaniesSuccess: false,
 				},
@@ -49,6 +51,7 @@ function rootReducer(state = initialState, action) {
 				...state,
 				companies: validCompanies,
 				status: {
+					...state.status,
 					getAllCompaniesPending: false,
 					getAllCompaniesSuccess: true,
 				},
@@ -58,6 +61,7 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				status: {
+					...state.status,
 					getAllCompaniesPending: false,
 					getAllCompaniesSuccess: false,
 				},
@@ -67,6 +71,7 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				status: {
+					...state.status,
 					getCompanyProfilePending: true,
 					getCompanyProfileSuccess: false,
 				},
@@ -79,6 +84,7 @@ function rootReducer(state = initialState, action) {
 				...state,
 				profile,
 				status: {
+					...state.status,
 					getCompanyProfilePending: false,
 					getCompanyProfileSuccess: true,
 				},
@@ -88,8 +94,47 @@ function rootReducer(state = initialState, action) {
 			return {
 				...state,
 				status: {
+					...state.status,
 					getCompanyProfilePending: false,
 					getCompanyProfileSuccess: false,
+				},
+			};
+		}
+		case types.GET_COMPANY_FINANCIAL_STATEMENTS_REQUEST: {
+			return {
+				...state,
+				status: {
+					...state.status,
+					getCompanyFinancialStatementsPending: true,
+					getCompanyFinancialStatementsSuccess: false,
+				},
+			};
+		}
+		case types.GET_COMPANY_FINANCIAL_STATEMENTS_SUCCESS: {
+			const { ticker, incomeStatementData, balanceSheetData } = payload;
+			const fsResults = Helpers.sanitizeFinancialStatementData(
+				incomeStatementData,
+				balanceSheetData,
+			);
+			const availableFSLIs = Helpers.getAvailableFSLIs(ticker, fsResults);
+			return {
+				...state,
+				fsResults,
+				availableFSLIs,
+				status: {
+					...state.status,
+					getCompanyFinancialStatementsPending: false,
+					getCompanyFinancialStatementsSuccess: true,
+				},
+			};
+		}
+		case types.GET_COMPANY_FINANCIAL_STATEMENTS_FAILURE: {
+			return {
+				...state,
+				status: {
+					...state.status,
+					getCompanyFinancialStatementsPending: false,
+					getCompanyFinancialStatementsSuccess: false,
 				},
 			};
 		}

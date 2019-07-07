@@ -25,6 +25,18 @@ const actions = {
 		type: types.GET_COMPANY_PROFILE_FAILURE,
 		payload: { error },
 	}),
+	getCompanyFinancialStatementsRequest: ticker => ({
+		type: types.GET_COMPANY_FINANCIAL_STATEMENTS_REQUEST,
+		payload: { ticker },
+	}),
+	getCompanyFinancialStatementsSuccess: (ticker, incomeStatementData, balanceSheetData) => ({
+		type: types.GET_COMPANY_FINANCIAL_STATEMENTS_SUCCESS,
+		payload: { ticker, incomeStatementData, balanceSheetData },
+	}),
+	getCompanyFinancialStatementsFailure: error => ({
+		type: types.GET_COMPANY_FINANCIAL_STATEMENTS_FAILURE,
+		payload: { error },
+	}),
 };
 
 export default actions;
