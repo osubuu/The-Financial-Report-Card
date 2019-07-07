@@ -17,6 +17,11 @@ const Helpers = {
 		}, []);
 		return validCompanies;
 	},
+	sanitizeProfileData: (ticker, rawProfileData) => {
+		const sanitizedProfileData = JSON.parse(rawProfileData.replace(/<pre>/g, ''))[ticker];
+		sanitizedProfileData.ticker = ticker;
+		return sanitizedProfileData;
+	},
 };
 
 export default Helpers;
