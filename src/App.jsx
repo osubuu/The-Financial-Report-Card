@@ -10,7 +10,7 @@ import Scroll from './utils/scroll';
 
 // Views
 import Homepage from './views/homepage/Homepage.container';
-import Results from './views/results/Results';
+import Results from './views/results/Results.container';
 
 // Styling
 import './App.css';
@@ -334,26 +334,26 @@ class App extends Component {
 		);
 	}
 
-	renderHomepage = (props) => {
-		const {
-			loading, value, companies, searchDone, error,
-		} = this.state;
-		const resultsAreReady = searchDone && !error;
-		return (
-			<Homepage
-				value={value}
-				loading={loading}
-				getValue={this.getValue}
-				companies={companies}
-				handleSubmit={this.handleSubmit}
-				// getUserInput={this.getUserInput}
-				getSavedInput={this.getSavedInput}
-				resultsAreReady={resultsAreReady}
-				getDataFromFirebase={this.getDataFromFirebase}
-				{...props}
-			/>
-		);
-	}
+	// renderHomepage = (props) => {
+	// 	const {
+	// 		loading, value, companies, searchDone, error,
+	// 	} = this.state;
+	// 	const resultsAreReady = searchDone && !error;
+	// 	return (
+	// 		<Homepage
+	// 			value={value}
+	// 			loading={loading}
+	// 			getValue={this.getValue}
+	// 			companies={companies}
+	// 			handleSubmit={this.handleSubmit}
+	// 			// getUserInput={this.getUserInput}
+	// 			getSavedInput={this.getSavedInput}
+	// 			resultsAreReady={resultsAreReady}
+	// 			getDataFromFirebase={this.getDataFromFirebase}
+	// 			{...props}
+	// 		/>
+	// 	);
+	// }
 
 	render() {
 		return (
@@ -361,8 +361,8 @@ class App extends Component {
 				<div className="App">
 					{/* <Route exact path="/" render={props => this.renderHomepage(props)} /> */}
 					<Route exact path="/" component={Homepage} />
-
-					<Route exact path="/results" render={() => this.renderResults()} />
+					{/* <Route exact path="/results" render={() => this.renderResults()} /> */}
+					<Route exact path="/results" component={Results} />
 				</div>
 			</Router>
 		);

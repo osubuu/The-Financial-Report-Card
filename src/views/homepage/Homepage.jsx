@@ -28,6 +28,7 @@ class Homepage extends Component {
 		} = this.props;
 		const resultsLoaded = getCompanyProfileSuccess && getCompanyFinancialStatementsSuccess;
 
+		console.log(this.props);
 		if (resultsLoaded) history.push('/results');
 	}
 
