@@ -8,17 +8,12 @@ const initialState = {
 		bs: {},
 	},
 	profile: {},
-	searchDone: false,
 	availableFSLIs: {
 		is: [],
 		bs: [],
 	},
-	defaultFSLIs: ['Revenue', 'Cost of revenue', 'Net income'],
-	chosenFSLIs: [],
-	chosenFSLIsArr: [],
 	userInput: '',
 	error: false,
-	randomColorPositions: [],
 	saved: false,
 	currentKey: '',
 	status: {
