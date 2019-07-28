@@ -7,6 +7,8 @@ const mapStateToProps = state => ({
 	profile: state.profile,
 	fsResults: state.fsResults,
 	availableFSLIs: state.availableFSLIs,
+	getCompanyProfileSuccess: state.status.getCompanyProfileSuccess,
+	getCompanyFinancialStatementsSuccess: state.status.getCompanyFinancialStatementsSuccess,
 });
 
 const mapDispatchToProps = dispatch => ({
