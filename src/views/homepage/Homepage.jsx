@@ -1,3 +1,4 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import LoadingScreen from 'react-loading-screen';
 
@@ -12,24 +13,35 @@ class Homepage extends Component {
 		super(props);
 		this.state = {
 			searchValue: '',
+			profileReady: false,
+			financialsReady: false,
 		};
 	}
 
 	componentDidMount() {
-		const { getAllCompanies } = this.props;
-		getAllCompanies();
+		const { getAllCompanies, companies } = this.props;
+		if (companies.length === 0) {
+			getAllCompanies();
+		}
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		const {
 			getCompanyProfileSuccess,
 			getCompanyFinancialStatementsSuccess,
 			history,
 		} = this.props;
-		const resultsLoaded = getCompanyProfileSuccess && getCompanyFinancialStatementsSuccess;
+		const { profileReady, financialsReady } = this.state;
+		const profileLoaded = !prevProps.getCompanyProfileSuccess && getCompanyProfileSuccess;
+		const financialsLoaded = !prevProps.getCompanyFinancialStatementsSuccess
+			&& getCompanyFinancialStatementsSuccess;
 
-		console.log(this.props);
-		if (resultsLoaded) history.push('/results');
+		if (profileLoaded) this.setState({ profileReady: true });
+		if (financialsLoaded) this.setState({ financialsReady: true });
+
+		if (profileReady && financialsReady) {
+			history.push('/results');
+		}
 	}
 
 	/* B2. GET USER INPUT FROM SEARCH BAR */
