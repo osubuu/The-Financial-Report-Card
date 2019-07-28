@@ -16,18 +16,22 @@ class Results extends Component {
 	componentDidMount() {
 		const {
 			fsResults, availableFSLIs, profile,
-			getCompanyProfileSuccess, getCompanyFinancialStatementsSuccess,
-			history,
+			companies, history,
 		} = this.props;
 
-		if (!getCompanyProfileSuccess || !getCompanyFinancialStatementsSuccess) {
+		if (_.isEmpty(companies)) {
 			history.push('/');
 		} else {
-			const selectedFSLIs = resultsUtils.determineDefaultFSLIs(fsResults, availableFSLIs);
-			const selectedFSLIsArray = resultsUtils.prepareSelectedFSLisArray(
-				selectedFSLIs, availableFSLIs, fsResults, profile,
-			);
-			this.setState({ selectedFSLIsArray });
+			const fsResultsAvailable = !_.isEmpty(fsResults.is) || !_.isEmpty(fsResults.bs);
+			const fslisAvailable = !_.isEmpty(availableFSLIs.is) || !_.isEmpty(availableFSLIs.bs);
+
+			if (fsResultsAvailable && fslisAvailable) {
+				const selectedFSLIs = resultsUtils.determineDefaultFSLIs(fsResults, availableFSLIs);
+				const selectedFSLIsArray = resultsUtils.prepareSelectedFSLisArray(
+					selectedFSLIs, availableFSLIs, fsResults, profile,
+				);
+				this.setState({ selectedFSLIsArray });
+			}
 		}
 	}
 
