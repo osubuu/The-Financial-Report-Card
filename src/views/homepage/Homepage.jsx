@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import LoadingScreen from 'react-loading-screen';
 
+import Alerts from '../../utils/alerts';
+
 import Search from './components/Search';
 import Load from './components/Load';
 import Intro from './components/Intro';
@@ -27,17 +29,25 @@ class Homepage extends Component {
 
 	componentDidUpdate(prevProps) {
 		const {
+			getCompanyProfilePending,
 			getCompanyProfileSuccess,
 			getCompanyFinancialStatementsSuccess,
 			history,
 		} = this.props;
 		const { profileReady, financialsReady } = this.state;
 		const profileLoaded = !prevProps.getCompanyProfileSuccess && getCompanyProfileSuccess;
+		const profileNotFound = prevProps.getCompanyProfilePending
+			&& !getCompanyProfilePending
+			&& !getCompanyProfileSuccess;
 		const financialsLoaded = !prevProps.getCompanyFinancialStatementsSuccess
 			&& getCompanyFinancialStatementsSuccess;
 
 		if (profileLoaded) this.setState({ profileReady: true });
 		if (financialsLoaded) this.setState({ financialsReady: true });
+		if (profileNotFound) {
+			Alerts.dataNotFound();
+			return;
+		}
 
 		if (profileReady && financialsReady) {
 			history.push('/results');
@@ -57,6 +67,11 @@ class Homepage extends Component {
 		const { getProfile, getFinancialStatements } = this.props;
 		const { searchValue } = this.state;
 		const requestValue = searchValue.trim().toUpperCase();
+
+		if (!requestValue) {
+			Alerts.noTickerSubmitted();
+			return;
+		}
 
 		getProfile(requestValue);
 		getFinancialStatements(requestValue);

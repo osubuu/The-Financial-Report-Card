@@ -65,6 +65,7 @@ function rootReducer(state = initialState, action) {
 		case types.GET_COMPANY_PROFILE_REQUEST: {
 			return {
 				...state,
+				profile: { ...initialState.profile },
 				status: {
 					...state.status,
 					getCompanyProfilePending: true,
@@ -98,6 +99,8 @@ function rootReducer(state = initialState, action) {
 		case types.GET_COMPANY_FINANCIAL_STATEMENTS_REQUEST: {
 			return {
 				...state,
+				fsResults: { ...initialState.fsResults },
+				availableFSLIs: { ...initialState.availableFSLIs },
 				status: {
 					...state.status,
 					getCompanyFinancialStatementsPending: true,

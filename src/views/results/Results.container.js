@@ -4,6 +4,7 @@ import actions from '../../store/reducer/actions';
 import Results from './Results';
 
 const mapStateToProps = state => ({
+	companies: state.companies,
 	profile: state.profile,
 	fsResults: state.fsResults,
 	availableFSLIs: state.availableFSLIs,
