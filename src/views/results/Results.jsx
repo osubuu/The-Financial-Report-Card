@@ -14,12 +14,21 @@ class Results extends Component {
 	}
 
 	componentDidMount() {
-		const { fsResults, availableFSLIs, profile } = this.props;
-		const selectedFSLIs = resultsUtils.determineDefaultFSLIs(fsResults, availableFSLIs);
-		const selectedFSLIsArray = resultsUtils.prepareSelectedFSLisArray(
-			selectedFSLIs, availableFSLIs, fsResults, profile,
-		);
-		this.setState({ selectedFSLIsArray });
+		const {
+			fsResults, availableFSLIs, profile,
+			getCompanyProfileSuccess, getCompanyFinancialStatementsSuccess,
+			history,
+		} = this.props;
+
+		if (!getCompanyProfileSuccess || !getCompanyFinancialStatementsSuccess) {
+			history.push('/');
+		} else {
+			const selectedFSLIs = resultsUtils.determineDefaultFSLIs(fsResults, availableFSLIs);
+			const selectedFSLIsArray = resultsUtils.prepareSelectedFSLisArray(
+				selectedFSLIs, availableFSLIs, fsResults, profile,
+			);
+			this.setState({ selectedFSLIsArray });
+		}
 	}
 
 	/* E1. LISTEN FOR ANY USER CHANGES IN THE SELECT TAGS FOR ANY OF THE 3 FSLIS */
