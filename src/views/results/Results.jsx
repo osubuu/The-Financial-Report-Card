@@ -19,10 +19,12 @@ class Results extends Component {
 	componentDidMount() {
 		const {
 			fsResults, availableFSLIs, profile,
-			companies, history,
+			companies, history, match,
+			getSnapshot,
 		} = this.props;
-
-		if (_.isEmpty(companies)) {
+		if (match.params.key) {
+			getSnapshot(match.params.key);
+		} else if (_.isEmpty(companies)) {
 			history.push('/');
 		} else {
 			const fsResultsAvailable = !_.isEmpty(fsResults.is) || !_.isEmpty(fsResults.bs);
