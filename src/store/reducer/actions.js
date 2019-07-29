@@ -41,9 +41,9 @@ const actions = {
 		type: types.SAVE_SNAPSHOT_REQUEST,
 		payload: { selectedFSLIs },
 	}),
-	saveSnapshotSuccess: () => ({
+	saveSnapshotSuccess: currentKey => ({
 		type: types.SAVE_SNAPSHOT_SUCCESS,
-		payload: {},
+		payload: { currentKey },
 	}),
 	saveSnapshotFailure: error => ({
 		type: types.SAVE_SNAPSHOT_FAILURE,
