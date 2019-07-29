@@ -11,8 +11,7 @@ export default function* saveSnapshot(action) {
 	const state = yield select();
 
 	const data = {
-		fsResults: JSON.stringify(state.fsResults),
-		ticker: state.profile.ticker,
+		fsResults: state.fsResults,
 		selectedFSLIs,
 		profile: state.profile,
 		availableFSLIs: state.availableFSLIs,
