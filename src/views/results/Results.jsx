@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
+
+import Alerts from '../../utils/alerts';
+
 import FinancialStatementResults from './components/FinancialStatementResults';
 import CompanyProfile from './components/CompanyProfile';
 
@@ -32,6 +35,17 @@ class Results extends Component {
 				);
 				this.setState({ selectedFSLIsArray });
 			}
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		const { saveSnapshotSuccess, currentKey } = this.props;
+
+		const snapshotLoaded = !prevProps.saveSnapshotSuccess && saveSnapshotSuccess;
+
+		if (snapshotLoaded) {
+			const url = `${window.location.origin}/${currentKey}`;
+			Alerts.snapshotKeyCreated(url);
 		}
 	}
 
