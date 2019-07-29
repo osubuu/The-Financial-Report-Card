@@ -13,8 +13,6 @@ const initialState = {
 		bs: [],
 	},
 	userInput: '',
-	error: false,
-	saved: false,
 	currentKey: '',
 	status: {
 		getAllCompaniesPending: false,
@@ -23,6 +21,8 @@ const initialState = {
 		getCompanyProfileSuccess: false,
 		getCompanyFinancialStatementsPending: false,
 		getCompanyFinancialStatementsSuccess: false,
+		saveSnapshotPending: false,
+		saveSnapshotSuccess: false,
 	},
 };
 
@@ -133,6 +133,36 @@ function rootReducer(state = initialState, action) {
 					...state.status,
 					getCompanyFinancialStatementsPending: false,
 					getCompanyFinancialStatementsSuccess: false,
+				},
+			};
+		}
+		case types.SAVE_SNAPSHOT_REQUEST: {
+			return {
+				...state,
+				status: {
+					...state.status,
+					saveSnapshotPending: true,
+					saveSnapshotSuccess: false,
+				},
+			};
+		}
+		case types.SAVE_SNAPSHOT_SUCCESS: {
+			return {
+				...state,
+				status: {
+					...state.status,
+					saveSnapshotPending: false,
+					saveSnapshotSuccess: true,
+				},
+			};
+		}
+		case types.SAVE_SNAPSHOT_FAILURE: {
+			return {
+				...state,
+				status: {
+					...state.status,
+					saveSnapshotPending: false,
+					saveSnapshotSuccess: false,
 				},
 			};
 		}

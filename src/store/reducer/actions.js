@@ -37,6 +37,18 @@ const actions = {
 		type: types.GET_COMPANY_FINANCIAL_STATEMENTS_FAILURE,
 		payload: { error },
 	}),
+	saveSnapshotRequest: selectedFSLIs => ({
+		type: types.SAVE_SNAPSHOT_REQUEST,
+		payload: { selectedFSLIs },
+	}),
+	saveSnapshotSuccess: () => ({
+		type: types.SAVE_SNAPSHOT_SUCCESS,
+		payload: {},
+	}),
+	saveSnapshotFailure: error => ({
+		type: types.SAVE_SNAPSHOT_FAILURE,
+		payload: { error },
+	}),
 };
 
 export default actions;
