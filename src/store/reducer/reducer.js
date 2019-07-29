@@ -147,8 +147,10 @@ function rootReducer(state = initialState, action) {
 			};
 		}
 		case types.SAVE_SNAPSHOT_SUCCESS: {
+			const { currentKey } = payload;
 			return {
 				...state,
+				currentKey,
 				status: {
 					...state.status,
 					saveSnapshotPending: false,

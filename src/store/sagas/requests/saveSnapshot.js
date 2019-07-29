@@ -21,7 +21,7 @@ export default function* saveSnapshot(action) {
 		const postKey = state.currentKey || dbRef.child('saves').push().key;
 		const updateData = { [`/saves/${postKey}`]: data };
 		yield dbRef.update(updateData);
-		yield put(actions.saveSnapshotSuccess());
+		yield put(actions.saveSnapshotSuccess(postKey));
 	} catch (e) {
 		yield put(actions.saveSnapshotFailure(e));
 	}
