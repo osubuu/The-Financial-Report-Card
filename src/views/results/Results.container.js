@@ -17,6 +17,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
 	saveSnapshot: data => dispatch(actions.saveSnapshotRequest(data)),
+	getSnapshot: currentKey => dispatch(actions.getSnapshotRequest(currentKey)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Results);

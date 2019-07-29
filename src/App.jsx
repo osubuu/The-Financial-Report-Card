@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import _ from 'lodash';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 // Utils
 import Utils from './utils/utils';
-import Requests from './utils/requests';
 import Alerts from './utils/alerts';
 import Scroll from './utils/scroll';
 
@@ -175,6 +173,7 @@ class App extends Component {
 				<div className="App">
 					<Route exact path="/" component={Homepage} />
 					<Route exact path="/results" component={Results} />
+					<Route exact path="/results/:key" component={Results} />
 				</div>
 			</Router>
 		);
