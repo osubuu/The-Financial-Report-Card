@@ -12,6 +12,7 @@ const initialState = {
 		is: [],
 		bs: [],
 	},
+	selectedFSLIs: [],
 	userInput: '',
 	currentKey: '',
 	status: {
@@ -23,6 +24,8 @@ const initialState = {
 		getCompanyFinancialStatementsSuccess: false,
 		saveSnapshotPending: false,
 		saveSnapshotSuccess: false,
+		getSnapshotPending: false,
+		getSnapshotSuccess: false,
 	},
 };
 
@@ -165,6 +168,41 @@ function rootReducer(state = initialState, action) {
 					...state.status,
 					saveSnapshotPending: false,
 					saveSnapshotSuccess: false,
+				},
+			};
+		}
+		case types.GET_SNAPSHOT_REQUEST: {
+			return {
+				...state,
+				status: {
+					...state.status,
+					getSnapshotPending: true,
+					getSnapshotSuccess: false,
+				},
+			};
+		}
+		case types.GET_SNAPSHOT_SUCCESS: {
+			const { data } = payload;
+			return {
+				...state,
+				fsResults: data.fsResults,
+				profile: data.profile,
+				availableFSLIs: data.availableFSLIs,
+				selectedFSLIs: data.selectedFSLIs,
+				status: {
+					...state.status,
+					getSnapshotPending: false,
+					getSnapshotSuccess: true,
+				},
+			};
+		}
+		case types.GET_SNAPSHOT_FAILURE: {
+			return {
+				...state,
+				status: {
+					...state.status,
+					getSnapshotPending: false,
+					getSnapshotSuccess: false,
 				},
 			};
 		}

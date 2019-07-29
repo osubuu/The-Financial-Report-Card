@@ -49,6 +49,18 @@ const actions = {
 		type: types.SAVE_SNAPSHOT_FAILURE,
 		payload: { error },
 	}),
+	getSnapshotRequest: currentKey => ({
+		type: types.GET_SNAPSHOT_REQUEST,
+		payload: { currentKey },
+	}),
+	getSnapshotSuccess: data => ({
+		type: types.GET_SNAPSHOT_SUCCESS,
+		payload: { data },
+	}),
+	getSnapshotFailure: error => ({
+		type: types.GET_SNAPSHOT_FAILURE,
+		payload: { error },
+	}),
 };
 
 export default actions;
