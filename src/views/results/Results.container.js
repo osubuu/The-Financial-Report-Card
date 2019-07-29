@@ -8,8 +8,11 @@ const mapStateToProps = state => ({
 	profile: state.profile,
 	fsResults: state.fsResults,
 	availableFSLIs: state.availableFSLIs,
+	currentKey: state.currentKey,
 	getCompanyProfileSuccess: state.status.getCompanyProfileSuccess,
 	getCompanyFinancialStatementsSuccess: state.status.getCompanyFinancialStatementsSuccess,
+	saveSnapshotPending: state.status.saveSnapshotPending,
+	saveSnapshotSuccess: state.status.saveSnapshotSuccess,
 });
 
 const mapDispatchToProps = dispatch => ({
