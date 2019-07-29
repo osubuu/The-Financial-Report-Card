@@ -35,7 +35,12 @@ class Results extends Component {
 		}
 	}
 
-	/* E1. LISTEN FOR ANY USER CHANGES IN THE SELECT TAGS FOR ANY OF THE 3 FSLIS */
+	handleSaveSnapshot = () => {
+		const { saveSnapshot } = this.props;
+		const { selectedFSLIsArray } = this.state;
+		saveSnapshot(selectedFSLIsArray);
+	};
+
 	getUserFSLIChange = async (event, index) => {
 		const { fsResults, availableFSLIs, profile } = this.props;
 		const { selectedFSLIsArray } = this.state;
@@ -63,8 +68,7 @@ class Results extends Component {
 				) : (
 					<CompanyProfile
 						profileResult={profile}
-						// error={error}
-						// saveToFirebase={saveToFirebase}
+						saveToFirebase={this.handleSaveSnapshot}
 					/>
 				)}
 
@@ -78,9 +82,7 @@ class Results extends Component {
 					<FinancialStatementResults
 						chosenResults={selectedFSLIsArray}
 						companyName={profile.companyName}
-						// error={error}
 						colorPos={colorPos}
-						// searchDone={searchDone}
 						availableFSLIs={availableFSLIs}
 						getUserFSLIChange={this.getUserFSLIChange}
 					/>

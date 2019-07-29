@@ -13,9 +13,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-	// getAllCompanies: () => dispatch(actions.getAllCompaniesRequest()),
-	// getProfile: ticker => dispatch(actions.getCompanyProfileRequest(ticker)),
-	// getFinancialStatements: ticker => dispatch(actions.getCompanyFinancialStatementsRequest(ticker)),
+	saveSnapshot: data => dispatch(actions.saveSnapshotRequest(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Results);
