@@ -1,6 +1,5 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
-import LoadingScreen from 'react-loading-screen';
 import _ from 'lodash';
 
 import Alerts from '../../utils/alerts';
@@ -8,6 +7,7 @@ import Alerts from '../../utils/alerts';
 import FinancialStatementResults from './components/FinancialStatementResults';
 import CompanyProfile from './components/CompanyProfile';
 import resultsUtils from './resultsUtils';
+import Loader from '../shared/Loader';
 
 class Results extends Component {
 	constructor(props) {
@@ -78,16 +78,7 @@ class Results extends Component {
 
 	renderLoadingScreen = () => {
 		const { getSnapshotPending } = this.props;
-		return (
-			<LoadingScreen
-				loading={getSnapshotPending}
-				bgColor="rgba(0,0,0,0.5)"
-				spinnerColor="#edac53"
-				textColor="#676767"
-			>
-				<div />
-			</LoadingScreen>
-		);
+		return <Loader condition={getSnapshotPending} />;
 	}
 
 	renderFinancialStatements = () => {
