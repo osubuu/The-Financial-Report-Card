@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import Alerts from '../../utils/alerts';
 
 import Search from './components/Search';
-import Load from './components/Load';
 import Intro from './components/Intro';
 import Copyright from './components/Copyright';
 import Loader from '../shared/Loader';
@@ -42,8 +41,14 @@ class Homepage extends Component {
 		const financialsLoaded = !prevProps.getCompanyFinancialStatementsSuccess
 			&& getCompanyFinancialStatementsSuccess;
 
-		if (profileLoaded) this.setState({ profileReady: true });
-		if (financialsLoaded) this.setState({ financialsReady: true });
+		if (profileLoaded) {
+			this.setState({ profileReady: true });
+		}
+
+		if (financialsLoaded) {
+			this.setState({ financialsReady: true });
+		}
+
 		if (profileNotFound) {
 			Alerts.dataNotFound();
 			return;
@@ -54,12 +59,10 @@ class Homepage extends Component {
 		}
 	}
 
-	/* B2. GET USER INPUT FROM SEARCH BAR */
 	getSearchValue = (input) => {
 		this.setState({ searchValue: input });
 	};
 
-	/* B3. EVENT HANDLER FOR WHEN USER SUBMITS THEIR SEARCH */
 	handleSubmit = (event) => {
 		event.preventDefault();
 		event.target.reset();
@@ -91,19 +94,7 @@ class Homepage extends Component {
 		);
 	}
 
-
 	renderCopyright = () => <Copyright />
-
-	renderLoadbar = () => {
-		const { getDataFromFirebase, getSavedInput } = this.props;
-		return (
-			<Load
-				getDataFromFirebase={getDataFromFirebase}
-				getSavedInput={getSavedInput}
-			/>
-		);
-	}
-
 
 	renderSearchBar = () => {
 		const { companies } = this.props;
@@ -118,7 +109,6 @@ class Homepage extends Component {
 		);
 	}
 
-
 	renderHeading = () => <Intro />
 
 	render() {
@@ -127,7 +117,6 @@ class Homepage extends Component {
 				<div className="home-page-container">
 					{this.renderHeading()}
 					{this.renderSearchBar()}
-					{this.renderLoadbar()}
 				</div>
 				{this.renderCopyright()}
 				{this.renderLoadingScreen()}
