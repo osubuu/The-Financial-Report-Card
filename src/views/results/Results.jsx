@@ -60,7 +60,7 @@ class Results extends Component {
 
 		if (snapshotSaved) {
 			const url = `${window.location.origin}/results/${currentKey}`;
-			Alerts.snapshotKeyCreated(url);
+			Alerts.snapshotUrlCreated(url);
 		}
 
 		if (snapshotLoaded) {
@@ -68,7 +68,7 @@ class Results extends Component {
 		}
 
 		if (snapshotFailedToLoad) {
-			Alerts.wrongSnapshotKey();
+			Alerts.wrongSnapshotUrl();
 		}
 	}
 

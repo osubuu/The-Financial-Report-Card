@@ -45,7 +45,7 @@
   color: $color-1;
   transition: 0.2s;
   background-color: $color-2;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
   padding: 0.5rem 2rem;
   border: 1px solid $color-1;
   border-radius: 7px;
@@ -187,7 +187,7 @@
 /* COPYRIGHT */
 .copyright-container {
   position: absolute;
-  color: gray;
+  color: #ccc9c9;
   width: 100%;
   bottom: 2.5%;
   margin: 0;
@@ -201,7 +201,7 @@
 
 .portfolio-link:visited,
 .portfolio-link:link {
-  color: gray;
+  color: #ccc9c9;
   text-decoration: none;
   transition: 0.2s;
 }

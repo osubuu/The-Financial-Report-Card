@@ -270,7 +270,7 @@ a:hover {
   color: #282828;
   transition: 0.2s;
   background-color: #f5f5f5;
-  margin-top: 2.5rem;
+  margin-top: 3rem;
   padding: 0.5rem 2rem;
   border: 1px solid #282828;
   border-radius: 7px; }
@@ -378,7 +378,7 @@ a:hover {
 /* COPYRIGHT */
 .copyright-container {
   position: absolute;
-  color: gray;
+  color: #ccc9c9;
   width: 100%;
   bottom: 2.5%;
   margin: 0;
@@ -389,7 +389,7 @@ a:hover {
 
 .portfolio-link:visited,
 .portfolio-link:link {
-  color: gray;
+  color: #ccc9c9;
   text-decoration: none;
   transition: 0.2s; }
 
@@ -452,7 +452,7 @@ a:hover {
   text-align: right;
   font-weight: 400; }
 
-.save-button {
+.share-button {
   font-size: 150%;
   padding: 2rem;
   border: 1px solid #282828;
@@ -460,12 +460,12 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center; }
-  .save-button:hover {
+  .share-button:hover {
     color: #edac53;
     border-color: #f5f5f5;
     background-color: #4b4d51;
     transition: 0.2s; }
-  .save-button h5 {
+  .share-button h5 {
     margin: 0;
     font-weight: 400; }
 
@@ -582,7 +582,7 @@ a:hover {
 @media all and (max-height: 575px) {
   .menu {
     max-height: 150px; }
-  .save-button {
+  .share-button {
     padding: 0.5rem; } }
 
 @media all and (max-width: 1000px) {
@@ -665,7 +665,7 @@ a:hover {
   .company-profile {
     height: 7.5%;
     padding: 1rem; }
-  .save-button {
+  .share-button {
     padding: 0; }
   .profile-general-sec-1 {
     width: 100%;
@@ -791,7 +791,7 @@ a:hover {
     width: 100%; }
   .company-profile .company-ticker {
     margin-left: 0.5rem; }
-  .save-button {
+  .share-button {
     width: 80%;
     font-size: 1.2rem; }
   .raw-results-container {

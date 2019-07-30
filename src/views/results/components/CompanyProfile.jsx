@@ -47,8 +47,8 @@ const CompanyProfile = (props) => {
 				</h6>
 			</div>
 
-			<button type="button" className="save-button" onClick={saveToFirebase}>
-				<h5>SAVE CURRENT SNAPSHOT</h5>
+			<button type="button" className="share-button" onClick={saveToFirebase}>
+				<h5>SHARE SNAPSHOT</h5>
 			</button>
 		</section>
 	);
