@@ -13,7 +13,6 @@ const initialState = {
 		bs: [],
 	},
 	selectedFSLIs: [],
-	userInput: '',
 	currentKey: '',
 	status: {
 		getAllCompaniesPending: false,
