@@ -80,7 +80,11 @@ class Homepage extends Component {
 		getProfile(requestValue);
 		getFinancialStatements(requestValue);
 
-		this.setState({ searchValue: '' });
+		this.setState({
+			searchValue: '',
+			profileReady: false,
+			financialsReady: false,
+		});
 	};
 
 	renderLoadingScreen = () => {
