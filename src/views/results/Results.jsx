@@ -59,7 +59,7 @@ class Results extends Component {
 			&& !getSnapshotSuccess;
 
 		if (snapshotSaved) {
-			const url = `${window.location.origin}/results/${currentKey}`;
+			const url = `${window.location.href}results/${currentKey}`;
 			Alerts.snapshotUrlCreated(url);
 		}
 
