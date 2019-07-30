@@ -90,9 +90,7 @@ class Homepage extends Component {
 				bgColor="rgba(0,0,0,0.5)"
 				spinnerColor="#edac53"
 				textColor="#676767"
-			>
-				<div />
-			</LoadingScreen>
+			/>
 		);
 	}
 
