@@ -1,18 +1,19 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
+import LoadingScreen from 'react-loading-screen';
 import _ from 'lodash';
 
 import Alerts from '../../utils/alerts';
 
 import FinancialStatementResults from './components/FinancialStatementResults';
 import CompanyProfile from './components/CompanyProfile';
-
 import resultsUtils from './resultsUtils';
 
 class Results extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			selectedFSLIsArray: [],
+			selectedFSLIsData: [],
 		};
 	}
 
@@ -32,77 +33,107 @@ class Results extends Component {
 
 			if (fsResultsAvailable && fslisAvailable) {
 				const selectedFSLIs = resultsUtils.determineDefaultFSLIs(fsResults, availableFSLIs);
-				const selectedFSLIsArray = resultsUtils.prepareSelectedFSLisArray(
+				const selectedFSLIsData = resultsUtils.prepareSelectedFSLisArray(
 					selectedFSLIs, availableFSLIs, fsResults, profile,
 				);
-				this.setState({ selectedFSLIsArray });
+				this.setState({ selectedFSLIsData });
 			}
 		}
 	}
 
 	componentDidUpdate(prevProps) {
-		const { saveSnapshotSuccess, currentKey } = this.props;
+		const {
+			saveSnapshotSuccess, getSnapshotSuccess, currentKey, selectedFSLIs,
+		} = this.props;
 
-		const snapshotLoaded = !prevProps.saveSnapshotSuccess && saveSnapshotSuccess;
+		const snapshotSaved = !prevProps.saveSnapshotSuccess && saveSnapshotSuccess;
+		const snapshotLoaded = !prevProps.getSnapshotSuccess && getSnapshotSuccess;
 
-		if (snapshotLoaded) {
-			const url = `${window.location.origin}/${currentKey}`;
+		if (snapshotSaved) {
+			const url = `${window.location.origin}/results/${currentKey}`;
 			Alerts.snapshotKeyCreated(url);
+		}
+		if (snapshotLoaded) {
+			this.setState({ selectedFSLIsData: selectedFSLIs });
 		}
 	}
 
 	handleSaveSnapshot = () => {
 		const { saveSnapshot } = this.props;
-		const { selectedFSLIsArray } = this.state;
-		saveSnapshot(selectedFSLIsArray);
+		const { selectedFSLIsData } = this.state;
+		saveSnapshot(selectedFSLIsData);
 	};
 
 	getUserFSLIChange = async (event, index) => {
 		const { fsResults, availableFSLIs, profile } = this.props;
-		const { selectedFSLIsArray } = this.state;
+		const { selectedFSLIsData } = this.state;
 
-		const newSelectedFSLIs = _.map(selectedFSLIsArray, item => item.fsli);
+		const newSelectedFSLIs = _.map(selectedFSLIsData, item => item.fsli);
 		newSelectedFSLIs[index] = event.target.value;
 		const newSelectedFSLIsArray = resultsUtils.prepareSelectedFSLisArray(
 			newSelectedFSLIs, availableFSLIs, fsResults, profile,
 		);
-		this.setState({ selectedFSLIsArray: newSelectedFSLIsArray });
+		this.setState({ selectedFSLIsData: newSelectedFSLIsArray });
 	};
 
-	render() {
+	renderLoadingScreen = () => {
+		const { getSnapshotPending } = this.props;
+		return (
+			<LoadingScreen
+				loading={getSnapshotPending}
+				bgColor="rgba(0,0,0,0.5)"
+				spinnerColor="#edac53"
+				textColor="#676767"
+			>
+				<div />
+			</LoadingScreen>
+		);
+	}
+
+	renderFinancialStatements = () => {
 		const { availableFSLIs, profile } = this.props;
-		const { selectedFSLIsArray } = this.state;
+		const { selectedFSLIsData } = this.state;
 		const colorPos = resultsUtils.getRandomUniqueNumbers(3, 7);
+
+		return _.isEmpty(selectedFSLIsData) ? (
+			<section className="company-fs">
+				<h4 className="no-results-header" style={{ display: 'block' }}>
+					No Financial Statements Found.
+				</h4>
+			</section>
+		) : (
+			<FinancialStatementResults
+				chosenResults={selectedFSLIsData}
+				companyName={profile.companyName}
+				colorPos={colorPos}
+				availableFSLIs={availableFSLIs}
+				getUserFSLIChange={this.getUserFSLIChange}
+			/>
+		);
+	}
+
+	renderProfile = () => {
+		const { profile } = this.props;
+		return _.isEmpty(profile).length === 0 ? (
+			<section className="company-fs">
+				<h4 className="no-results-header" style={{ display: 'block' }}>
+					No Info On This Company
+				</h4>
+			</section>
+		) : (
+			<CompanyProfile
+				profileResult={profile}
+				saveToFirebase={this.handleSaveSnapshot}
+			/>
+		);
+	}
+
+	render() {
 		return (
 			<section className="results">
-				{_.isEmpty(profile).length === 0 ? (
-					<section className="company-fs">
-						<h4 className="no-results-header" style={{ display: 'block' }}>
-							No Info On This Company
-						</h4>
-					</section>
-				) : (
-					<CompanyProfile
-						profileResult={profile}
-						saveToFirebase={this.handleSaveSnapshot}
-					/>
-				)}
-
-				{_.isEmpty(selectedFSLIsArray) ? (
-					<section className="company-fs">
-						<h4 className="no-results-header" style={{ display: 'block' }}>
-							No Financial Statements Found.
-						</h4>
-					</section>
-				) : (
-					<FinancialStatementResults
-						chosenResults={selectedFSLIsArray}
-						companyName={profile.companyName}
-						colorPos={colorPos}
-						availableFSLIs={availableFSLIs}
-						getUserFSLIChange={this.getUserFSLIChange}
-					/>
-				)}
+				{this.renderProfile()}
+				{this.renderFinancialStatements()}
+				{this.renderLoadingScreen()}
 			</section>
 		);
 	}
