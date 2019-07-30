@@ -1,15 +1,15 @@
 import swal from 'sweetalert2';
 
 const Utils = {
-	wrongSnapshotKey: () => swal({
+	wrongSnapshotUrl: () => swal({
 		type: 'question',
-		title: 'Invalid Key',
-		text: 'You seem to have submitted the wrong key. Please make sure you\'ve included all the characters. Keys begin with "-LL...."',
+		title: 'Invalid Share URL',
+		text: 'The share URL is invalid. Please make sure you\'ve included all the characters and try again.',
 	}),
-	snapshotKeyCreated: key => swal({
+	snapshotUrlCreated: key => swal({
 		type: 'success',
-		title: 'SAVED!',
-		html: `Use the following key to access this exact snapshot again:<br><br><strong>${key}</strong>`,
+		title: 'Share URL Created',
+		html: `Use the following URL to access this snapshot again:<br><br><strong>${key}</strong>`,
 	}),
 	noTickerSubmitted: () => swal({
 		type: 'error',

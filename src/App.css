@@ -253,14 +253,15 @@ a:hover {
 
 .app-name {
   margin: 0;
-  color: whitesmoke;
+  color: #f5f5f5;
   width: 70%;
   margin: 0 auto; }
 
 .app-description {
-  color: whitesmoke;
+  color: #f5f5f5;
   width: 60%;
-  margin: 2.5rem auto; }
+  margin: 3rem auto;
+  line-height: 3.25rem; }
 
 /* AUTOCOMPLETE / SEARCH BAR */
 .search-button {
@@ -268,8 +269,8 @@ a:hover {
   background: none;
   color: #282828;
   transition: 0.2s;
-  background-color: whitesmoke;
-  margin-top: 1rem;
+  background-color: #f5f5f5;
+  margin-top: 3rem;
   padding: 0.5rem 2rem;
   border: 1px solid #282828;
   border-radius: 7px; }
@@ -282,7 +283,7 @@ a:hover {
 .search-button:hover {
   transition: 0.2s;
   background-color: #282828;
-  color: whitesmoke;
+  color: #f5f5f5;
   border-color: #edac53; }
 
 .search-form {
@@ -298,7 +299,7 @@ a:hover {
   width: 100%;
   text-align: center;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid whitesmoke;
+  border-bottom: 1px solid #f5f5f5;
   color: #edac53; }
   #states-autocomplete::placeholder, .load-field::placeholder {
     font-size: 1.6rem;
@@ -319,19 +320,19 @@ a:hover {
   padding-right: 4rem; }
 
 .item {
-  border-left: 1px solid whitesmoke;
-  border-right: 1px solid whitesmoke;
-  border-bottom: 1px dotted whitesmoke;
+  border-left: 1px solid #f5f5f5;
+  border-right: 1px solid #f5f5f5;
+  border-bottom: 1px dotted #f5f5f5;
   background-color: #191919;
   font-size: 0.9rem;
-  color: whitesmoke;
+  color: #f5f5f5;
   list-style: none;
   display: flex;
   justify-content: space-around; }
   .item:first-child {
-    border-top: 1px solid whitesmoke; }
+    border-top: 1px solid #f5f5f5; }
   .item:last-child {
-    border-bottom: 1px solid whitesmoke; }
+    border-bottom: 1px solid #f5f5f5; }
   .item .item-name,
   .item .item-ticker {
     margin: 0;
@@ -348,7 +349,7 @@ a:hover {
 
 /* LOADING BAR */
 .loading-description {
-  color: whitesmoke; }
+  color: #f5f5f5; }
 
 .loading-form {
   position: relative; }
@@ -362,7 +363,7 @@ a:hover {
   font-size: 1.6rem; }
 
 .load-button {
-  color: whitesmoke;
+  color: #f5f5f5;
   background: none;
   font-size: 2.5rem;
   position: absolute;
@@ -377,9 +378,9 @@ a:hover {
 /* COPYRIGHT */
 .copyright-container {
   position: absolute;
-  color: gray;
+  color: #ccc9c9;
   width: 100%;
-  bottom: 0;
+  bottom: 2.5%;
   margin: 0;
   padding: 1rem; }
   .copyright-container .copyright {
@@ -388,7 +389,7 @@ a:hover {
 
 .portfolio-link:visited,
 .portfolio-link:link {
-  color: gray;
+  color: #ccc9c9;
   text-decoration: none;
   transition: 0.2s; }
 
@@ -410,7 +411,7 @@ a:hover {
   padding: 2rem;
   text-align: left;
   background-color: #4b4d51;
-  color: whitesmoke; }
+  color: #f5f5f5; }
   .company-profile h3 {
     margin-bottom: 0; }
   .company-profile h5 {
@@ -428,7 +429,7 @@ a:hover {
 
 .company-ticker {
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid whitesmoke; }
+  border-bottom: 1px solid #f5f5f5; }
 
 .company-ticker,
 .company-sector,
@@ -451,7 +452,7 @@ a:hover {
   text-align: right;
   font-weight: 400; }
 
-.save-button {
+.share-button {
   font-size: 150%;
   padding: 2rem;
   border: 1px solid #282828;
@@ -459,12 +460,12 @@ a:hover {
   display: flex;
   justify-content: center;
   align-items: center; }
-  .save-button:hover {
+  .share-button:hover {
     color: #edac53;
-    border-color: whitesmoke;
+    border-color: #f5f5f5;
     background-color: #4b4d51;
     transition: 0.2s; }
-  .save-button h5 {
+  .share-button h5 {
     margin: 0;
     font-weight: 400; }
 
@@ -474,7 +475,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   position: relative;
-  background-color: whitesmoke; }
+  background-color: #f5f5f5; }
 
 .no-results-header {
   font-size: 3rem;
@@ -524,7 +525,7 @@ a:hover {
   border-right: 1px solid #282828;
   border-bottom: 1px solid #282828;
   padding: 1rem;
-  background-color: whitesmoke; }
+  background-color: #f5f5f5; }
 
 .currency-explanation,
 .results-title {
@@ -581,7 +582,7 @@ a:hover {
 @media all and (max-height: 575px) {
   .menu {
     max-height: 150px; }
-  .save-button {
+  .share-button {
     padding: 0.5rem; } }
 
 @media all and (max-width: 1000px) {
@@ -664,7 +665,7 @@ a:hover {
   .company-profile {
     height: 7.5%;
     padding: 1rem; }
-  .save-button {
+  .share-button {
     padding: 0; }
   .profile-general-sec-1 {
     width: 100%;
@@ -790,7 +791,7 @@ a:hover {
     width: 100%; }
   .company-profile .company-ticker {
     margin-left: 0.5rem; }
-  .save-button {
+  .share-button {
     width: 80%;
     font-size: 1.2rem; }
   .raw-results-container {

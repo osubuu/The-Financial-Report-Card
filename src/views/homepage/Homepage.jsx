@@ -1,63 +1,114 @@
+/* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
-import LoadingScreen from 'react-loading-screen';
+
+import Alerts from '../../utils/alerts';
 
 import Search from './components/Search';
-import Load from './components/Load';
 import Intro from './components/Intro';
 import Copyright from './components/Copyright';
+import Loader from '../shared/Loader';
 
 
 class Homepage extends Component {
-	componentDidUpdate(prevProps) {
-		const { resultsAreReady, history } = this.props;
-		const resultsLoaded = !prevProps.resultsAreReady && resultsAreReady;
-
-		if (resultsLoaded) history.push('/results');
+	constructor(props) {
+		super(props);
+		this.state = {
+			searchValue: '',
+			profileReady: false,
+			financialsReady: false,
+		};
 	}
+
+	componentDidMount() {
+		const { getAllCompanies, companies } = this.props;
+		if (companies.length === 0) {
+			getAllCompanies();
+		}
+	}
+
+	componentDidUpdate(prevProps) {
+		const {
+			getCompanyProfilePending,
+			getCompanyProfileSuccess,
+			getCompanyFinancialStatementsSuccess,
+			history,
+		} = this.props;
+
+		const { profileReady, financialsReady } = this.state;
+		const profileLoaded = !prevProps.getCompanyProfileSuccess && getCompanyProfileSuccess;
+		const profileNotFound = prevProps.getCompanyProfilePending
+			&& !getCompanyProfilePending
+			&& !getCompanyProfileSuccess;
+		const financialsLoaded = !prevProps.getCompanyFinancialStatementsSuccess
+			&& getCompanyFinancialStatementsSuccess;
+
+		if (profileLoaded) {
+			this.setState({ profileReady: true });
+		}
+
+		if (financialsLoaded) {
+			this.setState({ financialsReady: true });
+		}
+
+		if (profileNotFound) {
+			Alerts.dataNotFound();
+			return;
+		}
+
+		if (profileReady && financialsReady) {
+			history.push('/results');
+		}
+	}
+
+	getSearchValue = (input) => {
+		this.setState({ searchValue: input });
+	};
+
+	handleSubmit = (event) => {
+		event.preventDefault();
+		event.target.reset();
+
+		const { getProfile, getFinancialStatements } = this.props;
+		const { searchValue } = this.state;
+		const requestValue = searchValue.trim().toUpperCase();
+
+		if (!requestValue) {
+			Alerts.noTickerSubmitted();
+			return;
+		}
+
+		getProfile(requestValue);
+		getFinancialStatements(requestValue);
+
+		this.setState({ searchValue: '' });
+	};
 
 	renderLoadingScreen = () => {
-		const { loading } = this.props;
+		const {
+			getCompanyProfilePending,
+			getCompanyFinancialStatementsPending,
+		} = this.props;
 		return (
-			<LoadingScreen
-				loading={loading}
-				bgColor="rgba(0,0,0,0.5)"
-				spinnerColor="#edac53"
-				textColor="#676767"
-			>
-				<div />
-			</LoadingScreen>
+			<Loader
+				condition={getCompanyProfilePending || getCompanyFinancialStatementsPending}
+			/>
 		);
 	}
-
 
 	renderCopyright = () => <Copyright />
 
-	renderLoadbar = () => {
-		const { getDataFromFirebase, getSavedInput } = this.props;
-		return (
-			<Load
-				getDataFromFirebase={getDataFromFirebase}
-				getSavedInput={getSavedInput}
-			/>
-		);
-	}
-
-
 	renderSearchBar = () => {
-		const {
-			value, companies, getValue, handleSubmit, getUserInput,
-		} = this.props;
+		const { companies } = this.props;
+		const { searchValue } = this.state;
 		return (
 			<Search
-				getValue={getValue}
-				handleSubmit={handleSubmit}
-				value={value}
+				getValue={this.getSearchValue}
+				handleSubmit={this.handleSubmit}
+				value={searchValue}
 				companies={companies}
-				getUserInput={getUserInput}
 			/>
 		);
 	}
-
 
 	renderHeading = () => <Intro />
 
@@ -67,7 +118,6 @@ class Homepage extends Component {
 				<div className="home-page-container">
 					{this.renderHeading()}
 					{this.renderSearchBar()}
-					{this.renderLoadbar()}
 				</div>
 				{this.renderCopyright()}
 				{this.renderLoadingScreen()}
