@@ -6,7 +6,7 @@ import Alerts from '../../utils/alerts';
 
 import FinancialStatementResults from './components/FinancialStatementResults';
 import CompanyProfile from './components/CompanyProfile';
-import resultsUtils from './resultsUtils';
+import ResultsUtils from './resultsUtils';
 import Loader from '../shared/Loader';
 
 class Results extends Component {
@@ -14,7 +14,7 @@ class Results extends Component {
 		super(props);
 		this.state = {
 			selectedFSLIsData: [],
-			colors: resultsUtils.getRandomUniqueNumbers(3, 7),
+			colors: ResultsUtils.getRandomUniqueNumbers(3, 7),
 		};
 	}
 
@@ -37,8 +37,8 @@ class Results extends Component {
 			const fslisAvailable = !_.isEmpty(availableFSLIs.is) || !_.isEmpty(availableFSLIs.bs);
 
 			if (fsResultsAvailable && fslisAvailable) {
-				const selectedFSLIs = resultsUtils.determineDefaultFSLIs(fsResults, availableFSLIs);
-				const selectedFSLIsData = resultsUtils.prepareSelectedFSLisArray(
+				const selectedFSLIs = ResultsUtils.determineDefaultFSLIs(fsResults, availableFSLIs);
+				const selectedFSLIsData = ResultsUtils.prepareSelectedFSLisArray(
 					selectedFSLIs, availableFSLIs, fsResults, profile,
 				);
 				this.setState({ selectedFSLIsData });
@@ -84,7 +84,7 @@ class Results extends Component {
 
 		const newSelectedFSLIs = _.map(selectedFSLIsData, item => item.fsli);
 		newSelectedFSLIs[index] = event.target.value;
-		const newSelectedFSLIsArray = resultsUtils.prepareSelectedFSLisArray(
+		const newSelectedFSLIsArray = ResultsUtils.prepareSelectedFSLisArray(
 			newSelectedFSLIs, availableFSLIs, fsResults, profile,
 		);
 		this.setState({ selectedFSLIsData: newSelectedFSLIsArray });
