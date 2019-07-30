@@ -49,10 +49,14 @@ class Results extends Component {
 	componentDidUpdate(prevProps) {
 		const {
 			saveSnapshotSuccess, getSnapshotSuccess, currentKey, selectedFSLIs,
+			getSnapshotPending,
 		} = this.props;
 
 		const snapshotSaved = !prevProps.saveSnapshotSuccess && saveSnapshotSuccess;
 		const snapshotLoaded = !prevProps.getSnapshotSuccess && getSnapshotSuccess;
+		const snapshotFailedToLoad = prevProps.getSnapshotPending
+			&& !getSnapshotPending
+			&& !getSnapshotSuccess;
 
 		if (snapshotSaved) {
 			const url = `${window.location.origin}/results/${currentKey}`;
@@ -61,6 +65,10 @@ class Results extends Component {
 
 		if (snapshotLoaded) {
 			this.setState({ selectedFSLIsData: selectedFSLIs });
+		}
+
+		if (snapshotFailedToLoad) {
+			Alerts.wrongSnapshotKey();
 		}
 	}
 
