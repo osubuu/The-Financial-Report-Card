@@ -91,14 +91,14 @@ class Results extends Component {
 	}
 
 	renderFinancialStatements = () => {
-		const { availableFSLIs, profile } = this.props;
+		const { availableFSLIs, profile, getSnapshotPending } = this.props;
 		const { selectedFSLIsData } = this.state;
 		const colorPos = resultsUtils.getRandomUniqueNumbers(3, 7);
 
 		return _.isEmpty(selectedFSLIsData) ? (
 			<section className="company-fs">
 				<h4 className="no-results-header" style={{ display: 'block' }}>
-					No Financial Statements Found.
+					{getSnapshotPending ? '' : 'No Financial Statements Found.'}
 				</h4>
 			</section>
 		) : (
@@ -114,18 +114,14 @@ class Results extends Component {
 
 	renderProfile = () => {
 		const { profile } = this.props;
-		return _.isEmpty(profile).length === 0 ? (
-			<section className="company-fs">
-				<h4 className="no-results-header" style={{ display: 'block' }}>
-					No Info On This Company
-				</h4>
-			</section>
-		) : (
-			<CompanyProfile
-				profileResult={profile}
-				saveToFirebase={this.handleSaveSnapshot}
-			/>
-		);
+		return _.isEmpty(profile)
+			? <section className="company-profile" />
+			: (
+				<CompanyProfile
+					profileResult={profile}
+					saveToFirebase={this.handleSaveSnapshot}
+				/>
+			);
 	}
 
 	render() {
