@@ -33,7 +33,8 @@
 .app-description {
   color: $color-2;
   width: 60%;
-  margin: 2.5rem auto;
+  margin: 3rem auto;
+  line-height: 3.25rem;
 }
 
 /* AUTOCOMPLETE / SEARCH BAR */
@@ -44,7 +45,7 @@
   color: $color-1;
   transition: 0.2s;
   background-color: $color-2;
-  margin-top: 1rem;
+  margin-top: 2.5rem;
   padding: 0.5rem 2rem;
   border: 1px solid $color-1;
   border-radius: 7px;
@@ -188,7 +189,7 @@
   position: absolute;
   color: gray;
   width: 100%;
-  bottom: 0;
+  bottom: 2.5%;
   margin: 0;
   padding: 1rem;
 
