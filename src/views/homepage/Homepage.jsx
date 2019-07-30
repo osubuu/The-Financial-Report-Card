@@ -33,6 +33,7 @@ class Homepage extends Component {
 			getCompanyFinancialStatementsSuccess,
 			history,
 		} = this.props;
+
 		const { profileReady, financialsReady } = this.state;
 		const profileLoaded = !prevProps.getCompanyProfileSuccess && getCompanyProfileSuccess;
 		const profileNotFound = prevProps.getCompanyProfilePending
