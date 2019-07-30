@@ -38,7 +38,6 @@
     "react-loading-screen": "0.0.17",
     "react-router-dom": "^5.0.1",
     "redux-saga": "^1.0.5",
-    "scroll-to-element": "^2.0.3",
     "sweetalert2": "^7.33.1"
   }
 }

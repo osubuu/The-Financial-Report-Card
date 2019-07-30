@@ -12,10 +12,9 @@ import Loader from '../shared/Loader';
 class Results extends Component {
 	constructor(props) {
 		super(props);
-		const colors = resultsUtils.getRandomUniqueNumbers(3, 7);
 		this.state = {
 			selectedFSLIsData: [],
-			colors,
+			colors: resultsUtils.getRandomUniqueNumbers(3, 7),
 		};
 	}
 
@@ -25,11 +24,15 @@ class Results extends Component {
 			companies, history, match,
 			getSnapshot,
 		} = this.props;
+
 		if (match.params.key) {
+			// load snapshot if user arrives from share URL
 			getSnapshot(match.params.key);
 		} else if (_.isEmpty(companies)) {
+			// push user back to homepage if they did not come from a share URL
 			history.push('/');
 		} else {
+			// user was brought here from homepage
 			const fsResultsAvailable = !_.isEmpty(fsResults.is) || !_.isEmpty(fsResults.bs);
 			const fslisAvailable = !_.isEmpty(availableFSLIs.is) || !_.isEmpty(availableFSLIs.bs);
 
@@ -55,6 +58,7 @@ class Results extends Component {
 			const url = `${window.location.origin}/results/${currentKey}`;
 			Alerts.snapshotKeyCreated(url);
 		}
+
 		if (snapshotLoaded) {
 			this.setState({ selectedFSLIsData: selectedFSLIs });
 		}
@@ -87,13 +91,14 @@ class Results extends Component {
 		const { availableFSLIs, profile, getSnapshotPending } = this.props;
 		const { selectedFSLIsData, colors } = this.state;
 
-		return _.isEmpty(selectedFSLIsData) ? (
+		const fallback = (
 			<section className="company-fs">
 				<h4 className="no-results-header" style={{ display: 'block' }}>
 					{getSnapshotPending ? '' : 'No Financial Statements Found.'}
 				</h4>
 			</section>
-		) : (
+		);
+		const results = (
 			<FinancialStatementResults
 				chosenResults={selectedFSLIsData}
 				companyName={profile.companyName}
@@ -102,18 +107,19 @@ class Results extends Component {
 				getUserFSLIChange={this.getUserFSLIChange}
 			/>
 		);
+		return _.isEmpty(selectedFSLIsData) ? fallback : results;
 	}
 
 	renderProfile = () => {
 		const { profile } = this.props;
-		return _.isEmpty(profile)
-			? <section className="company-profile" />
-			: (
-				<CompanyProfile
-					profileResult={profile}
-					saveToFirebase={this.handleSaveSnapshot}
-				/>
-			);
+		const fallback = <section className="company-profile" />;
+		const results = (
+			<CompanyProfile
+				profileResult={profile}
+				saveToFirebase={this.handleSaveSnapshot}
+			/>
+		);
+		return _.isEmpty(profile) ? fallback : results;
 	}
 
 	render() {
