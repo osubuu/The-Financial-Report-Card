@@ -1,6 +1,5 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
-import LoadingScreen from 'react-loading-screen';
 
 import Alerts from '../../utils/alerts';
 
@@ -8,6 +7,7 @@ import Search from './components/Search';
 import Load from './components/Load';
 import Intro from './components/Intro';
 import Copyright from './components/Copyright';
+import Loader from '../shared/Loader';
 
 
 class Homepage extends Component {
@@ -85,11 +85,8 @@ class Homepage extends Component {
 			getCompanyFinancialStatementsPending,
 		} = this.props;
 		return (
-			<LoadingScreen
-				loading={getCompanyProfilePending || getCompanyFinancialStatementsPending}
-				bgColor="rgba(0,0,0,0.5)"
-				spinnerColor="#edac53"
-				textColor="#676767"
+			<Loader
+				condition={getCompanyProfilePending || getCompanyFinancialStatementsPending}
 			/>
 		);
 	}
