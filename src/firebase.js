@@ -11,14 +11,4 @@ const config = {
 };
 firebase.initializeApp(config);
 
-// var config = {
-//   apiKey: "AIzaSyDXqQmPpbyQj6ZSkaXmaTgBPIKmXGzs4Yk",
-//   authDomain: "the-financial-report-card.firebaseapp.com",
-//   databaseURL: "https://the-financial-report-card.firebaseio.com",
-//   projectId: "the-financial-report-card",
-//   storageBucket: "the-financial-report-card.appspot.com",
-//   messagingSenderId: "663221087614"
-// };
-// firebase.initializeApp(config);
-
 export default firebase;

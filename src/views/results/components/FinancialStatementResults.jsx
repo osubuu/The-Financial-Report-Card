@@ -1,78 +1,70 @@
 import React from 'react';
+import _ from 'lodash';
 import { Line } from 'react-chartjs-2';
+
 import Select from './Select';
 import YearlyResults from './YearlyResults';
 
-// A1. Get number with commas using regex
-const numberWithCommas = (number) => {
-	if (number.length === 0) {
-		return '0';
-	}
-	return number
-		.toString()
-		.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-		.replace(/-(.*)/, '($1)');
-};
-
-// A2. Get year from results
-const prepareYears = (array) => {
-	const newArr = [];
-	array.forEach((result) => {
-		if (result.key !== 'TTM') {
-			newArr.push(result.key);
+const ChartUtils = {
+	possibleBorderColors: [
+		'#396AB1',
+		'#DA7C30',
+		'#3E9651',
+		'#CC2529',
+		'#535154',
+		'#6B4C9A',
+		'#948B3D',
+	],
+	possibleFillColors: [
+		'#afc5e5',
+		'#f4d7c0',
+		'#a4dab0',
+		'#f0abad',
+		'#a8a6a9',
+		'#c4b5db',
+		'#d9d3a2',
+	],
+	numberWithCommas: (number) => {
+		if (number.length === 0) {
+			return '0';
 		}
-	});
-	return newArr;
+		return number
+			.toString()
+			.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+			.replace(/-(.*)/, '($1)');
+	},
+	getMostRecentYears: (results) => {
+		const mostRecentYears = _.reduce(results, (years, result) => {
+			if (result.key !== 'TTM') return [...years, result.key];
+			return years;
+		}, []);
+		return mostRecentYears;
+	},
+	prepareDatasets: (FSLIResults, colors) => {
+		const datasets = _.reduce(FSLIResults, (sanitizedData, result, index) => {
+			const resultData = _.reduce(result.results, (dataToDisplay, year) => {
+				if (year.key !== 'TTM') return [...dataToDisplay, year.value];
+				return dataToDisplay;
+			}, []);
+			const fsliData = {
+				label: result.fsli,
+				fill: false,
+				borderColor: ChartUtils.possibleBorderColors[colors[index]],
+				backgroundColor: ChartUtils.possibleFillColors[colors[index]],
+				data: resultData,
+			};
+			return [...sanitizedData, fsliData];
+		}, []);
+		return datasets;
+	},
+	prepareChartData: (FSLIResults, colors) => ({
+		labels: ChartUtils.getMostRecentYears(FSLIResults[0].results), // x-axis data
+		datasets: ChartUtils.prepareDatasets(FSLIResults, colors), // y-axis data
+	}),
 };
 
-// A3. Prepare datasets for Chart JS
-const prepareDatasets = (FSLIResults, colorPos) => {
-	const datasets = [];
-	const possibleColors = ['#396AB1', '#DA7C30', '#3E9651', '#CC2529', '#535154', '#6B4C9A', '#948B3D'];
-
-	const possibleBackgroundColors = ['#afc5e5', '#f4d7c0', '#a4dab0', '#f0abad', '#a8a6a9', '#c4b5db', '#d9d3a2'];
-
-	let fsliCount = 0;
-	FSLIResults.forEach((fsli) => {
-		const dataset = {};
-
-		dataset.label = fsli.fsli;
-		dataset.data = [];
-		dataset.fill = false;
-
-		dataset.borderColor = possibleColors[colorPos[fsliCount]];
-
-		dataset.backgroundColor = possibleBackgroundColors[colorPos[fsliCount]];
-
-		fsli.results.forEach((year) => {
-			if (year.key !== 'TTM') {
-				dataset.data.push(year.value);
-			}
-		});
-
-		datasets.push(dataset);
-		fsliCount += 1;
-	});
-
-	return datasets;
-};
-
-// A4. Prepare both labels and datasets for Chart JS
-const prepareChartData = (FSLIResults, colorPos) => {
-	// Prepare X-Axis (years)
-	const labelsArr = prepareYears(FSLIResults[0].results);
-
-	// Prepare datasets for each FSLI
-	const datasetsArr = prepareDatasets(FSLIResults, colorPos);
-
-	return {
-		labels: labelsArr,
-		datasets: datasetsArr,
-	};
-};
-
-// A5. Define options for Chart JS
-const options = companyName => ({
+// Define configuration options for Chart JS
+const chartOptions = companyName => ({
 	responsive: true,
 	maintainAspectRatio: false,
 	title: {
@@ -167,7 +159,7 @@ const FinancialStatementResults = (props) => {
 							{/* YEARLY RESULTS FOR EACH FSLI IN REGULAR TABLE FORM */}
 							<YearlyResults
 								item={item}
-								numberWithCommas={numberWithCommas}
+								numberWithCommas={ChartUtils.numberWithCommas}
 							/>
 						</form>
 					))}
@@ -177,8 +169,8 @@ const FinancialStatementResults = (props) => {
 			{/* CHART JS WITH YEARLY RESULTS DISPLAYED TOGETHER IN ONE GRAPH */}
 			<div className="chart-container">
 				<Line
-					data={prepareChartData(chosenResults, colors)}
-					options={options(companyName)}
+					data={ChartUtils.prepareChartData(chosenResults, colors)}
+					options={chartOptions(companyName)}
 				/>
 			</div>
 		</section>
