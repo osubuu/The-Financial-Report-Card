@@ -136,7 +136,7 @@ const options = companyName => ({
 
 const FinancialStatementResults = (props) => {
 	const {
-		error, chosenResults, getUserFSLIChange, availableFSLIs, colorPos, companyName,
+		error, chosenResults, getUserFSLIChange, availableFSLIs, colors, companyName,
 	} = props;
 	if (error) return null;
 
@@ -177,7 +177,7 @@ const FinancialStatementResults = (props) => {
 			{/* CHART JS WITH YEARLY RESULTS DISPLAYED TOGETHER IN ONE GRAPH */}
 			<div className="chart-container">
 				<Line
-					data={prepareChartData(chosenResults, colorPos)}
+					data={prepareChartData(chosenResults, colors)}
 					options={options(companyName)}
 				/>
 			</div>

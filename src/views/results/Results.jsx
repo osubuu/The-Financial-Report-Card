@@ -12,8 +12,10 @@ import Loader from '../shared/Loader';
 class Results extends Component {
 	constructor(props) {
 		super(props);
+		const colors = resultsUtils.getRandomUniqueNumbers(3, 7);
 		this.state = {
 			selectedFSLIsData: [],
+			colors,
 		};
 	}
 
@@ -83,8 +85,7 @@ class Results extends Component {
 
 	renderFinancialStatements = () => {
 		const { availableFSLIs, profile, getSnapshotPending } = this.props;
-		const { selectedFSLIsData } = this.state;
-		const colorPos = resultsUtils.getRandomUniqueNumbers(3, 7);
+		const { selectedFSLIsData, colors } = this.state;
 
 		return _.isEmpty(selectedFSLIsData) ? (
 			<section className="company-fs">
@@ -96,7 +97,7 @@ class Results extends Component {
 			<FinancialStatementResults
 				chosenResults={selectedFSLIsData}
 				companyName={profile.companyName}
-				colorPos={colorPos}
+				colors={colors}
 				availableFSLIs={availableFSLIs}
 				getUserFSLIChange={this.getUserFSLIChange}
 			/>
