@@ -6,12 +6,12 @@ const Helpers = {
 		const regex = RegExp('[.-=]');
 		const validCompanies = _.reduce(rawCompaniesData, (acc, company) => {
 			const { symbol, name } = company;
-			if (name && regex.test(symbol) === false) {
+			if (name && !regex.test(symbol)) {
 				const companyInfo = {
 					name,
 					ticker: symbol,
 				};
-				return [...acc, companyInfo];
+				acc.push(companyInfo);
 			}
 			return acc;
 		}, []);
