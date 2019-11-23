@@ -2,7 +2,7 @@ import 'regenerator-runtime/runtime';
 import { put, select } from 'redux-saga/effects';
 
 import actions from '../../reducer/actions';
-import firebase from '../../../firebase';
+import firebase from '../../../database/firebase';
 
 const dbRef = firebase.database().ref();
 
