@@ -3,13 +3,10 @@ import {
 	Route, Switch, HashRouter,
 } from 'react-router-dom';
 
-import Homepage from './views/homepage/Homepage.container';
-import Results from './views/results/Results.container';
+import Homepage from '../views/homepage/Homepage.container';
+import Results from '../views/results/Results.container';
 
-// Styling
-import './App.css';
-
-const App = () => (
+const Router = () => (
 	<HashRouter basename="/the-financial-report-card">
 		<div className="App">
 			<Switch>
@@ -21,4 +18,4 @@ const App = () => (
 	</HashRouter>
 );
 
-export default App;
+export default Router;
