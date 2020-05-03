@@ -6,7 +6,7 @@ const Utils = {
 		title: 'Invalid Share URL',
 		text: 'The share URL is invalid. Please make sure you\'ve included all the characters and try again.',
 	}),
-	snapshotUrlCreated: key => swal.fire({
+	snapshotUrlCreated: (key) => swal.fire({
 		type: 'success',
 		title: 'Share URL Created',
 		html: `Use the following URL to access this snapshot again:<br><br><strong>${key}</strong>`,

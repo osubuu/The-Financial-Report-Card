@@ -3,7 +3,7 @@ import actions from '../../store/reducer/actions';
 
 import Results from './Results';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	companies: state.companies,
 	profile: state.profile,
 	fsResults: state.fsResults,
@@ -18,9 +18,9 @@ const mapStateToProps = state => ({
 	getSnapshotSuccess: state.status.getSnapshotSuccess,
 });
 
-const mapDispatchToProps = dispatch => ({
-	saveSnapshot: data => dispatch(actions.saveSnapshotRequest(data)),
-	getSnapshot: currentKey => dispatch(actions.getSnapshotRequest(currentKey)),
+const mapDispatchToProps = (dispatch) => ({
+	saveSnapshot: (data) => dispatch(actions.saveSnapshotRequest(data)),
+	getSnapshot: (currentKey) => dispatch(actions.getSnapshotRequest(currentKey)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Results);

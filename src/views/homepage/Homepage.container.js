@@ -3,7 +3,7 @@ import actions from '../../store/reducer/actions';
 
 import Homepage from './Homepage';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
 	companies: state.companies,
 	profile: state.profile,
 	fsResults: state.fsResults,
@@ -14,10 +14,12 @@ const mapStateToProps = state => ({
 	getCompanyFinancialStatementsSuccess: state.status.getCompanyFinancialStatementsSuccess,
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
 	getAllCompanies: () => dispatch(actions.getAllCompaniesRequest()),
-	getProfile: ticker => dispatch(actions.getCompanyProfileRequest(ticker)),
-	getFinancialStatements: ticker => dispatch(actions.getCompanyFinancialStatementsRequest(ticker)),
+	getProfile: (ticker) => dispatch(actions.getCompanyProfileRequest(ticker)),
+	getFinancialStatements: (ticker) => dispatch(
+		actions.getCompanyFinancialStatementsRequest(ticker),
+	),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Homepage);

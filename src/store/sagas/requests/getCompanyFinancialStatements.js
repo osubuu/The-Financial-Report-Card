@@ -9,7 +9,7 @@ const getPath = (statementType, ticker) => {
 	return `${basePath}/${statementType}/${ticker}`;
 };
 
-const getParams = path => ({
+const getParams = (path) => ({
 	method: 'GET',
 	url: 'https://proxy.hackeryou.com',
 	dataResponse: 'jsonp',

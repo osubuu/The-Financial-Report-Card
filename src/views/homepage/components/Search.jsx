@@ -47,12 +47,12 @@ const Search = (props) => {
 					placeholder: 'Search for company name or ticker',
 					id: 'states-autocomplete',
 				}}
-				getItemValue={item => item.ticker}
+				getItemValue={(item) => item.ticker}
 				shouldItemRender={matchCompanyToInput}
 				sortItems={sortCompanies}
 				onChange={(event) => { getValue(event.target.value); }}
 				onSelect={(selectValue) => { getValue(selectValue); }}
-				renderMenu={children => <ul className="menu">{children}</ul>}
+				renderMenu={(children) => <ul className="menu">{children}</ul>}
 				renderItem={(item, isHighlighted) => (
 					<li className={`item ${isHighlighted ? 'item-highlighted' : ''}`} key={item.ticker}>
 						<h4 className="item-name">{item.name}</h4>

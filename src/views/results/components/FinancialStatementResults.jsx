@@ -64,7 +64,7 @@ const ChartUtils = {
 };
 
 // Define configuration options for Chart JS
-const chartOptions = companyName => ({
+const chartOptions = (companyName) => ({
 	responsive: true,
 	maintainAspectRatio: false,
 	title: {

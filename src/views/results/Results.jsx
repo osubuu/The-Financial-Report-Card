@@ -82,7 +82,7 @@ class Results extends Component {
 		const { fsResults, availableFSLIs, profile } = this.props;
 		const { selectedFSLIsData } = this.state;
 
-		const newSelectedFSLIs = _.map(selectedFSLIsData, item => item.fsli);
+		const newSelectedFSLIs = _.map(selectedFSLIsData, (item) => item.fsli);
 		newSelectedFSLIs[index] = event.target.value;
 		const newSelectedFSLIsArray = ResultsUtils.prepareSelectedFSLisArray(
 			newSelectedFSLIs, availableFSLIs, fsResults, profile,
