@@ -1,13 +1,14 @@
 import types from './types';
 import Helpers from './helpers';
+import { State, Action } from '../../types/types';
 
-const initialState = {
+const initialState: State = {
 	companies: [],
 	fsResults: {
 		is: {},
 		bs: {},
 	},
-	profile: {},
+	profile: {} as any,
 	availableFSLIs: {
 		is: [],
 		bs: [],
@@ -28,7 +29,7 @@ const initialState = {
 	},
 };
 
-function rootReducer(state = initialState, action) {
+function rootReducer(state: State = initialState, action: Action): State {
 	const { type, payload } = action;
 	switch (type) {
 		case types.GET_ALL_COMPANIES_REQUEST: {

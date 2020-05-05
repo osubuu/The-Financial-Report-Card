@@ -1,4 +1,6 @@
-const types = {
+import { ActionTypes } from '../../types/types';
+
+const types: ActionTypes = {
 	GET_ALL_COMPANIES_REQUEST: 'GET_ALL_COMPANIES_REQUEST',
 	GET_ALL_COMPANIES_SUCCESS: 'GET_ALL_COMPANIES_SUCCESS',
 	GET_ALL_COMPANIES_FAILURE: 'GET_ALL_COMPANIES_FAILURE',

@@ -1,76 +1,81 @@
 import types from './types';
+import {
+	Action, Company, Profile, SnapshotData, SelectedFSLI,
+} from '../../types/types';
 
-const getAllCompaniesRequest = () => ({
+const getAllCompaniesRequest = (): Action => ({
 	type: types.GET_ALL_COMPANIES_REQUEST,
 	payload: {},
 });
 
-const getAllCompaniesSuccess = (companiesData) => ({
+const getAllCompaniesSuccess = (companiesData: Company[]): Action => ({
 	type: types.GET_ALL_COMPANIES_SUCCESS,
 	payload: { companiesData },
 });
 
-const getAllCompaniesFailure = (error) => ({
+const getAllCompaniesFailure = (error: any): Action => ({
 	type: types.GET_ALL_COMPANIES_FAILURE,
 	payload: { error },
 });
 
-const getCompanyProfileRequest = (ticker) => ({
+const getCompanyProfileRequest = (ticker: string): Action => ({
 	type: types.GET_COMPANY_PROFILE_REQUEST,
 	payload: { ticker },
 });
 
-const getCompanyProfileSuccess = (ticker, profileData) => ({
+const getCompanyProfileSuccess = (ticker: string, profileData: Profile): Action => ({
 	type: types.GET_COMPANY_PROFILE_SUCCESS,
 	payload: { ticker, profileData },
 });
 
-const getCompanyProfileFailure = (error) => ({
+const getCompanyProfileFailure = (error: any): Action => ({
 	type: types.GET_COMPANY_PROFILE_FAILURE,
 	payload: { error },
 });
 
-const getCompanyFinancialStatementsRequest = (ticker) => ({
+const getCompanyFinancialStatementsRequest = (ticker: string): Action => ({
 	type: types.GET_COMPANY_FINANCIAL_STATEMENTS_REQUEST,
 	payload: { ticker },
 });
 
-const getCompanyFinancialStatementsSuccess = (ticker, incomeStatementData, balanceSheetData) => ({
+const getCompanyFinancialStatementsSuccess = (
+	ticker: string, incomeStatementData: string, balanceSheetData: string,
+): Action => ({
 	type: types.GET_COMPANY_FINANCIAL_STATEMENTS_SUCCESS,
 	payload: { ticker, incomeStatementData, balanceSheetData },
 });
 
-const getCompanyFinancialStatementsFailure = (error) => ({
+const getCompanyFinancialStatementsFailure = (error: any): Action => ({
 	type: types.GET_COMPANY_FINANCIAL_STATEMENTS_FAILURE,
 	payload: { error },
 });
 
-const saveSnapshotRequest = (selectedFSLIs) => ({
+const saveSnapshotRequest = (selectedFSLIs: SelectedFSLI[]): Action => ({
 	type: types.SAVE_SNAPSHOT_REQUEST,
 	payload: { selectedFSLIs },
 });
 
-const saveSnapshotSuccess = (currentKey) => ({
+const saveSnapshotSuccess = (currentKey: string): Action => ({
 	type: types.SAVE_SNAPSHOT_SUCCESS,
 	payload: { currentKey },
 });
 
-const saveSnapshotFailure = (error) => ({
+const saveSnapshotFailure = (error: any): Action => ({
 	type: types.SAVE_SNAPSHOT_FAILURE,
 	payload: { error },
 });
 
-const getSnapshotRequest = (currentKey) => ({
+const getSnapshotRequest = (currentKey: string): Action => ({
 	type: types.GET_SNAPSHOT_REQUEST,
 	payload: { currentKey },
 });
 
-const getSnapshotSuccess = (data) => ({
+const getSnapshotSuccess = (data: SnapshotData): Action => ({
 	type: types.GET_SNAPSHOT_SUCCESS,
 	payload: { data },
 });
 
-const getSnapshotFailure = (error) => ({
+const getSnapshotFailure = (error: any): Action => ({
 	type: types.GET_SNAPSHOT_FAILURE,
 	payload: { error },
 });
