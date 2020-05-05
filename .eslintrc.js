@@ -34,4 +34,11 @@ module.exports = {
     'quotes': [2, 'single', 'avoid-escape'],
     // 'arrow-params': 'as-needed',
   },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
+    },
+  },
 };
