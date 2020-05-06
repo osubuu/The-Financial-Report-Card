@@ -32,7 +32,16 @@ module.exports = {
     'react/jsx-indent-props': [2, 'tab'],
     'react/jsx-filename-extension': [1, { 'extensions': ['.js', '.jsx', '.ts', '.tsx'] }],
     'quotes': [2, 'single', 'avoid-escape'],
-    // 'arrow-params': 'as-needed',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
   settings: {
     'import/resolver': {
