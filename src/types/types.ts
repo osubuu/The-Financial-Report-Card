@@ -1,3 +1,6 @@
+export type FormElement = React.FormEvent<HTMLFormElement>;
+export type InputElement = React.ChangeEvent<HTMLInputElement>;
+
 export interface Action {
 	type: string;
 	payload: {
@@ -88,4 +91,40 @@ export interface State {
 		getSnapshotPending: boolean;
 		getSnapshotSuccess: boolean;
 	};
+}
+
+export interface LoaderProps {
+	condition: boolean;
+}
+
+export interface HomepageProps {
+	companies: Company[];
+	profile: Profile;
+	fsResults: FinancialStatementResults;
+	availableFSLIs: AvailableFSLIs;
+	getCompanyProfilePending: boolean;
+	getCompanyProfileSuccess: boolean;
+	getCompanyFinancialStatementsPending: boolean;
+	getCompanyFinancialStatementsSuccess: boolean;
+
+	getAllCompanies: () => void;
+	getProfile: (ticker: string) => void;
+	getFinancialStatements: (ticker: string) => void;
+
+	history: {
+		push: (path: string) => void;
+	};
+}
+
+export interface HomepageState {
+	searchValue: string;
+	profileReady: boolean;
+	financialsReady: boolean;
+}
+
+export interface SearchProps {
+	getValue: (input: string) => void;
+	handleSubmit: (event: FormElement) => void;
+	value: string;
+	companies: Company[];
 }

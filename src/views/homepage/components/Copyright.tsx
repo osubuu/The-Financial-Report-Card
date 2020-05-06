@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Copyright = () => (
+const Copyright = (): JSX.Element => (
 	<div className="copyright-container">
 		<h6 className="copyright">
 			&#169; 2019 Khoi Pham ---

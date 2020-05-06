@@ -1,8 +1,9 @@
 import React from 'react';
 import Autocomplete from 'react-autocomplete';
+import { Company, SearchProps, InputElement } from '../../../types/types';
 
 // A1. Function to render items if they match user input
-const matchCompanyToInput = (company, input) => {
+const matchCompanyToInput = (company: Company, input: string): boolean => {
 	// Restrict length of input to 3 letters or more to reduce load
 	if (input.length > 2) {
 		return (
@@ -14,7 +15,7 @@ const matchCompanyToInput = (company, input) => {
 };
 
 // A2. Sort autocompletion suggestions
-const sortCompanies = (a, b, value) => {
+const sortCompanies = (a: Company, b: Company, value: string): number => {
 	const aLower = a.name.toLowerCase();
 	const bLower = b.name.toLowerCase();
 	const valueLower = value.toLowerCase();
@@ -26,7 +27,7 @@ const sortCompanies = (a, b, value) => {
 	return aLower < bLower ? -1 : 1;
 };
 
-const Search = (props) => {
+const Search = (props: SearchProps): JSX.Element => {
 	const {
 		handleSubmit, value, companies, getValue,
 	} = props;
@@ -47,13 +48,13 @@ const Search = (props) => {
 					placeholder: 'Search for company name or ticker',
 					id: 'states-autocomplete',
 				}}
-				getItemValue={(item) => item.ticker}
+				getItemValue={(item: Company): string => item.ticker}
 				shouldItemRender={matchCompanyToInput}
 				sortItems={sortCompanies}
-				onChange={(event) => { getValue(event.target.value); }}
-				onSelect={(selectValue) => { getValue(selectValue); }}
-				renderMenu={(children) => <ul className="menu">{children}</ul>}
-				renderItem={(item, isHighlighted) => (
+				onChange={(event: InputElement): void => { getValue(event.target.value); }}
+				onSelect={(selectValue: string): void => { getValue(selectValue); }}
+				renderMenu={(children: Company[]): JSX.Element => <ul className="menu">{children}</ul>}
+				renderItem={(item: Company, isHighlighted: boolean): JSX.Element => (
 					<li className={`item ${isHighlighted ? 'item-highlighted' : ''}`} key={item.ticker}>
 						<h4 className="item-name">{item.name}</h4>
 						<h4 className="item-ticker">{item.ticker}</h4>

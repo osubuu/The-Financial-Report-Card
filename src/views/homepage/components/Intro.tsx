@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Intro = () => {
+const Intro = (): JSX.Element => {
 	const description = 'Need a quick look into the past? Make a search below and get back a financial snapshot of a US public company\'s most recent years.';
 	return (
 		<div className="intro">

@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
+import { Dispatch } from 'react';
 import actions from '../../store/reducer/actions';
+import { State, Action } from '../../types/types';
 
 import Homepage from './Homepage';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: State): object => ({
 	companies: state.companies,
 	profile: state.profile,
 	fsResults: state.fsResults,
@@ -14,10 +16,10 @@ const mapStateToProps = (state) => ({
 	getCompanyFinancialStatementsSuccess: state.status.getCompanyFinancialStatementsSuccess,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-	getAllCompanies: () => dispatch(actions.getAllCompaniesRequest()),
-	getProfile: (ticker) => dispatch(actions.getCompanyProfileRequest(ticker)),
-	getFinancialStatements: (ticker) => dispatch(
+const mapDispatchToProps = (dispatch: Dispatch<Action>): object => ({
+	getAllCompanies: (): void => dispatch(actions.getAllCompaniesRequest()),
+	getProfile: (ticker: string): void => dispatch(actions.getCompanyProfileRequest(ticker)),
+	getFinancialStatements: (ticker: string): void => dispatch(
 		actions.getCompanyFinancialStatementsRequest(ticker),
 	),
 });

@@ -1,5 +1,6 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
+import { HomepageProps, HomepageState, FormElement } from '../../types/types';
 
 import Alerts from '../../utils/alerts';
 
@@ -9,8 +10,8 @@ import Copyright from './components/Copyright';
 import Loader from '../shared/Loader';
 
 
-class Homepage extends Component {
-	constructor(props) {
+class Homepage extends Component<HomepageProps, HomepageState> {
+	constructor(props: HomepageProps) {
 		super(props);
 		this.state = {
 			searchValue: '',
@@ -19,14 +20,14 @@ class Homepage extends Component {
 		};
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		const { getAllCompanies, companies } = this.props;
 		if (companies.length === 0) {
 			getAllCompanies();
 		}
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: HomepageProps): void {
 		const {
 			getCompanyProfilePending,
 			getCompanyProfileSuccess,
@@ -60,13 +61,12 @@ class Homepage extends Component {
 		}
 	}
 
-	getSearchValue = (input) => {
+	getSearchValue = (input: string): void => {
 		this.setState({ searchValue: input });
 	};
 
-	handleSubmit = (event) => {
+	handleSubmit = (event: FormElement): void => {
 		event.preventDefault();
-		event.target.reset();
 
 		const { getProfile, getFinancialStatements } = this.props;
 		const { searchValue } = this.state;
@@ -87,7 +87,7 @@ class Homepage extends Component {
 		});
 	};
 
-	renderLoadingScreen = () => {
+	renderLoadingScreen = (): JSX.Element => {
 		const {
 			getCompanyProfilePending,
 			getCompanyFinancialStatementsPending,
@@ -99,9 +99,9 @@ class Homepage extends Component {
 		);
 	}
 
-	renderCopyright = () => <Copyright />
+	renderCopyright = (): JSX.Element => <Copyright />
 
-	renderSearchBar = () => {
+	renderSearchBar = (): JSX.Element => {
 		const { companies } = this.props;
 		const { searchValue } = this.state;
 		return (
@@ -114,9 +114,9 @@ class Homepage extends Component {
 		);
 	}
 
-	renderHeading = () => <Intro />
+	renderHeading = (): JSX.Element => <Intro />
 
-	render() {
+	render(): JSX.Element {
 		return (
 			<header className="home-page">
 				<div className="home-page-container">

@@ -1,7 +1,8 @@
 import React from 'react';
 import LoadingScreen from 'react-loading-screen';
+import { LoaderProps } from '../../types/types';
 
-const Loader = (props) => {
+const Loader = (props: LoaderProps): JSX.Element => {
 	const { condition } = props;
 	return (
 		<LoadingScreen
