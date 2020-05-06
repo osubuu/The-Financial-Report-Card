@@ -3,10 +3,11 @@ import { put, select } from 'redux-saga/effects';
 
 import actions from '../../reducer/actions';
 import firebase from '../../../database/firebase';
+import { Action } from '../../../types/types';
 
 const dbRef = firebase.database().ref();
 
-export default function* saveSnapshot(action) {
+export default function* saveSnapshot(action: Action): any {
 	const { selectedFSLIs } = action.payload;
 	const state = yield select();
 

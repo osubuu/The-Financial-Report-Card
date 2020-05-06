@@ -11,7 +11,7 @@ import getSnapshot from './requests/getSnapshot';
 
 const sagaMiddleWare = createSagaMiddleWare();
 
-function* saga() {
+function* saga(): IterableIterator<any> {
 	yield all([
 		takeLatest(types.GET_ALL_COMPANIES_REQUEST, getAllCompanies),
 		takeLatest(types.GET_COMPANY_PROFILE_REQUEST, getCompanyProfile),
@@ -21,6 +21,6 @@ function* saga() {
 	]);
 }
 
-const runSaga = () => { sagaMiddleWare.run(saga); };
+const runSaga = (): void => { sagaMiddleWare.run(saga); };
 
 export { sagaMiddleWare as saga, runSaga };
