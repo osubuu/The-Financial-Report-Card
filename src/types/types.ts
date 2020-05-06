@@ -1,5 +1,6 @@
 export type FormElement = React.FormEvent<HTMLFormElement>;
 export type InputElement = React.ChangeEvent<HTMLInputElement>;
+export type SelectElement = React.ChangeEvent<HTMLSelectElement>;
 
 export interface Action {
 	type: string;
@@ -127,4 +128,83 @@ export interface SearchProps {
 	handleSubmit: (event: FormElement) => void;
 	value: string;
 	companies: Company[];
+}
+export interface ResultsProps {
+	companies: Company[];
+	profile: Profile;
+	fsResults: FinancialStatementResults;
+	availableFSLIs: AvailableFSLIs;
+	selectedFSLIs: SelectedFSLI[];
+	currentKey: string;
+	getCompanyProfileSuccess: boolean;
+	getCompanyFinancialStatementsSuccess: boolean;
+	saveSnapshotPending: boolean;
+	saveSnapshotSuccess: boolean;
+	getSnapshotPending: boolean;
+	getSnapshotSuccess: boolean;
+
+	saveSnapshot: (data: SelectedFSLI[]) => void;
+	getSnapshot: (currentKey: string) => void;
+
+	history: {
+		push: (path: string) => void;
+	};
+	match: {
+		params: {
+			key: string;
+		};
+	};
+}
+
+export interface ResultsState {
+	selectedFSLIsData: SelectedFSLI[];
+	colors: number[];
+}
+
+export interface CompanyProfileProps {
+	profile: Profile;
+	saveToFirebase: () => void;
+}
+
+export interface FinancialStatementResultsProps {
+	chosenResults: SelectedFSLI[];
+	getUserFSLIChange: (event: SelectElement, index: number) => void;
+	availableFSLIs: AvailableFSLIs;
+	colors: number[];
+	companyName: string;
+}
+
+export interface SingleChartData {
+	label: string;
+	fill: boolean;
+	borderColor: string;
+	backgroundColor: string;
+	data: string[];
+}
+
+export interface TooltipItem {
+	datasetIndex: number;
+	index: number;
+	label: string;
+	value: string;
+	x: number;
+	xLabel: string;
+	y: number;
+	yLabel: number;
+}
+
+export interface ChartData {
+	datasets: SingleChartData[];
+	labels: string[];
+}
+
+export interface SelectProps {
+	getUserFSLIChange: (event: SelectElement, index: number) => void;
+	item: SelectedFSLI;
+	index: number;
+	availableFSLIs: AvailableFSLIs;
+}
+
+export interface YearlyResultsProps {
+	item: SelectedFSLI;
 }

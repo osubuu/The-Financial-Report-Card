@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
+import { Dispatch } from 'react';
 import actions from '../../store/reducer/actions';
+import { State, Action, SelectedFSLI } from '../../types/types';
 
 import Results from './Results';
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: State): object => ({
 	companies: state.companies,
 	profile: state.profile,
 	fsResults: state.fsResults,
@@ -18,9 +20,9 @@ const mapStateToProps = (state) => ({
 	getSnapshotSuccess: state.status.getSnapshotSuccess,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-	saveSnapshot: (data) => dispatch(actions.saveSnapshotRequest(data)),
-	getSnapshot: (currentKey) => dispatch(actions.getSnapshotRequest(currentKey)),
+const mapDispatchToProps = (dispatch: Dispatch<Action>): object => ({
+	saveSnapshot: (data: SelectedFSLI[]): void => dispatch(actions.saveSnapshotRequest(data)),
+	getSnapshot: (currentKey: string): void => dispatch(actions.getSnapshotRequest(currentKey)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Results);

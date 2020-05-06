@@ -1,16 +1,17 @@
 import React from 'react';
+import { SelectElement, SelectProps } from '../../../types/types';
 
-const Select = (props) => {
+const Select = (props: SelectProps): JSX.Element => {
 	const {
-		i, item, availableFSLIs, getUserFSLIChange,
+		index, item, availableFSLIs, getUserFSLIChange,
 	} = props;
 	return (
 		<div className="select-div">
 			<select
-				onChange={(event) => getUserFSLIChange(event, i)}
+				onChange={(event: SelectElement): void => getUserFSLIChange(event, index)}
 				className="all-fslis-select"
 				defaultValue={item.fsli}
-				key={i}
+				key={index}
 			>
 				{availableFSLIs.is ? (
 					<optgroup className="is-fslis" label="Income Statement">

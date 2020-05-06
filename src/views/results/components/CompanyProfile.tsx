@@ -1,49 +1,52 @@
 import React from 'react';
+import { CompanyProfileProps } from '../../../types/types';
 
-const CompanyProfile = (props) => {
-	const { error, profileResult, saveToFirebase } = props;
-	if (error) return null;
+const CompanyProfile = (props: CompanyProfileProps): JSX.Element => {
+	const { profile, saveToFirebase } = props;
+	const {
+		companyName, ticker, exchange, CEO, sector, industry, description, website,
+	} = profile;
 
 	return (
 		<section className="company-profile">
 			<div className="profile-general-sec-1">
-				<h2 className="company-name">{profileResult.companyName}</h2>
-				<h3 className="company-ticker">{profileResult.ticker}</h3>
+				<h2 className="company-name">{companyName}</h2>
+				<h3 className="company-ticker">{ticker}</h3>
 			</div>
 
 			<div className="profile-general-sec-2">
 				<div className="company-exchange space-between">
 					<h4>Exchange:</h4>
-					<h4 className="profile-value">{profileResult.exchange}</h4>
+					<h4 className="profile-value">{exchange}</h4>
 				</div>
 
-				{profileResult.CEO ? (
+				{CEO ? (
 					<div className="company-ceo space-between">
 						<h4>CEO:</h4>
-						<h4 className="profile-value">{profileResult.CEO}</h4>
+						<h4 className="profile-value">{CEO}</h4>
 					</div>
 				) : null}
 
-				{profileResult.sector ? (
+				{sector ? (
 					<div className="company-sector space-between">
 						<h5>Sector:</h5>
-						<h5 className="profile-value">{profileResult.sector}</h5>
+						<h5 className="profile-value">{sector}</h5>
 					</div>
 				) : null}
 
-				{profileResult.industry ? (
+				{industry ? (
 					<div className="company-industry space-between">
 						<h5>Industry:</h5>
-						<h5 className="profile-value">{profileResult.industry}</h5>
+						<h5 className="profile-value">{industry}</h5>
 					</div>
 				) : null}
 			</div>
 
 			<div className="profile-general-sec-3">
-				<p className="company-description">{profileResult.description}</p>
+				<p className="company-description">{description}</p>
 
 				<h6 className="company-website">
-					<a href={profileResult.website}>{profileResult.website}</a>
+					<a href={website}>{website}</a>
 				</h6>
 			</div>
 

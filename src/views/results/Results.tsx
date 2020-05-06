@@ -1,6 +1,7 @@
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import _ from 'lodash';
+import { ResultsProps, ResultsState, SelectElement } from '../../types/types';
 
 import Alerts from '../../utils/alerts';
 
@@ -9,7 +10,7 @@ import CompanyProfile from './components/CompanyProfile';
 import ResultsUtils from './resultsUtils';
 import Loader from '../shared/Loader';
 
-class Results extends Component {
+class Results extends Component<ResultsProps, ResultsState> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -18,7 +19,7 @@ class Results extends Component {
 		};
 	}
 
-	componentDidMount() {
+	componentDidMount(): void {
 		const {
 			fsResults, availableFSLIs, profile,
 			companies, history, match,
@@ -46,7 +47,7 @@ class Results extends Component {
 		}
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: ResultsProps): void {
 		const {
 			saveSnapshotSuccess, getSnapshotSuccess, currentKey, selectedFSLIs,
 			getSnapshotPending,
@@ -72,13 +73,13 @@ class Results extends Component {
 		}
 	}
 
-	handleSaveSnapshot = () => {
+	handleSaveSnapshot = (): void => {
 		const { saveSnapshot } = this.props;
 		const { selectedFSLIsData } = this.state;
 		saveSnapshot(selectedFSLIsData);
 	};
 
-	getUserFSLIChange = async (event, index) => {
+	getUserFSLIChange = async (event: SelectElement, index: number): Promise<void> => {
 		const { fsResults, availableFSLIs, profile } = this.props;
 		const { selectedFSLIsData } = this.state;
 
@@ -90,12 +91,12 @@ class Results extends Component {
 		this.setState({ selectedFSLIsData: newSelectedFSLIsArray });
 	};
 
-	renderLoadingScreen = () => {
+	renderLoadingScreen = (): JSX.Element => {
 		const { getSnapshotPending } = this.props;
 		return <Loader condition={getSnapshotPending} />;
 	}
 
-	renderFinancialStatements = () => {
+	renderFinancialStatements = (): JSX.Element => {
 		const { availableFSLIs, profile, getSnapshotPending } = this.props;
 		const { selectedFSLIsData, colors } = this.state;
 
@@ -118,19 +119,19 @@ class Results extends Component {
 		return _.isEmpty(selectedFSLIsData) ? fallback : results;
 	}
 
-	renderProfile = () => {
+	renderProfile = (): JSX.Element => {
 		const { profile } = this.props;
 		const fallback = <section className="company-profile" />;
 		const results = (
 			<CompanyProfile
-				profileResult={profile}
+				profile={profile}
 				saveToFirebase={this.handleSaveSnapshot}
 			/>
 		);
 		return _.isEmpty(profile) ? fallback : results;
 	}
 
-	render() {
+	render(): JSX.Element {
 		return (
 			<section className="results">
 				{this.renderProfile()}
