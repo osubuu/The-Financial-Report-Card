@@ -6,7 +6,7 @@ import {
 import Homepage from '../views/homepage/Homepage.container';
 import Results from '../views/results/Results.container';
 
-const Router = () => (
+const Router = (): JSX.Element => (
 	<HashRouter basename="/the-financial-report-card">
 		<div className="App">
 			<Switch>
