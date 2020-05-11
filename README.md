@@ -1,6 +1,13 @@
+# The Financial Report Card
+*The Financial Report Card* offers a quick lookup of the past financial performance of US publicly-traded companies.
+
+The financial statement data (balance sheet and/or income statement) is displayed in a line graph or in tabular form, and snapshots can be shared through shared links.
+
+Application built using React, TypeScript, Redux-Saga and Chart.js. Data is drawn from the IEX and FinancialModelingPrep APIs.
+
 ## Live Link
 
-[The Financial Report Card](http://khoipham.net/the-financial-report-card).
+[View The Financial Report Card Live](http://khoipham.net/the-financial-report-card).
 
 ## Features:
 
