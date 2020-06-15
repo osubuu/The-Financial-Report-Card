@@ -23,9 +23,9 @@ const getCompanyProfileRequest = (ticker: string): Action => ({
 	payload: { ticker },
 });
 
-const getCompanyProfileSuccess = (ticker: string, profileData: Profile): Action => ({
+const getCompanyProfileSuccess = (profileData: Profile): Action => ({
 	type: types.GET_COMPANY_PROFILE_SUCCESS,
-	payload: { ticker, profileData },
+	payload: { profileData },
 });
 
 const getCompanyProfileFailure = (error: any): Action => ({
@@ -39,10 +39,10 @@ const getCompanyFinancialStatementsRequest = (ticker: string): Action => ({
 });
 
 const getCompanyFinancialStatementsSuccess = (
-	ticker: string, incomeStatementData: string, balanceSheetData: string,
+	incomeStatementData: any, balanceSheetData: any,
 ): Action => ({
 	type: types.GET_COMPANY_FINANCIAL_STATEMENTS_SUCCESS,
-	payload: { ticker, incomeStatementData, balanceSheetData },
+	payload: { incomeStatementData, balanceSheetData },
 });
 
 const getCompanyFinancialStatementsFailure = (error: any): Action => ({

@@ -4,7 +4,7 @@ import { CompanyProfileProps } from '../../../types/types';
 const CompanyProfile = (props: CompanyProfileProps): JSX.Element => {
 	const { profile, saveToFirebase } = props;
 	const {
-		companyName, ticker, exchange, CEO, sector, industry, description, website,
+		companyName, symbol: ticker, exchange, ceo, sector, industry, description, website,
 	} = profile;
 
 	return (
@@ -20,10 +20,10 @@ const CompanyProfile = (props: CompanyProfileProps): JSX.Element => {
 					<h4 className="profile-value">{exchange}</h4>
 				</div>
 
-				{CEO ? (
+				{ceo ? (
 					<div className="company-ceo space-between">
 						<h4>CEO:</h4>
-						<h4 className="profile-value">{CEO}</h4>
+						<h4 className="profile-value">{ceo}</h4>
 					</div>
 				) : null}
 

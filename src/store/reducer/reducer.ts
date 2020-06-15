@@ -77,11 +77,9 @@ function rootReducer(state: State = initialState, action: Action): State {
 			};
 		}
 		case types.GET_COMPANY_PROFILE_SUCCESS: {
-			const { profileData, ticker } = payload;
-			const profile = Helpers.sanitizeProfileData(ticker, profileData);
 			return {
 				...state,
-				profile,
+				profile: payload.profileData,
 				status: {
 					...state.status,
 					getCompanyProfilePending: false,
@@ -112,15 +110,14 @@ function rootReducer(state: State = initialState, action: Action): State {
 			};
 		}
 		case types.GET_COMPANY_FINANCIAL_STATEMENTS_SUCCESS: {
-			const { ticker, incomeStatementData, balanceSheetData } = payload;
-			const fsResults = Helpers.sanitizeFinancialStatementData(
-				incomeStatementData,
-				balanceSheetData,
-			);
-			const availableFSLIs = Helpers.getAvailableFSLIs(ticker, fsResults);
+			const { incomeStatementData, balanceSheetData } = payload;
+			const availableFSLIs = Helpers.getAvailableFSLIs(incomeStatementData, balanceSheetData);
 			return {
 				...state,
-				fsResults,
+				fsResults: {
+					is: incomeStatementData,
+					bs: balanceSheetData,
+				},
 				availableFSLIs,
 				status: {
 					...state.status,

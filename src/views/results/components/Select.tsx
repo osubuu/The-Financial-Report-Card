@@ -1,5 +1,6 @@
 import React from 'react';
 import { SelectElement, SelectProps } from '../../../types/types';
+import ResultUtils from '../resultsUtils';
 
 const Select = (props: SelectProps): JSX.Element => {
 	const {
@@ -17,7 +18,7 @@ const Select = (props: SelectProps): JSX.Element => {
 					<optgroup className="is-fslis" label="Income Statement">
 						{availableFSLIs.is.map((fsli) => (
 							<option value={fsli} key={fsli}>
-								{fsli}
+								{ResultUtils.cleanFSLIName(fsli)}
 							</option>
 						))}
 					</optgroup>
@@ -27,7 +28,7 @@ const Select = (props: SelectProps): JSX.Element => {
 					<optgroup className="bs-fslis" label="Balance Sheet">
 						{availableFSLIs.bs.map((fsli) => (
 							<option value={fsli} key={fsli}>
-								{fsli}
+								{ResultUtils.cleanFSLIName(fsli)}
 							</option>
 						))}
 					</optgroup>

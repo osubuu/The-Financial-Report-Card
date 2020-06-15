@@ -21,7 +21,7 @@ class Results extends Component<ResultsProps, ResultsState> {
 
 	componentDidMount(): void {
 		const {
-			fsResults, availableFSLIs, profile,
+			fsResults, availableFSLIs,
 			companies, history, match,
 			getSnapshot,
 		} = this.props;
@@ -40,7 +40,7 @@ class Results extends Component<ResultsProps, ResultsState> {
 			if (fsResultsAvailable && fslisAvailable) {
 				const selectedFSLIs = ResultsUtils.determineDefaultFSLIs(fsResults, availableFSLIs);
 				const selectedFSLIsData = ResultsUtils.prepareSelectedFSLisArray(
-					selectedFSLIs, availableFSLIs, fsResults, profile,
+					selectedFSLIs, availableFSLIs, fsResults,
 				);
 				this.setState({ selectedFSLIsData });
 			}
@@ -60,8 +60,10 @@ class Results extends Component<ResultsProps, ResultsState> {
 			&& !getSnapshotSuccess;
 
 		if (snapshotSaved) {
-			const url = `${window.location.href}/${currentKey}`;
-			Alerts.snapshotUrlCreated(url);
+			const currentUrl = window.location.href;
+			const newUrlBase = currentUrl.substring(0, currentUrl.indexOf('/results/'));
+			const newUrl = `${newUrlBase}/results/${currentKey}`;
+			Alerts.snapshotUrlCreated(newUrl);
 		}
 
 		if (snapshotLoaded) {
@@ -80,13 +82,13 @@ class Results extends Component<ResultsProps, ResultsState> {
 	};
 
 	getUserFSLIChange = async (event: SelectElement, index: number): Promise<void> => {
-		const { fsResults, availableFSLIs, profile } = this.props;
+		const { fsResults, availableFSLIs } = this.props;
 		const { selectedFSLIsData } = this.state;
 
 		const newSelectedFSLIs = _.map(selectedFSLIsData, (item) => item.fsli);
 		newSelectedFSLIs[index] = event.target.value;
 		const newSelectedFSLIsArray = ResultsUtils.prepareSelectedFSLisArray(
-			newSelectedFSLIs, availableFSLIs, fsResults, profile,
+			newSelectedFSLIs, availableFSLIs, fsResults,
 		);
 		this.setState({ selectedFSLIsData: newSelectedFSLIsArray });
 	};

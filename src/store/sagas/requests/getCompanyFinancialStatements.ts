@@ -1,22 +1,22 @@
 import 'regenerator-runtime/runtime';
 import { call, put } from 'redux-saga/effects';
 import { SagaIterator } from '@redux-saga/core';
-import { fetchData } from '../sagaUtils';
+import { fetchData, apiKey } from '../sagaUtils';
 import { Action } from '../../../types/types';
 
 import actions from '../../reducer/actions';
 
 const getPath = (statementType: string, ticker: string): string => {
-	const basePath = 'https://financialmodelingprep.com/api/financials';
+	const basePath = 'https://financialmodelingprep.com/api/v3';
 	return `${basePath}/${statementType}/${ticker}`;
 };
 
 const getParams = (path: string): object => ({
 	method: 'GET',
-	url: 'https://proxy.hackeryou.com',
-	dataResponse: 'jsonp',
+	url: path,
+	dataResponse: 'json',
 	params: {
-		reqUrl: path,
+		apikey: apiKey,
 	},
 });
 
@@ -31,7 +31,6 @@ export default function* getCompanyFinancialStatements(action: Action): SagaIter
 		const incomeStatementResponse = yield call(fetchData, incomeStatementParams);
 		const balanceSheetResponse = yield call(fetchData, balanceSheetParams);
 		yield put(actions.getCompanyFinancialStatementsSuccess(
-			ticker,
 			incomeStatementResponse.data,
 			balanceSheetResponse.data,
 		));

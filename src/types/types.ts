@@ -28,14 +28,25 @@ export interface Company {
 }
 
 export interface Profile {
+	symbol: string;
+	price: number;
+	beta: number;
+	volAvg: number;
+	mktCap: number;
+	lastDiv: number;
+	range: string;
+	changes: number;
 	companyName: string;
-	ticker: string;
 	exchange: string;
-	CEO: string;
-	sector: string;
+	exchangeShortName: string;
 	industry: string;
-	description: string;
 	website: string;
+	description: string;
+	ceo: string;
+	sector: string;
+	dcfDiff: number;
+	dcf: number;
+	image: string;
 }
 
 export interface FinancialStatement {
@@ -57,8 +68,8 @@ export interface AvailableFSLIs {
 }
 
 export interface Result {
-	key: string;
-	value: string;
+	date: string;
+	value: number;
 }
 
 export interface SelectedFSLI {
@@ -179,7 +190,8 @@ export interface SingleChartData {
 	fill: boolean;
 	borderColor: string;
 	backgroundColor: string;
-	data: string[];
+	borderWidth: number;
+	data: number[];
 }
 
 export interface TooltipItem {

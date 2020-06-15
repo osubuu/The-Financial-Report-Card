@@ -1,14 +1,14 @@
 
 import _ from 'lodash';
 import {
-	FinancialStatementResults, AvailableFSLIs, Profile, SelectedFSLI,
+	FinancialStatementResults, AvailableFSLIs, SelectedFSLI,
 } from '../../types/types';
 
 
 const determineDefaultFSLIs = (
 	fsResults: FinancialStatementResults, availableFSLIs: AvailableFSLIs,
 ): string[] => {
-	const defaultFSLIs = ['Revenue', 'Cost of revenue', 'Net income'];
+	const defaultFSLIs = ['revenue', 'costOfRevenue', 'netIncome'];
 	const incomeStatement = fsResults.is;
 	const incomeStatementFSLIs = _.keys(incomeStatement[_.keys(incomeStatement)[0]]);
 
@@ -29,20 +29,20 @@ const prepareSelectedFSLisArray = (
 	chosenFSLIs: string[],
 	availableFSLIs: AvailableFSLIs,
 	fsResults: FinancialStatementResults,
-	profile: Profile,
 ): SelectedFSLI[] => {
 	// loop through array of chosen fslis strings to prepare the array of objects with data
-	const { ticker } = profile;
 	const selectedFSLIsArray: SelectedFSLI[] = [];
 	for (let i = 0; i < chosenFSLIs.length; i += 1) {
 		const fsli = chosenFSLIs[i];
 		const type = _.includes(availableFSLIs.is, fsli) ? 'is' : 'bs';
+		const fsData = fsResults[type];
 
-		const fsliData = _.entries(fsResults[type][ticker][fsli]);
-		const results = _.map(fsliData, ([key, value]) => ({ key, value }));
 		selectedFSLIsArray.push({
 			fsli,
-			results,
+			results: _.map(fsData, (annualData): any => ({
+				date: annualData.date,
+				value: annualData[fsli],
+			})),
 		});
 	}
 	return selectedFSLIsArray;
@@ -60,8 +60,14 @@ const getRandomUniqueNumbers = (amountOfUniqueNumbers: number, range: number): n
 	return uniqueNumbers;
 };
 
+const cleanFSLIName = (fsli: string): string => {
+	const fsliDisplayName = fsli.replace(/([A-Z])/g, ' $1').trim();
+	return _.upperFirst(fsliDisplayName);
+};
+
 export default {
 	determineDefaultFSLIs,
 	prepareSelectedFSLisArray,
 	getRandomUniqueNumbers,
+	cleanFSLIName,
 };

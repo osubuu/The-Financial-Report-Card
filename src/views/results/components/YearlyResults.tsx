@@ -16,18 +16,13 @@ const YearlyResults = (props: YearlyResultsProps): JSX.Element => {
 
 	return (
 		<ul className="yearly-results">
-			{item.results.map((result, index) => {
-				if (result.key !== 'TTM') {
-					return (
-						// eslint-disable-next-line react/no-array-index-key
-						<li className="yearly-result" key={index}>
-							<h5 className="year">{`${result.key} :`}</h5>
-							<h5 className="result">{numberWithCommas(result.value)}</h5>
-						</li>
-					);
-				}
-				return null;
-			})}
+			{item.results.map((result, index) => (
+				// eslint-disable-next-line react/no-array-index-key
+				<li className="yearly-result" key={index}>
+					<h5 className="year">{`${result.date} :`}</h5>
+					<h5 className="result">{numberWithCommas((result.value / 1000000).toString())}</h5>
+				</li>
+			))}
 		</ul>
 	);
 };

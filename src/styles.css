@@ -442,7 +442,13 @@ a:hover {
 
 .company-description {
   line-height: 2rem;
-  margin: 3rem 0; }
+  margin: 3rem 0;
+  display: block;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; }
 
 .profile-value {
   text-align: right;
@@ -480,10 +486,14 @@ a:hover {
   transform: translate(-50%, -50%);
   margin: 0; }
 
+.results-header {
+  height: 20%; }
+
 .list-of-fsli {
   display: flex;
   justify-content: space-evenly;
-  text-align: left; }
+  text-align: left;
+  height: 80%; }
 
 .select-div {
   width: 100%;
@@ -504,7 +514,8 @@ a:hover {
 
 .yearly-results {
   list-style: none;
-  padding: 0; }
+  padding: 0;
+  overflow-y: scroll; }
 
 .yearly-result {
   display: flex;

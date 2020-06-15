@@ -8,6 +8,7 @@ import {
 
 import Select from './Select';
 import YearlyResults from './YearlyResults';
+import ResultUtils from '../resultsUtils';
 
 const possibleBorderColors = [
 	'#396AB1',
@@ -30,24 +31,22 @@ const possibleFillColors = [
 ];
 
 const getMostRecentYears = (results: Result[]): string[] => {
-	const mostRecentYears = _.reduce(results, (years: string[], result) => {
-		if (result.key !== 'TTM') return [...years, result.key];
-		return years;
-	}, []);
-	return mostRecentYears;
+	const years = _.map(results, (yearlyResult) => yearlyResult.date);
+	return years.reverse(); // to display the most recent year to the right on the graph
 };
 
 const prepareDatasets = (FSLIResults: SelectedFSLI[], colors: number[]): SingleChartData[] => {
 	const datasets = _.reduce(FSLIResults, (sanitizedData: SingleChartData[], result, index) => {
-		const resultData = _.reduce(result.results, (dataToDisplay: string[], year) => {
-			if (year.key !== 'TTM') return [...dataToDisplay, year.value];
-			return dataToDisplay;
-		}, []);
+		const resultData = _.map(result.results, (yearlyResult: any) => {
+			const valueInMillions = (yearlyResult.value / 1000000);
+			return valueInMillions;
+		}).reverse(); // reverse to match reversed years
 		const fsliData: SingleChartData = {
-			label: result.fsli,
+			label: ResultUtils.cleanFSLIName(result.fsli),
 			fill: false,
 			borderColor: possibleBorderColors[colors[index]],
 			backgroundColor: possibleFillColors[colors[index]],
+			borderWidth: 2,
 			data: resultData,
 		};
 		return [...sanitizedData, fsliData];
@@ -82,15 +81,15 @@ const chartOptions = (companyName: string): object => ({
 				// Get fsli label
 				const fsli = data.datasets[tooltipItem.datasetIndex].label;
 				// Get fsli value
-				let value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+				const value = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
 				// apply commas through regex
-				value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-				value = value.replace(/-(.*)/, '($1)');
+				let formattedValue = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				formattedValue = formattedValue.replace(/-(.*)/, '($1)');
 
-				if (value.length === 0) {
+				if (formattedValue.length === 0) {
 					return `${fsli}: nil`;
 				}
-				return `${fsli}: ${value}`;
+				return `${fsli}: ${formattedValue}`;
 			},
 		},
 	},
@@ -144,7 +143,7 @@ const FinancialStatementResults = (props: FinancialStatementResultsProps): JSX.E
 					{chosenResults.map((item, index) => (
 						// eslint-disable-next-line react/no-array-index-key
 						<form className="single-fsli-container" key={index}>
-							<h3 className="fsli-title">{item.fsli}</h3>
+							<h3 className="fsli-title">{ResultUtils.cleanFSLIName(item.fsli)}</h3>
 
 							{/* SELECT BAR FOR EACH FSLI FOR USER TO CHANGE */}
 							<Select
