@@ -7,7 +7,7 @@ Application built using React, TypeScript, Redux-Saga and Chart.js. Data is draw
 
 ## Live Link
 
-[View The Financial Report Card Live](http://khoipham.net/the-financial-report-card).
+[View The Financial Report Card Live](https://financial-report-card.netlify.app/).
 
 ## Features:
 
